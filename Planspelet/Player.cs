@@ -4,15 +4,26 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Planspelet
 {
     class Player
     {
         GamePadState gPadState, prevgPadState;
-
+        
         public Player()
-        { 
+        {
+
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
             
         }
 
@@ -22,10 +33,6 @@ namespace Planspelet
             gPadState = newgPadState;
         }
 
-        internal void Update(GameTime gameTime)
-        {
-            
-        }
     }
 
 }

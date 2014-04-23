@@ -18,11 +18,8 @@ namespace Planspelet
 
         public void Update()
         {
-            if (gPadState != null)
-            {
-                for (int i = 0; i < gPadState.Length; i++)
-                    gPadState[i] = GamePad.GetState((PlayerIndex)i);
-            }
+            for (int i = 0; i < gPadState.Length; i++)
+                gPadState[i] = GamePad.GetState((PlayerIndex)i);
         }
 
         public GamePadState GetPlayerInput(int index)
