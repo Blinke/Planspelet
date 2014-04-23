@@ -14,12 +14,13 @@ namespace Planspelet
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Game1 : Microsoft.Xna.Framework.Game
+    public class Main : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
+        GameManager gameManager;
         SpriteBatch spriteBatch;
 
-        public Game1()
+        public Main()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -34,6 +35,7 @@ namespace Planspelet
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            gameManager = new GameManager();
 
             base.Initialize();
         }
@@ -70,6 +72,8 @@ namespace Planspelet
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+            gameManager.Update(gameTime);
+
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -82,9 +86,12 @@ namespace Planspelet
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
 
+            gameManager.Draw(spriteBatch);
+
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
