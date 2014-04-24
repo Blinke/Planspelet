@@ -11,7 +11,7 @@ namespace Planspelet
     class Player
     {
         GamePadState gPadState, prevgPadState;
-        
+
         public Player()
         {
 

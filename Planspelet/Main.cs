@@ -20,12 +20,6 @@ namespace Planspelet
         GameManager gameManager;
         SpriteBatch spriteBatch;
 
-        Archive testArchive;
-        Texture2D testBookTexture;
-
-        KeyboardState currentKeyboardState;
-        KeyboardState previousKeyboardState;
-
         public Main()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -41,7 +35,7 @@ namespace Planspelet
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            gameManager = new GameManager();
+            gameManager = new GameManager(Content);
 
             base.Initialize();
         }
@@ -54,14 +48,6 @@ namespace Planspelet
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            //För att testa bokvisualiseringen:
-            testArchive = new Archive(2, 5, new Vector2(100, 100));
-            testBookTexture = Content.Load<Texture2D>("book");
-            for (int i = 0; i < 7; i++)
-            {
-                testArchive.AddBook(new Book(testBookTexture));
-            }
         }
 
         /// <summary>
@@ -86,25 +72,6 @@ namespace Planspelet
 
             gameManager.Update(gameTime);
 
-            //För att testa bokvisualiseringen:
-            previousKeyboardState = currentKeyboardState;
-            currentKeyboardState = Keyboard.GetState();
-
-            int x = 0;
-            int y = 0;
-            if (currentKeyboardState.IsKeyDown(Keys.W) && previousKeyboardState.IsKeyUp(Keys.W)) y = -1;
-            else if (currentKeyboardState.IsKeyDown(Keys.S) && previousKeyboardState.IsKeyUp(Keys.S)) y = 1;
-            if (currentKeyboardState.IsKeyDown(Keys.A) && previousKeyboardState.IsKeyUp(Keys.A)) x = -1;
-            else if (currentKeyboardState.IsKeyDown(Keys.D) && previousKeyboardState.IsKeyUp(Keys.D)) x = 1;
-
-            testArchive.MoveSelection(x, y);
-
-            Book testBook;
-            if (currentKeyboardState.IsKeyDown(Keys.Enter))
-            {
-                testBook = testArchive.ReturnSelection();
-            }
-
             base.Update(gameTime);
         }
 
@@ -119,9 +86,6 @@ namespace Planspelet
             spriteBatch.Begin();
 
             gameManager.Draw(spriteBatch);
-
-            //För att testa bokvisualiseringen:
-            testArchive.Draw(spriteBatch);
 
             spriteBatch.End();
             base.Draw(gameTime);
