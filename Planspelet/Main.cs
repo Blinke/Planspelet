@@ -60,7 +60,7 @@ namespace Planspelet
             testBookTexture = Content.Load<Texture2D>("book");
             for (int i = 0; i < 7; i++)
             {
-                archive.AddBook(new Book(testBookTexture));
+                testArchive.AddBook(new Book(testBookTexture));
             }
         }
 
@@ -102,7 +102,7 @@ namespace Planspelet
             Book testBook;
             if (currentKeyboardState.IsKeyDown(Keys.Enter))
             {
-                testBook = archive.ReturnSelection();
+                testBook = testArchive.ReturnSelection();
             }
 
             base.Update(gameTime);
