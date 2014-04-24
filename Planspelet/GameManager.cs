@@ -52,7 +52,11 @@ namespace Planspelet
                 }
             }
 
-            //För att testa bokvisualiseringen:
+            //Boktest (kontroll):
+            testArchive.Update(gameTime);
+            testArchive.ReceiveInput(input.GetPlayerInput(0));
+
+            //För att testa bokvisualiseringen (tangentbord):
             previousKeyboardState = currentKeyboardState;
             currentKeyboardState = Keyboard.GetState();
 
