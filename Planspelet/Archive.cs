@@ -26,8 +26,10 @@ namespace Planspelet
 
         double selectionTimer, selectionDelay;
 
+        public Book selectedBook;
 
-        public Archive(int rows, int columns, Vector2 position)
+
+        public Archive(int rows, int columns)
         {
             books = new List<Book>();
             this.rows = rows;
@@ -36,8 +38,6 @@ namespace Planspelet
             numOfShelves = 0;
 
             selectionDelay = 200;
-
-            this.position = position;
         }
 
         public void Update(GameTime gameTime)
@@ -47,9 +47,15 @@ namespace Planspelet
 
         public void AddBook(Book book)
         {
-            if (numOfBooks + 1 > rows * columns * numOfShelves) numOfShelves++;
+            if (numOfBooks + 1 > rows * columns * numOfShelves)
+                numOfShelves++;
             books.Add(book);
             numOfBooks++;
+        }
+
+        public void SetPosition(Vector2 position)
+        {
+            this.position = position;
         }
 
         /// <summary>
@@ -107,7 +113,7 @@ namespace Planspelet
             }
             else if (y < 0 && selectionY < 0)
             {
-                //This was moving the selection to the first book whenever you pressed up at the top row
+                //This was moving the selection to the first book whenever you pressed up at the top row, it's corrected now
                 selectionY = numOfShelves;
                 if (selectionX > booksOnLastRow - 1)
                     selectionX = booksOnLastRow - 1;
@@ -121,11 +127,17 @@ namespace Planspelet
                 MoveSelection(gPadState.ThumbSticks.Left.X, -gPadState.ThumbSticks.Left.Y);
                 selectionTimer = selectionDelay;
             }
+
+            if (gPadState.Buttons.A == ButtonState.Pressed)
+            {
+                selectedBook = ReturnSelection();
+            }
         }
 
         public Book ReturnSelection()
         {
             int selection = activeShelf * selectionX * selectionY + selectionX + selectionY * columns;
+
             return books[selection];
         }
 

@@ -13,77 +13,45 @@ namespace Planspelet
     {
         Input input;
         Player[] players;
+        BookManager bookManager;
 
-        Archive testArchive;
         Texture2D testBookTexture;
-
-        KeyboardState currentKeyboardState;
-        KeyboardState previousKeyboardState;
 
         public GameManager(ContentManager content)
         {
             //Should get the number of players from the start screen or something, can send that as an argument for the GameManager
+            testBookTexture = content.Load<Texture2D>("book_template");
             players = new Player[4];
-            input = new Input(players.Length);
-            for (int i = 0; i < players.Length; i++)
-            {
-                players[i] = new Player();
-            }
-
-            //För att testa bokvisualiseringen:
-            testArchive = new Archive(2, 5, new Vector2(100, 100));
-            testBookTexture = content.Load<Texture2D>("book");
-            for (int i = 0; i < 7; i++)
-            {
-                testArchive.AddBook(new Book(testBookTexture));
-            }
+            GameStart();
         }
 
         public void Update(GameTime gameTime)
         {
             input.Update();
+            bookManager.Update(gameTime);
 
             for (int i = 0; i < players.Length; i++)
             {
                 if (players[i] != null)
                 {
+                    bookManager.archive.ReceiveInput(input.GetPlayerInput(i));
+
+                    if (bookManager.archive.selectedBook != null)
+                    {
+                        players[i].AddNewBook(bookManager.archive.selectedBook);
+                        bookManager.archive.selectedBook = null;
+                        return;
+                    }
+
                     players[i].RecieveInput(input.GetPlayerInput(i));
                     players[i].Update(gameTime);
                 }
-            }
-
-            //Boktest (kontroll):
-            testArchive.Update(gameTime);
-            testArchive.ReceiveInput(input.GetPlayerInput(0));
-
-            //För att testa bokvisualiseringen (tangentbord):
-            previousKeyboardState = currentKeyboardState;
-            currentKeyboardState = Keyboard.GetState();
-
-            int x = 0;
-            int y = 0;
-            if (currentKeyboardState.IsKeyDown(Keys.W) && previousKeyboardState.IsKeyUp(Keys.W))
-                y = -1;
-            else if (currentKeyboardState.IsKeyDown(Keys.S) && previousKeyboardState.IsKeyUp(Keys.S))
-                y = 1;
-            if (currentKeyboardState.IsKeyDown(Keys.A) && previousKeyboardState.IsKeyUp(Keys.A)) 
-                x = -1;
-            else if (currentKeyboardState.IsKeyDown(Keys.D) && previousKeyboardState.IsKeyUp(Keys.D)) 
-                x = 1;
-
-            testArchive.MoveSelection(x, y);
-
-            Book testBook;
-            if (currentKeyboardState.IsKeyDown(Keys.Enter))
-            {
-                testBook = testArchive.ReturnSelection();
             }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            //För att testa bokvisualiseringen
-            testArchive.Draw(spriteBatch);
+            bookManager.Draw(spriteBatch);
 
             foreach (Player player in players)
             {
@@ -91,5 +59,26 @@ namespace Planspelet
             }
         }
 
+        private void GameStart()
+        {
+            input = new Input(players.Length);
+            for (int i = 0; i < players.Length; i++)
+            {
+                Archive playerArchive = new Archive(5, 5);
+
+                //for (int j = 0; j < 10; j++)
+                //    playerArchive.AddBook(new Book(testBookTexture));
+
+                players[i] = new Player(playerArchive, i);
+            }
+
+            Archive bookArchive = new Archive(2, 3);
+
+            for (int i = 0; i < 9; i++)
+                bookArchive.AddBook(new Book(testBookTexture));
+
+            bookManager = new BookManager(bookArchive);
+
+        }
     }
 }
