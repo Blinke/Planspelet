@@ -14,8 +14,10 @@ namespace Planspelet
         Input input;
         Player[] players;
 
-        Archive testArchive;
+        Archive midArchive;
         Texture2D testBookTexture;
+
+        PlayerPanel testPlayerPanel;
 
         KeyboardState currentKeyboardState;
         KeyboardState previousKeyboardState;
@@ -31,12 +33,14 @@ namespace Planspelet
             }
 
             //För att testa bokvisualiseringen:
-            testArchive = new Archive(2, 5, new Vector2(100, 100));
+            midArchive = new Archive(2, 5, new Vector2(100, 100));
             testBookTexture = content.Load<Texture2D>("book");
             for (int i = 0; i < 13; i++)
             {
-                testArchive.AddBook(new Book(testBookTexture));
+                midArchive.AddBook(new Book(testBookTexture));
             }
+
+            testPlayerPanel = new PlayerPanel(new Vector2(500,100));
         }
 
         public void Update(GameTime gameTime)
@@ -67,19 +71,20 @@ namespace Planspelet
             else if (currentKeyboardState.IsKeyDown(Keys.D) && previousKeyboardState.IsKeyUp(Keys.D)) 
                 x = 1;
 
-            if (x != 0 || y != 0) testArchive.MoveSelection(x, y);
+            if (x != 0 || y != 0) midArchive.MoveSelection(x, y);
 
-            Book testBook;
-            if (testArchive.NumberOfBooks != 0 && currentKeyboardState.IsKeyDown(Keys.Enter) && previousKeyboardState.IsKeyUp(Keys.Enter))
+            //Book testBook;
+            if (midArchive.NumberOfBooks != 0 && currentKeyboardState.IsKeyDown(Keys.Enter) && previousKeyboardState.IsKeyUp(Keys.Enter))
             {
-                testBook = testArchive.TransferSelectedBook();
+                testPlayerPanel.AddBook(midArchive.TransferSelectedBook());
             }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             //För att testa bokvisualiseringen
-            testArchive.Draw(spriteBatch);
+            midArchive.Draw(spriteBatch);
+            testPlayerPanel.Draw(spriteBatch);
 
             foreach (Player player in players)
             {
