@@ -100,9 +100,9 @@ namespace Planspelet
             testArchive.MoveSelection(x, y);
 
             Book testBook;
-            if (currentKeyboardState.IsKeyDown(Keys.Enter))
+            if (currentKeyboardState.IsKeyDown(Keys.Enter) && previousKeyboardState.IsKeyUp(Keys.Enter))
             {
-                testBook = testArchive.ReturnSelection();
+                testBook = testArchive.TransferSelectedBook();
             }
 
             base.Update(gameTime);

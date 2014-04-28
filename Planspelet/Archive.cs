@@ -12,14 +12,16 @@ namespace Planspelet
         List<Book> books;
         int rows;
         int columns;
-        int numOfBooks;
+        //int numOfBooks;
         int numOfShelves;
         
         Vector2 position;
+        float scale = 0.5f;
         float rowSpacing = 110;
         float columnSpacing = 80;
 
         int activeShelf = 0;
+        bool selection = true;
         int selectionX = 0;
         int selectionY = 0;
 
@@ -28,7 +30,6 @@ namespace Planspelet
             books = new List<Book>();
             this.rows = rows;
             this.columns = columns;
-            numOfBooks = 0;
             numOfShelves = 0;
 
             this.position = position;
@@ -36,9 +37,8 @@ namespace Planspelet
 
         public void AddBook(Book book)
         {
-            if (numOfBooks + 1 > rows * columns * numOfShelves) numOfShelves++;
+            if (books.Count > rows * columns * numOfShelves) numOfShelves++;
             books.Add(book);
-            numOfBooks++;
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Planspelet
             if (y > 0) selectionY++;
             else if (y < 0) selectionY--;
 
-            int booksOnShelf = numOfBooks - rows * columns * (numOfShelves - 1);
+            int booksOnShelf = books.Count - rows * columns * (numOfShelves - 1);
             int booksOnLastRow = booksOnShelf % columns;
             int fullRows = booksOnShelf / columns;
 
@@ -101,10 +101,23 @@ namespace Planspelet
             }
         }
 
-        public Book ReturnSelection()
+        public Book GetSelectedBook()
         {
             int selection = activeShelf * selectionX * selectionY + selectionX + selectionY * columns;
             return books[selection];
+        }
+        /// <summary>
+        /// This method will copy and remove the selected book from the Archive. Make sure to save the copy!
+        /// </summary>
+        /// <returns></returns>
+        public Book TransferSelectedBook()
+        {
+            int selection = activeShelf * selectionX * selectionY + selectionX + selectionY * columns;
+            Book returnBook = books[selection];
+            if (selection + 1 == books.Count)
+                MoveSelection(-1, 0);
+            books.RemoveAt(selection);
+            return returnBook;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -116,10 +129,10 @@ namespace Planspelet
                 {
                     if (counter < books.Count)
                     {
-                        if (x == selectionX && y == selectionY)
-                            books[counter].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y), Color.Yellow);
+                        if (selection && x == selectionX && y == selectionY)
+                            books[counter].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, Color.Yellow, scale);
                         else
-                            books[counter].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y), Color.White);
+                            books[counter].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, Color.White, scale);
                     }
                     counter++;
                 }

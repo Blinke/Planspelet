@@ -16,9 +16,9 @@ namespace Planspelet
             this.baseTexture = baseTexture;
         }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 position, Color tint)
+        public void Draw(SpriteBatch spriteBatch, Vector2 position, Color tint, float scale)
         {
-            spriteBatch.Draw(baseTexture, position, tint);
+            spriteBatch.Draw(baseTexture, position, new Rectangle(0,0, baseTexture.Width, baseTexture.Height), tint, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
         }
     }
 }
