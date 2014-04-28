@@ -12,7 +12,7 @@ namespace Planspelet
         List<Book> books;
         int rows;
         int columns;
-        //int numOfBooks;
+        public int NumberOfBooks { get { return books.Count; } }
         int numOfShelves;
         
         Vector2 position;
