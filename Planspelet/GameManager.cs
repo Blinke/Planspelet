@@ -33,7 +33,7 @@ namespace Planspelet
             //För att testa bokvisualiseringen:
             testArchive = new Archive(2, 5, new Vector2(100, 100));
             testBookTexture = content.Load<Texture2D>("book");
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 13; i++)
             {
                 testArchive.AddBook(new Book(testBookTexture));
             }
@@ -67,7 +67,7 @@ namespace Planspelet
             else if (currentKeyboardState.IsKeyDown(Keys.D) && previousKeyboardState.IsKeyUp(Keys.D)) 
                 x = 1;
 
-            testArchive.MoveSelection(x, y);
+            if (x != 0 || y != 0) testArchive.MoveSelection(x, y);
 
             Book testBook;
             if (testArchive.NumberOfBooks != 0 && currentKeyboardState.IsKeyDown(Keys.Enter) && previousKeyboardState.IsKeyUp(Keys.Enter))

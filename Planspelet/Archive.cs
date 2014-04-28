@@ -14,6 +14,7 @@ namespace Planspelet
         int columns;
         public int NumberOfBooks { get { return books.Count; } }
         int numOfShelves;
+
         
         Vector2 position;
         float scale = 0.5f;
@@ -53,14 +54,25 @@ namespace Planspelet
             if (y > 0) selectionY++;
             else if (y < 0) selectionY--;
 
-            int booksOnShelf = books.Count - rows * columns * (numOfShelves - 1);
-            int booksOnLastRow = booksOnShelf % columns;
-            int fullRows = booksOnShelf / columns;
+            int booksOnShelf;
+            int fullRows;
+            int booksOnLastRow;
+
+            booksOnShelf = rows * columns;
+            if (activeShelf == numOfShelves - 1) booksOnShelf = books.Count - rows * columns * (numOfShelves - 1);
+            fullRows = booksOnShelf / columns;
+            if (fullRows == rows) booksOnLastRow = columns;
+            else booksOnLastRow = booksOnShelf % columns;
 
             if (x > 0)
             {
-                if (selectionY == fullRows && selectionX > booksOnLastRow - 1)
+                if (selectionY >= fullRows - 1 && selectionX > booksOnLastRow - 1)
                 {
+                    if (activeShelf + 1 < numOfShelves)
+                        activeShelf++;
+                    else
+                        activeShelf = 0;
+
                     selectionX = 0;
                     selectionY = 0;
                 }
@@ -123,16 +135,19 @@ namespace Planspelet
         public void Draw(SpriteBatch spriteBatch)
         {
             int counter = 0;
+            int booksOnShelf = books.Count - activeShelf * rows * columns;
+            if (booksOnShelf > rows * columns) booksOnShelf = rows * columns;
+
             for (int y = 0; y < rows; y++)
             {
                 for (int x = 0; x < columns; x++)
                 {
-                    if (counter < books.Count)
+                    if (counter < booksOnShelf)
                     {
                         if (selection && x == selectionX && y == selectionY)
-                            books[counter].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, Color.Yellow, scale);
+                            books[counter + activeShelf * rows * columns].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, Color.Yellow, scale);
                         else
-                            books[counter].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, Color.White, scale);
+                            books[counter + activeShelf * rows * columns].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, Color.White, scale);
                     }
                     counter++;
                 }
