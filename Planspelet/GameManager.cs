@@ -33,14 +33,14 @@ namespace Planspelet
             }
 
             //För att testa bokvisualiseringen:
-            midArchive = new Archive(2, 5, new Vector2(100, 100));
+            midArchive = new Archive(new Vector2(100, 100), 0.5f, 2, 5);
             testBookTexture = content.Load<Texture2D>("book");
             for (int i = 0; i < 13; i++)
             {
                 midArchive.AddBook(new Book(testBookTexture));
             }
 
-            testPlayerPanel = new PlayerPanel(new Vector2(500,100));
+            testPlayerPanel = new PlayerPanel(new Vector2(500,100), (Archive)midArchive.Clone());
         }
 
         public void Update(GameTime gameTime)

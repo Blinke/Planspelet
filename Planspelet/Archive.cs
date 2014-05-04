@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Planspelet
 {
-    class Archive
+    class Archive: Tab
     {
         List<Book> books;
         int rows;
@@ -15,9 +15,6 @@ namespace Planspelet
         public int NumberOfBooks { get { return books.Count; } }
         int numOfShelves;
 
-        
-        Vector2 position;
-        float scale = 0.5f;
         float rowSpacing = 110;
         float columnSpacing = 80;
 
@@ -26,7 +23,8 @@ namespace Planspelet
         int selectionX = 0;
         int selectionY = 0;
 
-        public Archive(int rows, int columns, Vector2 position)
+        public Archive(Vector2 position, float scale, int rows, int columns)
+            :base(position, scale)
         {
             books = new List<Book>();
             this.rows = rows;
@@ -34,6 +32,29 @@ namespace Planspelet
             numOfShelves = 0;
 
             this.position = position;
+        }
+        public Archive(Archive archive)
+            :base(archive)
+        {
+            books = new List<Book>();
+            foreach (Book b in archive.books)
+            {
+                books.Add(b);
+            }
+            rows = archive.rows;
+            columns = archive.columns;
+            numOfShelves = archive.numOfShelves;
+            rowSpacing = archive.rowSpacing;
+            columnSpacing = archive.columnSpacing;
+            activeShelf = 0;
+            selection = false;
+            selectionX = 0;
+            selectionY = 0;
+
+        }
+        public override Tab Clone()
+        {
+            return new Archive(this);
         }
 
         public void AddBook(Book book)
@@ -132,7 +153,7 @@ namespace Planspelet
             return returnBook;
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             int counter = 0;
             int booksOnShelf = books.Count - activeShelf * rows * columns;

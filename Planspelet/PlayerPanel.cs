@@ -9,13 +9,18 @@ namespace Planspelet
 {
     class PlayerPanel
     {
-        Archive archive;
         Vector2 position;
 
-        public PlayerPanel(Vector2 position)
+        Archive archive;
+
+
+        int activeTab = 0;
+
+        public PlayerPanel(Vector2 position, Archive archive)
         {
             this.position = position;
-            archive = new Archive(2, 5, position);
+            this.archive = archive;
+            this.archive.SetPosition(position);
         }
 
         public void AddBook(Book book)
