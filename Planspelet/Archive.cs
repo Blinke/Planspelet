@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Planspelet
 {
@@ -14,7 +15,7 @@ namespace Planspelet
         int columns;
         int numOfBooks;
         int numOfShelves;
-        
+
         Vector2 position;
         float rowSpacing = 110;
         float columnSpacing = 80;
@@ -23,7 +24,12 @@ namespace Planspelet
         int selectionX = 0;
         int selectionY = 0;
 
-        public Archive(int rows, int columns, Vector2 position)
+        double selectionTimer, selectionDelay;
+
+        public Book selectedBook;
+
+
+        public Archive(int rows, int columns)
         {
             books = new List<Book>();
             this.rows = rows;
@@ -31,14 +37,25 @@ namespace Planspelet
             numOfBooks = 0;
             numOfShelves = 0;
 
-            this.position = position;
+            selectionDelay = 200;
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            selectionTimer -= gameTime.ElapsedGameTime.TotalMilliseconds;
         }
 
         public void AddBook(Book book)
         {
-            if (numOfBooks + 1 > rows * columns * numOfShelves) numOfShelves++;
+            if (numOfBooks + 1 > rows * columns * numOfShelves)
+                numOfShelves++;
             books.Add(book);
             numOfBooks++;
+        }
+
+        public void SetPosition(Vector2 position)
+        {
+            this.position = position;
         }
 
         /// <summary>
@@ -46,7 +63,7 @@ namespace Planspelet
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        public void MoveSelection(int x, int y)
+        public void MoveSelection(float x, float y)
         {
             if (x > 0) selectionX++;
             else if (x < 0) selectionX--;
@@ -90,20 +107,37 @@ namespace Planspelet
             if (y > 0)
             {
                 if (selectionY > rows - 1)
-                selectionY = 0;
+                    selectionY = 0;
                 if (selectionY == fullRows && selectionX > booksOnLastRow - 1)
                     selectionX = booksOnLastRow - 1;
             }
             else if (y < 0 && selectionY < 0)
             {
-                selectionY = 0;
-                selectionX = 0;
+                //This was moving the selection to the first book whenever you pressed up at the top row, it's corrected now
+                selectionY = numOfShelves;
+                if (selectionX > booksOnLastRow - 1)
+                    selectionX = booksOnLastRow - 1;
+            }
+        }
+
+        public void ReceiveInput(GamePadState gPadState)
+        {
+            if (selectionTimer <= 0 && gPadState.ThumbSticks.Left != Vector2.Zero)
+            {
+                MoveSelection(gPadState.ThumbSticks.Left.X, -gPadState.ThumbSticks.Left.Y);
+                selectionTimer = selectionDelay;
+            }
+
+            if (gPadState.Buttons.A == ButtonState.Pressed)
+            {
+                selectedBook = ReturnSelection();
             }
         }
 
         public Book ReturnSelection()
         {
             int selection = activeShelf * selectionX * selectionY + selectionX + selectionY * columns;
+
             return books[selection];
         }
 

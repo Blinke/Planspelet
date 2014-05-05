@@ -20,6 +20,14 @@ namespace Planspelet
         GameManager gameManager;
         SpriteBatch spriteBatch;
 
+        public enum GameState
+        {
+            StartScreen,
+            Play
+        }
+
+        public static GameState gameState;
+
         public Main()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -35,7 +43,9 @@ namespace Planspelet
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            gameManager = new GameManager(Content);
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.ApplyChanges();
 
             base.Initialize();
         }
@@ -48,6 +58,10 @@ namespace Planspelet
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            gameState = GameState.Play;
+
+            gameManager = new GameManager(Content);
         }
 
         /// <summary>
@@ -70,7 +84,8 @@ namespace Planspelet
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            gameManager.Update(gameTime);
+            if (gameState == GameState.Play)
+                gameManager.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -85,7 +100,8 @@ namespace Planspelet
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-            gameManager.Draw(spriteBatch);
+            if (gameState == GameState.Play)
+                gameManager.Draw(spriteBatch);    
 
             spriteBatch.End();
             base.Draw(gameTime);

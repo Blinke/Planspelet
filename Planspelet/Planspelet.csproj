@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="Archive.cs" />
     <Compile Include="Book.cs" />
+    <Compile Include="BookManager.cs" />
     <Compile Include="GameManager.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Player.cs" />
