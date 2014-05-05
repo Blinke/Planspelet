@@ -13,14 +13,16 @@ namespace Planspelet
         List<Book> books;
         int rows;
         int columns;
-        int numOfBooks;
+        public int NumberOfBooks { get { return books.Count; } }
         int numOfShelves;
 
         Vector2 position;
+        float scale = 0.5f;
         float rowSpacing = 110;
         float columnSpacing = 80;
 
         int activeShelf = 0;
+        bool selection = true;
         int selectionX = 0;
         int selectionY = 0;
 
@@ -29,14 +31,14 @@ namespace Planspelet
         public Book selectedBook;
 
 
-        public Archive(int rows, int columns)
+        public Archive(int rows, int columns, Vector2 position)
         {
             books = new List<Book>();
             this.rows = rows;
             this.columns = columns;
-            numOfBooks = 0;
             numOfShelves = 0;
 
+            this.position = position;
             selectionDelay = 200;
         }
 
@@ -47,10 +49,10 @@ namespace Planspelet
 
         public void AddBook(Book book)
         {
-            if (numOfBooks + 1 > rows * columns * numOfShelves)
+            if (NumberOfBooks + 1 > rows * columns * numOfShelves)
                 numOfShelves++;
-            books.Add(book);
-            numOfBooks++;
+            if (books.Count > rows * columns * numOfShelves) numOfShelves++;
+                books.Add(book);
         }
 
         public void SetPosition(Vector2 position)
@@ -70,14 +72,25 @@ namespace Planspelet
             if (y > 0) selectionY++;
             else if (y < 0) selectionY--;
 
-            int booksOnShelf = numOfBooks - rows * columns * (numOfShelves - 1);
-            int booksOnLastRow = booksOnShelf % columns;
-            int fullRows = booksOnShelf / columns;
+            int booksOnShelf;
+            int fullRows;
+            int booksOnLastRow;
+
+            booksOnShelf = rows * columns;
+            if (activeShelf == numOfShelves - 1) booksOnShelf = books.Count - rows * columns * (numOfShelves - 1);
+            fullRows = booksOnShelf / columns;
+            if (fullRows == rows) booksOnLastRow = columns;
+            else booksOnLastRow = booksOnShelf % columns;
 
             if (x > 0)
             {
-                if (selectionY == fullRows && selectionX > booksOnLastRow - 1)
+                if (selectionY >= fullRows - 1 && selectionX > booksOnLastRow - 1)
                 {
+                    if (activeShelf + 1 < numOfShelves)
+                        activeShelf++;
+                    else
+                        activeShelf = 0;
+
                     selectionX = 0;
                     selectionY = 0;
                 }
@@ -130,30 +143,46 @@ namespace Planspelet
 
             if (gPadState.Buttons.A == ButtonState.Pressed)
             {
-                selectedBook = ReturnSelection();
+                selectedBook = GetSelectedBook();
             }
         }
 
-        public Book ReturnSelection()
+        public Book GetSelectedBook()
         {
             int selection = activeShelf * selectionX * selectionY + selectionX + selectionY * columns;
 
             return books[selection];
         }
+        /// <summary>
+        /// This method will copy and remove the selected book from the Archive. Make sure to save the copy!
+        /// </summary>
+        /// <returns></returns>
+        public Book TransferSelectedBook()
+        {
+            int selection = activeShelf * selectionX * selectionY + selectionX + selectionY * columns;
+            Book returnBook = books[selection];
+            if (selection + 1 == books.Count)
+                MoveSelection(-1, 0);
+            books.RemoveAt(selection);
+            return returnBook;
+        }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             int counter = 0;
+            int booksOnShelf = books.Count - activeShelf * rows * columns;
+            if (booksOnShelf > rows * columns) booksOnShelf = rows * columns;
+
             for (int y = 0; y < rows; y++)
             {
                 for (int x = 0; x < columns; x++)
                 {
-                    if (counter < books.Count)
+                    if (counter < booksOnShelf)
                     {
-                        if (x == selectionX && y == selectionY)
-                            books[counter].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y), Color.Yellow);
+                        if (selection && x == selectionX && y == selectionY)
+                            books[counter + activeShelf * rows * columns].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, Color.Yellow, scale);
                         else
-                            books[counter].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y), Color.White);
+                            books[counter + activeShelf * rows * columns].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, Color.White, scale);
                     }
                     counter++;
                 }
