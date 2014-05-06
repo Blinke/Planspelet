@@ -13,7 +13,7 @@ namespace Planspelet
         int rows;
         int columns;
         public int NumberOfBooks { get { return books.Count; } }
-        int numOfShelves;
+        int numOfShelves = 1;
 
         float rowSpacing = 110;
         float columnSpacing = 80;
@@ -27,7 +27,6 @@ namespace Planspelet
             books = new List<Book>();
             this.rows = rows;
             this.columns = columns;
-            numOfShelves = 0;
 
             this.position = position;
         }
@@ -100,14 +99,16 @@ namespace Planspelet
             int booksOnLastRow;
 
             booksOnShelf = rows * columns;
-            if (activeShelf == numOfShelves - 1) booksOnShelf = books.Count - rows * columns * (numOfShelves - 1);
+            if (activeShelf == numOfShelves - 1)
+                booksOnShelf = books.Count - rows * columns * (numOfShelves - 1);
+            
             fullRows = booksOnShelf / columns;
             if (fullRows == rows) booksOnLastRow = columns;
             else booksOnLastRow = booksOnShelf % columns;
 
             if (x > 0)
             {
-                if (selectionY >= fullRows && selectionX >= booksOnLastRow)
+                if (selectionY > fullRows - 1 && selectionX >  booksOnLastRow - 1)
                 {
                     if (activeShelf + 1 < numOfShelves)
                         activeShelf++;
