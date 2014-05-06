@@ -167,6 +167,11 @@ namespace Planspelet
             return returnBook;
         }
 
+        public void ClearArchive()
+        {
+            books.Clear();
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             int counter = 0;

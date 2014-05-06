@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace Planspelet
 {
     class PlayerPanel
     {
+        GamePadState gPadState, prevgPadState;
         Archive archive;
         Vector2 position;
 
@@ -16,6 +18,14 @@ namespace Planspelet
         {
             this.position = position;
             archive = new Archive(2, 5, position);
+        }
+
+        public void ReceiveInput(GamePadState newgPadState)
+        {
+            prevgPadState = gPadState;
+            gPadState = newgPadState;
+
+            archive.ReceiveInput(gPadState);
         }
 
         public void AddBook(Book book)

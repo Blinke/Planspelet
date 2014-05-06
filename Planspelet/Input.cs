@@ -24,7 +24,8 @@ namespace Planspelet
 
         public GamePadState GetPlayerInput(int index)
         {
-            return gPadState[index];
+            return gPadState[0];
+            //return gPadState[index];
         }
     }
 }
