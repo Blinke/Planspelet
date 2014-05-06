@@ -12,6 +12,10 @@ namespace Planspelet
         protected Vector2 position;
         protected float scale = 0.5f;
 
+        protected bool selection = true;
+        protected int selectionX = 0;
+        protected int selectionY = 0;
+
         public Tab(Vector2 position, float scale)
         {
             this.position = position;
@@ -28,6 +32,8 @@ namespace Planspelet
             this.position = position;
         }
 
-        public abstract void Draw(SpriteBatch spriteBatch);
+        public abstract void Update(bool up, bool down, bool left, bool right);
+
+        public abstract void Draw(SpriteBatch spriteBatch, SpriteFont font);
     }
 }

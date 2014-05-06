@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="Archive.cs" />
     <Compile Include="Book.cs" />
+    <Compile Include="Button.cs" />
     <Compile Include="GameManager.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Player.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Main.cs" />
     <Compile Include="PublishMenu.cs" />
     <Compile Include="Tab.cs" />
+    <Compile Include="TextureManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

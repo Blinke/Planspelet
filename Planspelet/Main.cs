@@ -18,6 +18,7 @@ namespace Planspelet
     {
         GraphicsDeviceManager graphics;
         GameManager gameManager;
+        TextureManager textureManager;
         SpriteBatch spriteBatch;
 
         public Main()
@@ -35,7 +36,7 @@ namespace Planspelet
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            gameManager = new GameManager(Content);
+            
 
             base.Initialize();
         }
@@ -46,7 +47,9 @@ namespace Planspelet
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
+            textureManager = new TextureManager();
+            textureManager.LoadTextures(Content);
+            gameManager = new GameManager(Content, textureManager);
             spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 

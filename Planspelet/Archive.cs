@@ -19,9 +19,7 @@ namespace Planspelet
         float columnSpacing = 80;
 
         int activeShelf = 0;
-        bool selection = true;
-        int selectionX = 0;
-        int selectionY = 0;
+        
 
         public Archive(Vector2 position, float scale, int rows, int columns)
             :base(position, scale)
@@ -57,10 +55,32 @@ namespace Planspelet
             return new Archive(this);
         }
 
+        public void CopyBooks(Archive archive)
+        {
+            books = new List<Book>();
+            foreach (Book b in archive.books)
+            {
+                books.Add(b);
+            }
+        }
+
         public void AddBook(Book book)
         {
             if (books.Count > rows * columns * numOfShelves) numOfShelves++;
             books.Add(book);
+        }
+
+        public override void Update(bool up, bool down, bool left, bool right)
+        {
+            int x = 0;
+            int y = 0;
+
+            if (up) y = -1;
+            else if (down) y = 1;
+            if (left) x = -1;
+            else if (right) x = 1;
+
+            MoveSelection(x, y);
         }
 
         /// <summary>
@@ -87,7 +107,7 @@ namespace Planspelet
 
             if (x > 0)
             {
-                if (selectionY >= fullRows - 1 && selectionX > booksOnLastRow - 1)
+                if (selectionY >= fullRows && selectionX >= booksOnLastRow)
                 {
                     if (activeShelf + 1 < numOfShelves)
                         activeShelf++;
@@ -153,7 +173,7 @@ namespace Planspelet
             return returnBook;
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
             int counter = 0;
             int booksOnShelf = books.Count - activeShelf * rows * columns;

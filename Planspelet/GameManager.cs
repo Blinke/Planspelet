@@ -14,6 +14,8 @@ namespace Planspelet
         Input input;
         Player[] players;
 
+        SpriteFont font;
+
         Archive midArchive;
         Texture2D testBookTexture;
 
@@ -22,7 +24,7 @@ namespace Planspelet
         KeyboardState currentKeyboardState;
         KeyboardState previousKeyboardState;
 
-        public GameManager(ContentManager content)
+        public GameManager(ContentManager content, TextureManager textureManager)
         {
             //Should get the number of players from the start screen or something, can send that as an argument for the GameManager
             players = new Player[4];
@@ -32,15 +34,18 @@ namespace Planspelet
                 players[i] = new Player();
             }
 
+            font = content.Load<SpriteFont>("SpriteFont1");
+
             //För att testa bokvisualiseringen:
             midArchive = new Archive(new Vector2(100, 100), 0.5f, 2, 5);
             testBookTexture = content.Load<Texture2D>("book");
-            for (int i = 0; i < 13; i++)
+            for (int i = 0; i < 9; i++)
             {
-                midArchive.AddBook(new Book(testBookTexture));
+                midArchive.AddBook(new Book(testBookTexture, "title"));
             }
 
-            testPlayerPanel = new PlayerPanel(new Vector2(500,100), (Archive)midArchive.Clone());
+            testPlayerPanel = new PlayerPanel(textureManager, new Vector2(500,100));
+            testPlayerPanel.CopyArchive(midArchive);
         }
 
         public void Update(GameTime gameTime)
@@ -78,13 +83,22 @@ namespace Planspelet
             {
                 testPlayerPanel.AddBook(midArchive.TransferSelectedBook());
             }
+
+            if (currentKeyboardState.IsKeyDown(Keys.O) && previousKeyboardState.IsKeyUp(Keys.O))
+            {
+                testPlayerPanel.OpenPublishMenu();
+            }
+            if (currentKeyboardState.IsKeyDown(Keys.L) && previousKeyboardState.IsKeyUp(Keys.L))
+            {
+                testPlayerPanel.OpenArchive();
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             //För att testa bokvisualiseringen
-            midArchive.Draw(spriteBatch);
-            testPlayerPanel.Draw(spriteBatch);
+            midArchive.Draw(spriteBatch, font);
+            testPlayerPanel.Draw(spriteBatch, font);
 
             foreach (Player player in players)
             {
