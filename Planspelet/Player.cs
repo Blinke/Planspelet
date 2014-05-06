@@ -10,6 +10,7 @@ namespace Planspelet
 {
     class Player
     {
+        public bool phaseDone;
         GamePadState gPadState, prevgPadState;
         Archive archive;
         int playerID;
@@ -36,6 +37,9 @@ namespace Planspelet
         {
             prevgPadState = gPadState;
             gPadState = newgPadState;
+
+            if (GameManager.phase == GameManager.TurnPhase.Browsing && gPadState.Buttons.Y == ButtonState.Pressed)
+                phaseDone = true;
 
             archive.ReceiveInput(gPadState);
         }
@@ -64,9 +68,9 @@ namespace Planspelet
             return playerPosition;
         }
 
-        public void AddNewBook(Book newBook)
+        public void AddBook(Book book)
         {
-            archive.AddBook(newBook);
+            archive.AddBook(book);
         }
 
     }

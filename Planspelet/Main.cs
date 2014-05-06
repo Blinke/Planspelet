@@ -61,7 +61,7 @@ namespace Planspelet
 
             gameState = GameState.Play;
 
-            gameManager = new GameManager(Content);
+            gameManager = new GameManager(Content, Window);
         }
 
         /// <summary>
