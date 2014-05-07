@@ -39,7 +39,7 @@ namespace Planspelet
             //Should get the number of players from the start screen or something, can send that as an argument for the GameManager
             this.window = window;
             testBookTexture = content.Load<Texture2D>("book_template");
-            players = new Player[4];
+            players = new Player[1];
             bookManager = new BookManager(new Archive(3, 3, Vector2.Zero), content);
 
             GameStart();
