@@ -58,7 +58,7 @@ namespace Planspelet
         protected override void LoadContent()
         {
             textureManager = new TextureManager();
-            textureManager.LoadTextures(Content);
+            textureManager.LoadTextures(Content, graphics.GraphicsDevice);
             gameManager = new GameManager(Content, Window, textureManager);
             spriteBatch = new SpriteBatch(GraphicsDevice);
 

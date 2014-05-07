@@ -11,15 +11,15 @@ namespace Planspelet
     class BookManager
     {
         public Archive archive;
-        ContentManager content;
-        Texture2D testBookTexture;
+        List<Texture2D> bookTexture, detailTexture;
+        Texture2D selectionTexture;
 
-        public BookManager(Archive archive, ContentManager content)
+        public BookManager(TextureManager textureManager)
         {
-            this.archive = archive;
-            this.archive.SetPosition(new Vector2(500, 250));
-            this.content = content;
-            testBookTexture = content.Load<Texture2D>("book_template");
+            archive = new Archive(new Vector2(530, 250), 0.75f, 3, 3);
+            this.bookTexture = textureManager.bookTexture;
+            this.detailTexture = textureManager.detailTexture;
+            this.selectionTexture = textureManager.selectionTexture;
         }
 
         public void Update(GameTime gameTime)
@@ -27,9 +27,15 @@ namespace Planspelet
             archive.Update(gameTime);
         }
 
-        public void ReceiveInput(Input input)
+        public void ReceiveInput(Input input, Player player)
         {
             archive.ReceiveInput(input);
+
+            if (GameManager.phase == GameManager.TurnPhase.BookPicking && input.ButtonA)
+            {
+                player.AddBook(archive.TransferSelectedBook());
+                player.phaseDone = true;
+            }
 
         }
 
@@ -43,7 +49,11 @@ namespace Planspelet
             Random rnd = new Random();
 
             for (int i = 0; i < 9; i++)
-                archive.AddBook(new Book(testBookTexture, "bla"));
+            {
+                int bookRnd = rnd.Next(0, bookTexture.Count);
+                int detailRnd = rnd.Next(0, detailTexture.Count);
+                archive.AddBook(new Book(bookTexture[bookRnd], detailTexture[detailRnd], selectionTexture, "bla"));
+            }
         }
     }
 }

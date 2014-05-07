@@ -20,10 +20,6 @@ namespace Planspelet
 
         SpriteFont font;
 
-        Texture2D testBookTexture;
-        KeyboardState currentKeyboardState;
-        KeyboardState previousKeyboardState;
-
         public enum TurnPhase
         {
             BookPicking,
@@ -36,9 +32,8 @@ namespace Planspelet
         {
             //Should get the number of players from the start screen or something, can send that as an argument for the GameManager
             this.window = window;
-            testBookTexture = content.Load<Texture2D>("book_template");
             players = new Player[4];
-            bookManager = new BookManager(new Archive(Vector2.Zero, 1f, 3, 3), content);
+            bookManager = new BookManager(textureManager);
 
             GameStart(textureManager);
 
@@ -56,20 +51,15 @@ namespace Planspelet
             {
                 if (players[i] != null)
                 {
+                    players[i].RecieveInput(inputManager.GetPlayerInput(i));
+
                     switch (phase)
                     {
                         case TurnPhase.BookPicking:
-                            bookManager.ReceiveInput(inputManager.GetPlayerInput(0));
-                            if (bookManager.archive.selectedBook != null && !players[i].phaseDone)
-                            {
-                                players[i].AddBook(bookManager.archive.TransferSelectedBook());
-                                bookManager.archive.selectedBook = null;
-                                players[i].phaseDone = true;
-                            }
+                            bookManager.ReceiveInput(inputManager.GetPlayerInput(0), players[i]);
                             break;
 
                         case TurnPhase.Browsing:
-                            players[i].RecieveInput(inputManager.GetPlayerInput(i));
                             players[i].Update(gameTime);
                             break;
                     }

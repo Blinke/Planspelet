@@ -65,7 +65,14 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
     <Compile Include="physical.png">
-      <Name>physical</Name>	
+      <Name>physical</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="selection.png">
+      <Name>selection</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

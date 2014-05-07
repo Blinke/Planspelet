@@ -20,9 +20,9 @@ namespace Planspelet
 
         public Player(TextureManager textureManager, int playerID)
         {
-            archive = new Archive(GetPosition(playerID), 0.5f, 2, 5);
+            archive = new Archive(GetPosition(playerID), 0.75f, 2, 5);
             this.playerID = playerID;
-            publishMenu = new PublishMenu(textureManager, GetPosition(playerID), 0.5f);
+            publishMenu = new PublishMenu(textureManager, GetPosition(playerID), 0.75f);
             activeTab = archive;
         }
 
@@ -44,12 +44,9 @@ namespace Planspelet
             if (GameManager.phase == GameManager.TurnPhase.Browsing && input.ButtonY)
                 phaseDone = true;
 
-            if (GameManager.phase == GameManager.TurnPhase.BookPicking && input.ButtonA)
-            {
-                archive.AddBook(archive.TransferSelectedBook());
-            }
+            if (GameManager.phase == GameManager.TurnPhase.Browsing)
+                archive.ReceiveInput(input);    
 
-            archive.ReceiveInput(input);
         }
 
         private Vector2 GetPosition(int ID)
@@ -59,16 +56,16 @@ namespace Planspelet
             switch (ID)
             {
                 case 0:
-                    playerPosition = new Vector2(50, 50);
+                    playerPosition = new Vector2(100, 75);
                     break;
                 case 1:
-                    playerPosition = new Vector2(800, 50);
+                    playerPosition = new Vector2(850, 75);
                     break;
                 case 2:
-                    playerPosition = new Vector2(50, 450);
+                    playerPosition = new Vector2(100, 450);
                     break;
                 case 3:
-                    playerPosition = new Vector2(800, 450);
+                    playerPosition = new Vector2(850, 450);
                     break;
             }
 

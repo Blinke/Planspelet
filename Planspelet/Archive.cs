@@ -24,9 +24,6 @@ namespace Planspelet
 
         double selectionTimer, selectionDelay;
 
-        public Book selectedBook;
-
-
         public Archive(Vector2 position, float scale, int rows, int columns)
             :base(position, scale)
         {
@@ -107,7 +104,7 @@ namespace Planspelet
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        public void MoveSelection(float x, float y)
+        public void MoveSelection(int x, int y)
         {
             if (x > 0) selectionX++;
             else if (x < 0) selectionX--;
@@ -214,10 +211,14 @@ namespace Planspelet
                 {
                     if (counter < booksOnShelf)
                     {
+                        books[counter + activeShelf * rows * columns].isSelected = false;
+
                         if (selection && x == selectionX && y == selectionY)
-                            books[counter + activeShelf * rows * columns].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, Color.Yellow, scale);
-                        else
-                            books[counter + activeShelf * rows * columns].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, Color.White, scale);
+                            books[counter + activeShelf * rows * columns].isSelected = true;
+
+                        books[counter + activeShelf * rows * columns].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, Color.White, scale);
+                        //else
+                        //    books[counter + activeShelf * rows * columns].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, Color.White, scale);
                     }
                     counter++;
                 }
