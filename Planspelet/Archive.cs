@@ -79,8 +79,10 @@ namespace Planspelet
         {
             if (NumberOfBooks + 1 > rows * columns * numOfShelves)
                 numOfShelves++;
-            if (books.Count > rows * columns * numOfShelves) numOfShelves++;
-                books.Add(book);
+            if (books.Count > rows * columns * numOfShelves)
+                numOfShelves++;
+
+            books.Add(book);
         }
 
         public override void ReceiveInput(Input input)
