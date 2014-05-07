@@ -12,6 +12,8 @@ namespace Planspelet
         float sensitivity;
         double selectionTimer, selectionDelay;
 
+        KeyboardState currentKeyboardState, previousKeyboardState;
+
         public bool Up { get; private set; }
         public bool Down { get; private set; }
         public bool Left { get; private set; }
@@ -29,6 +31,9 @@ namespace Planspelet
 
         public void GetInput(GamePadState gPadState)
         {
+            previousKeyboardState = currentKeyboardState;
+            currentKeyboardState = Keyboard.GetState();
+
             Up = false;
             Down = false;
             Left = false;
@@ -38,19 +43,28 @@ namespace Planspelet
             ButtonX = false;
             ButtonY = false;
 
-            if (selectionTimer <= 0 && gPadState.ThumbSticks.Left.Length() > sensitivity)
+            if (selectionTimer <= 0)
             {
                 selectionTimer = selectionDelay;
 
-                if (gPadState.ThumbSticks.Left.X > sensitivity)
-                    Left = true;
-                if (gPadState.ThumbSticks.Left.X < -sensitivity)
-                    Right = true;
                 if (gPadState.ThumbSticks.Left.Y > sensitivity)
                     Up = true;
-                if (gPadState.ThumbSticks.Left.Y < -sensitivity)
+                else if (gPadState.ThumbSticks.Left.Y < -sensitivity)
                     Down = true;
+                if (gPadState.ThumbSticks.Left.X > sensitivity)
+                    Right = true;
+                else if (gPadState.ThumbSticks.Left.X < -sensitivity)
+                    Left = true;
             }
+
+            if (currentKeyboardState.IsKeyDown(Keys.W) && previousKeyboardState.IsKeyUp(Keys.W))
+                Up = true;
+            else if (currentKeyboardState.IsKeyDown(Keys.S) && previousKeyboardState.IsKeyUp(Keys.S))
+                Down = true;
+            if (currentKeyboardState.IsKeyDown(Keys.A) && previousKeyboardState.IsKeyUp(Keys.A))
+                Left = true;
+            else if (currentKeyboardState.IsKeyDown(Keys.D) && previousKeyboardState.IsKeyUp(Keys.D))
+                Right = true;
 
             if (gPadState.Buttons.A == ButtonState.Pressed)
                 ButtonA = true;

@@ -42,7 +42,7 @@ namespace Planspelet
         {
             Random rnd = new Random();
 
-            for (int i = 0; i < 2 + rnd.Next(2, 7); i++)
+            for (int i = 0; i < 9; i++)
                 archive.AddBook(new Book(testBookTexture, "bla"));
         }
     }

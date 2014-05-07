@@ -44,6 +44,11 @@ namespace Planspelet
             if (GameManager.phase == GameManager.TurnPhase.Browsing && input.ButtonY)
                 phaseDone = true;
 
+            if (GameManager.phase == GameManager.TurnPhase.BookPicking && input.ButtonA)
+            {
+                archive.AddBook(archive.TransferSelectedBook());
+            }
+
             archive.ReceiveInput(input);
         }
 

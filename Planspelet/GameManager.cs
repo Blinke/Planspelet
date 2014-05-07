@@ -59,7 +59,7 @@ namespace Planspelet
                     switch (phase)
                     {
                         case TurnPhase.BookPicking:
-                            bookManager.ReceiveInput(inputManager.GetPlayerInput(i));
+                            bookManager.ReceiveInput(inputManager.GetPlayerInput(0));
                             if (bookManager.archive.selectedBook != null && !players[i].phaseDone)
                             {
                                 players[i].AddBook(bookManager.archive.TransferSelectedBook());
@@ -94,18 +94,7 @@ namespace Planspelet
 
         private void TurnPhaseCheck()
         {
-            bool doneSelecting = true;
-
-            for (int i = 0; i < players.Length; i++)
-            {
-                if (!players[i].phaseDone)
-                {
-                    doneSelecting = false;
-                    break;
-                }
-            }
-
-            if (doneSelecting)
+            if (players.Count(p => p.phaseDone) == players.Length)
             {
                 for (int i = 0; i < players.Length; i++)
                     players[i].phaseDone = false;
