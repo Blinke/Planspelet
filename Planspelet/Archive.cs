@@ -8,35 +8,31 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Planspelet
 {
-    class Archive
+    class Archive: Tab
     {
         List<Book> books;
         int rows;
         int columns;
         public int NumberOfBooks { get { return books.Count; } }
-        int numOfShelves;
+        int numOfShelves = 1;
 
-        Vector2 position;
-        float scale = 0.5f;
         float rowSpacing = 110;
         float columnSpacing = 80;
 
         int activeShelf = 0;
-        bool selection = true;
-        int selectionX = 0;
-        int selectionY = 0;
+        
 
         double selectionTimer, selectionDelay;
 
         public Book selectedBook;
 
 
-        public Archive(int rows, int columns, Vector2 position)
+        public Archive(Vector2 position, float scale, int rows, int columns)
+            :base(position, scale)
         {
             books = new List<Book>();
             this.rows = rows;
             this.columns = columns;
-            numOfShelves = 0;
 
             this.position = position;
             selectionDelay = 200;
@@ -45,6 +41,38 @@ namespace Planspelet
         public void Update(GameTime gameTime)
         {
             selectionTimer -= gameTime.ElapsedGameTime.TotalMilliseconds;
+        }
+        public Archive(Archive archive)
+            :base(archive)
+        {
+            books = new List<Book>();
+            foreach (Book b in archive.books)
+            {
+                books.Add(b);
+            }
+            rows = archive.rows;
+            columns = archive.columns;
+            numOfShelves = archive.numOfShelves;
+            rowSpacing = archive.rowSpacing;
+            columnSpacing = archive.columnSpacing;
+            activeShelf = 0;
+            selection = false;
+            selectionX = 0;
+            selectionY = 0;
+
+        }
+        public override Tab Clone()
+        {
+            return new Archive(this);
+        }
+
+        public void CopyBooks(Archive archive)
+        {
+            books = new List<Book>();
+            foreach (Book b in archive.books)
+            {
+                books.Add(b);
+            }
         }
 
         public void AddBook(Book book)
@@ -55,9 +83,21 @@ namespace Planspelet
                 books.Add(book);
         }
 
-        public void SetPosition(Vector2 position)
+        public override void ReceiveInput(Input input)
         {
-            this.position = position;
+            int x = 0;
+            int y = 0;
+
+            if (input.Up)
+                y = -1;
+            else if (input.Down)
+                y = 1;
+            if (input.Left)
+                x = -1;
+            else if (input.Right)
+                x = 1;
+
+            MoveSelection(x, y);
         }
 
         /// <summary>
@@ -77,14 +117,16 @@ namespace Planspelet
             int booksOnLastRow;
 
             booksOnShelf = rows * columns;
-            if (activeShelf == numOfShelves - 1) booksOnShelf = books.Count - rows * columns * (numOfShelves - 1);
+            if (activeShelf == numOfShelves - 1)
+                booksOnShelf = books.Count - rows * columns * (numOfShelves - 1);
+            
             fullRows = booksOnShelf / columns;
             if (fullRows == rows) booksOnLastRow = columns;
             else booksOnLastRow = booksOnShelf % columns;
 
             if (x > 0)
             {
-                if (selectionY >= fullRows - 1 && selectionX > booksOnLastRow - 1)
+                if (selectionY > fullRows - 1 && selectionX >  booksOnLastRow - 1)
                 {
                     if (activeShelf + 1 < numOfShelves)
                         activeShelf++;
@@ -133,20 +175,6 @@ namespace Planspelet
             }
         }
 
-        public void ReceiveInput(GamePadState gPadState)
-        {
-            if (selectionTimer <= 0 && gPadState.ThumbSticks.Left != Vector2.Zero)
-            {
-                MoveSelection(gPadState.ThumbSticks.Left.X, -gPadState.ThumbSticks.Left.Y);
-                selectionTimer = selectionDelay;
-            }
-
-            if (gPadState.Buttons.A == ButtonState.Pressed)
-            {
-                selectedBook = GetSelectedBook();
-            }
-        }
-
         public Book GetSelectedBook()
         {
             int selection = activeShelf * selectionX * selectionY + selectionX + selectionY * columns;
@@ -172,7 +200,7 @@ namespace Planspelet
             books.Clear();
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
             int counter = 0;
             int booksOnShelf = books.Count - activeShelf * rows * columns;

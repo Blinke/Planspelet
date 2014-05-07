@@ -27,9 +27,15 @@ namespace Planspelet
             archive.Update(gameTime);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void ReceiveInput(Input input)
         {
-            archive.Draw(spriteBatch);  
+            archive.ReceiveInput(input);
+
+        }
+
+        public void Draw(SpriteBatch spriteBatch, SpriteFont font)
+        {
+            archive.Draw(spriteBatch, font);  
         }
 
         public void GenerateBooks()
@@ -37,7 +43,7 @@ namespace Planspelet
             Random rnd = new Random();
 
             for (int i = 0; i < 2 + rnd.Next(2, 7); i++)
-                archive.AddBook(new Book(testBookTexture));
+                archive.AddBook(new Book(testBookTexture, "bla"));
         }
     }
 }

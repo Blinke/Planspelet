@@ -9,23 +9,62 @@ namespace Planspelet
 {
     class Input
     {
-        GamePadState[] gPadState;
+        float sensitivity;
+        double selectionTimer, selectionDelay;
 
-        public Input(int numberOfPlayers)
+        public bool Up { get; private set; }
+        public bool Down { get; private set; }
+        public bool Left { get; private set; }
+        public bool Right { get; private set; }
+        public bool ButtonA { get; private set; }
+        public bool ButtonB { get; private set; }
+        public bool ButtonX { get; private set; }
+        public bool ButtonY { get; private set; }
+
+        public Input()
         {
-            gPadState = new GamePadState[numberOfPlayers];
+            sensitivity = 0.6f;
+            selectionDelay = 200;
         }
 
-        public void Update()
+        public void GetInput(GamePadState gPadState)
         {
-            for (int i = 0; i < gPadState.Length; i++)
-                gPadState[i] = GamePad.GetState((PlayerIndex)i);
+            Up = false;
+            Down = false;
+            Left = false;
+            Right = false;
+            ButtonA = false;
+            ButtonB = false;
+            ButtonX = false;
+            ButtonY = false;
+
+            if (selectionTimer <= 0 && gPadState.ThumbSticks.Left.Length() > sensitivity)
+            {
+                selectionTimer = selectionDelay;
+
+                if (gPadState.ThumbSticks.Left.X > sensitivity)
+                    Left = true;
+                if (gPadState.ThumbSticks.Left.X < -sensitivity)
+                    Right = true;
+                if (gPadState.ThumbSticks.Left.Y > sensitivity)
+                    Up = true;
+                if (gPadState.ThumbSticks.Left.Y < -sensitivity)
+                    Down = true;
+            }
+
+            if (gPadState.Buttons.A == ButtonState.Pressed)
+                ButtonA = true;
+            if (gPadState.Buttons.B == ButtonState.Pressed)
+                ButtonB = true;
+            if (gPadState.Buttons.X == ButtonState.Pressed)
+                ButtonX = true;
+            if (gPadState.Buttons.Y == ButtonState.Pressed)
+                ButtonY = true;
         }
 
-        public GamePadState GetPlayerInput(int index)
+        public void Update(GameTime gameTime)
         {
-            return gPadState[0];
-            //return gPadState[index];
+            selectionTimer -= gameTime.ElapsedGameTime.TotalMilliseconds;
         }
     }
 }

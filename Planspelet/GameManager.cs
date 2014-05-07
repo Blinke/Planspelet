@@ -13,16 +13,14 @@ namespace Planspelet
     {
         int currentTurn;
 
-        Input input;
+        InputManager inputManager;
         Player[] players;
         BookManager bookManager;
         GameWindow window;
 
+        SpriteFont font;
+
         Texture2D testBookTexture;
-
-        Archive midArchive;
-        PlayerPanel testPlayerPanel;
-
         KeyboardState currentKeyboardState;
         KeyboardState previousKeyboardState;
 
@@ -34,33 +32,24 @@ namespace Planspelet
 
         public static TurnPhase phase;
 
-        public GameManager(ContentManager content, GameWindow window)
+        public GameManager(ContentManager content, GameWindow window, TextureManager textureManager)
         {
             //Should get the number of players from the start screen or something, can send that as an argument for the GameManager
             this.window = window;
             testBookTexture = content.Load<Texture2D>("book_template");
-            players = new Player[1];
-            bookManager = new BookManager(new Archive(3, 3, Vector2.Zero), content);
+            players = new Player[4];
+            bookManager = new BookManager(new Archive(Vector2.Zero, 1f, 3, 3), content);
 
-            GameStart();
+            GameStart(textureManager);
 
-
-            //För att testa bokvisualiseringen:
-            //midArchive = new Archive(2, 5, new Vector2(100, 100));
-            //testBookTexture = content.Load<Texture2D>("book");
-            //for (int i = 0; i < 13; i++)
-            //{
-            //    midArchive.AddBook(new Book(testBookTexture));
-            //}
-
-            //testPlayerPanel = new PlayerPanel(new Vector2(500,100));
+            font = content.Load<SpriteFont>("SpriteFont1");
         }
 
         public void Update(GameTime gameTime)
         {
             window.Title = currentTurn.ToString();
 
-            input.Update();
+            inputManager.Update(gameTime);
             bookManager.Update(gameTime);
 
             for (int i = 0; i < players.Length; i++)
@@ -70,7 +59,7 @@ namespace Planspelet
                     switch (phase)
                     {
                         case TurnPhase.BookPicking:
-                            bookManager.archive.ReceiveInput(input.GetPlayerInput(i));
+                            bookManager.ReceiveInput(inputManager.GetPlayerInput(i));
                             if (bookManager.archive.selectedBook != null && !players[i].phaseDone)
                             {
                                 players[i].AddBook(bookManager.archive.TransferSelectedBook());
@@ -80,7 +69,7 @@ namespace Planspelet
                             break;
 
                         case TurnPhase.Browsing:
-                            players[i].RecieveInput(input.GetPlayerInput(i));
+                            players[i].RecieveInput(inputManager.GetPlayerInput(i));
                             players[i].Update(gameTime);
                             break;
                     }
@@ -88,44 +77,18 @@ namespace Planspelet
             }
 
             TurnPhaseCheck();
-
-            //För att testa bokvisualiseringen:
-            //previousKeyboardState = currentKeyboardState;
-            //currentKeyboardState = Keyboard.GetState();
-
-            //int x = 0;
-            //int y = 0;
-            //if (currentKeyboardState.IsKeyDown(Keys.W) && previousKeyboardState.IsKeyUp(Keys.W))
-            //    y = -1;
-            //else if (currentKeyboardState.IsKeyDown(Keys.S) && previousKeyboardState.IsKeyUp(Keys.S))
-            //    y = 1;
-            //if (currentKeyboardState.IsKeyDown(Keys.A) && previousKeyboardState.IsKeyUp(Keys.A)) 
-            //    x = -1;
-            //else if (currentKeyboardState.IsKeyDown(Keys.D) && previousKeyboardState.IsKeyUp(Keys.D)) 
-            //    x = 1;
-
-            //if (x != 0 || y != 0) midArchive.MoveSelection(x, y);
-
-            //Book testBook;
-            //if (midArchive.NumberOfBooks != 0 && currentKeyboardState.IsKeyDown(Keys.Enter) && previousKeyboardState.IsKeyUp(Keys.Enter))
-            //{
-            //    testPlayerPanel.AddBook(midArchive.TransferSelectedBook());
-            //}
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             if (phase == TurnPhase.BookPicking)
             {
-                bookManager.Draw(spriteBatch);    
+                bookManager.Draw(spriteBatch, font);    
             }
-            //För att testa bokvisualiseringen
-            //midArchive.Draw(spriteBatch);
-            //testPlayerPanel.Draw(spriteBatch);
 
             foreach (Player player in players)
             {
-                player.Draw(spriteBatch);
+                player.Draw(spriteBatch, font);
             }
         }
 
@@ -174,18 +137,14 @@ namespace Planspelet
                     players[i].phaseDone = false;
         }
 
-        private void GameStart()
+        private void GameStart(TextureManager textureManager)
         {
             currentTurn = 1;
             phase = TurnPhase.BookPicking;
-            input = new Input(players.Length);
+            inputManager = new InputManager(players.Length);
 
             for (int i = 0; i < players.Length; i++)
-            {
-                Archive playerArchive = new Archive(2, 5, Vector2.Zero);
-
-                players[i] = new Player(playerArchive, i);
-            }
+                players[i] = new Player(textureManager, i);
 
             bookManager.archive.ClearArchive();
 

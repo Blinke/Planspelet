@@ -11,16 +11,19 @@ namespace Planspelet
     class Player
     {
         public bool phaseDone;
-        GamePadState gPadState, prevgPadState;
+        Input input, prevInput;
         Archive archive;
+        PublishMenu publishMenu;
+        Tab activeTab;
+
         int playerID;
 
-        public Player(Archive archive, int playerID)
+        public Player(TextureManager textureManager, int playerID)
         {
-            this.archive = archive;
+            archive = new Archive(GetPosition(playerID), 0.5f, 2, 5);
             this.playerID = playerID;
-
-            this.archive.SetPosition(GetPosition(playerID));
+            publishMenu = new PublishMenu(textureManager, GetPosition(playerID), 0.5f);
+            activeTab = archive;
         }
 
         public void Update(GameTime gameTime)
@@ -28,20 +31,20 @@ namespace Planspelet
             archive.Update(gameTime);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
-            archive.Draw(spriteBatch);
+            archive.Draw(spriteBatch, font);
         }
 
-        public void RecieveInput(GamePadState newgPadState)
+        public void RecieveInput(Input newInput)
         {
-            prevgPadState = gPadState;
-            gPadState = newgPadState;
+            prevInput = input;
+            input = newInput;
 
-            if (GameManager.phase == GameManager.TurnPhase.Browsing && gPadState.Buttons.Y == ButtonState.Pressed)
+            if (GameManager.phase == GameManager.TurnPhase.Browsing && input.ButtonY)
                 phaseDone = true;
 
-            archive.ReceiveInput(gPadState);
+            archive.ReceiveInput(input);
         }
 
         private Vector2 GetPosition(int ID)
@@ -73,6 +76,21 @@ namespace Planspelet
             archive.AddBook(book);
         }
 
+        public void CopyArchive(Archive archive)
+        {
+            this.archive.CopyBooks(archive);
+        }
+
+        public void OpenPublishMenu()
+        {
+            activeTab = publishMenu;
+            publishMenu.SetActiveBook(archive.GetSelectedBook());
+        }
+
+        public void OpenArchive()
+        {
+            activeTab = archive;
+        }
     }
 
 }

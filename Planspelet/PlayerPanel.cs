@@ -1,41 +1,67 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+//using Microsoft.Xna.Framework.Graphics;
+//using Microsoft.Xna.Framework;
+//using Microsoft.Xna.Framework.Input;
+//using Microsoft.Xna.Framework.Content;
 
-namespace Planspelet
-{
-    class PlayerPanel
-    {
-        GamePadState gPadState, prevgPadState;
-        Archive archive;
-        Vector2 position;
+//namespace Planspelet
+//{
+//    class PlayerPanel
+//    {
+//        GamePadState gPadState, prevgPadState;
+//        Vector2 position;
 
-        public PlayerPanel(Vector2 position)
-        {
-            this.position = position;
-            archive = new Archive(2, 5, position);
-        }
+//        Archive archive;
+//        PublishMenu publishMenu;
 
-        public void ReceiveInput(GamePadState newgPadState)
-        {
-            prevgPadState = gPadState;
-            gPadState = newgPadState;
+//        Tab activeTab;
 
-            archive.ReceiveInput(gPadState);
-        }
+//        public PlayerPanel(TextureManager textureManager, Vector2 position)
+//        {
+//            this.position = position;
+//            archive = new Archive(position, 0.5f, 2, 5);
+//            publishMenu = new PublishMenu(textureManager, position, 0.5f);
+//            activeTab = archive;
+//        }
 
-        public void AddBook(Book book)
-        {
-            archive.AddBook(book);
-        }
+//        public void ReceiveInput(GamePadState newgPadState)
+//        {
+//            prevgPadState = gPadState;
+//            gPadState = newgPadState;
 
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            archive.Draw(spriteBatch);
-        }
-    }
-}
+//            archive.ReceiveInput(gPadState);
+//        }
+
+//        public void AddBook(Book book)
+//        {
+//            archive.AddBook(book);
+//        }
+//        public void CopyArchive(Archive archive)
+//        {
+//            this.archive.CopyBooks(archive);
+//        }
+
+//        public void Update(bool up, bool down, bool left, bool right)
+//        {
+//            activeTab.ReceiveInput(up, down, left, right);
+//        }
+
+//        public void OpenPublishMenu()
+//        {
+//            activeTab = publishMenu;
+//            publishMenu.SetActiveBook(archive.GetSelectedBook());
+//        }
+//        public void OpenArchive()
+//        {
+//            activeTab = archive;
+//        }
+
+//        public void Draw(SpriteBatch spriteBatch, SpriteFont font)
+//        {
+//            activeTab.Draw(spriteBatch, font);
+//        }
+//    }
+//}
