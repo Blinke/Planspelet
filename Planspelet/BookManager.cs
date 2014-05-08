@@ -12,28 +12,28 @@ namespace Planspelet
     {
         public Archive archive;
         List<Texture2D> bookTexture, detailTexture;
-        Texture2D selectionTexture;
+        
 
         public BookManager(TextureManager textureManager)
         {
-            archive = new Archive(new Vector2(530, 250), 0.75f, 3, 3);
-            this.bookTexture = textureManager.bookTexture;
-            this.detailTexture = textureManager.detailTexture;
-            this.selectionTexture = textureManager.selectionTexture;
+            archive = new Archive(textureManager, new Vector2(530, 250), 0.75f, 3, 3);
+            bookTexture = textureManager.bookTexture;
+            detailTexture = textureManager.detailTexture;
+            
         }
 
         public void Update(GameTime gameTime)
         {
-            archive.Update(gameTime);
+            //archive.Update(gameTime);
         }
 
         public void ReceiveInput(Input input, Player player)
         {
-            archive.ReceiveInput(input);
+            archive.ReceiveInput(input, player.playerID);
 
             if (GameManager.phase == GameManager.TurnPhase.BookPicking && input.ButtonA)
             {
-                player.AddBook(archive.TransferSelectedBook());
+                player.AddBook(archive.TransferSelectedBook(player.playerID));
                 player.phaseDone = true;
             }
 
@@ -52,7 +52,8 @@ namespace Planspelet
             {
                 int bookRnd = rnd.Next(0, bookTexture.Count);
                 int detailRnd = rnd.Next(0, detailTexture.Count);
-                archive.AddBook(new Book(bookTexture[bookRnd], detailTexture[detailRnd], selectionTexture, "bla"));
+                archive.AddBook(new Book(bookTexture[bookRnd], detailTexture[detailRnd], "bla"));
+                //archive.AddBook(new Book(bookTexture[bookRnd], detailTexture[detailRnd], selectionTexture, "bla"));
             }
         }
     }

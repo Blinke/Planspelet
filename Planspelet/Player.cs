@@ -16,11 +16,11 @@ namespace Planspelet
         PublishMenu publishMenu;
         Tab activeTab;
 
-        int playerID;
+        public int playerID { get; private set; }
 
         public Player(TextureManager textureManager, int playerID)
         {
-            archive = new Archive(GetPosition(playerID), 0.75f, 2, 5);
+            archive = new Archive(textureManager, GetPosition(playerID), 0.75f, 2, 5);
             this.playerID = playerID;
             publishMenu = new PublishMenu(textureManager, GetPosition(playerID), 0.75f);
             activeTab = archive;
@@ -28,7 +28,7 @@ namespace Planspelet
 
         public void Update(GameTime gameTime)
         {
-            archive.Update(gameTime);
+            //archive.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch, SpriteFont font)
@@ -45,7 +45,7 @@ namespace Planspelet
                 phaseDone = true;
 
             if (GameManager.phase == GameManager.TurnPhase.Browsing)
-                archive.ReceiveInput(input);    
+                archive.ReceiveInput(input, playerID);    
 
         }
 
@@ -86,7 +86,7 @@ namespace Planspelet
         public void OpenPublishMenu()
         {
             activeTab = publishMenu;
-            publishMenu.SetActiveBook(archive.GetSelectedBook());
+            publishMenu.SetActiveBook(archive.GetSelectedBook(playerID));
         }
 
         public void OpenArchive()

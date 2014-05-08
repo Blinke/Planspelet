@@ -39,13 +39,13 @@ namespace Planspelet
             activeBook = book;
         }
 
-        public override void ReceiveInput(Input input)
+        public override void ReceiveInput(Input input, int playerIndex)
         {
-            if (input.Left) selectionX--;
-            else if (input.Right) selectionX++;
+            if (input.Left) selection[playerIndex].x--;
+            else if (input.Right) selection[playerIndex].x++;
 
-            if (selectionX < 0) selectionX = 1;
-            else if (selectionX > 1) selectionX = 0;
+            if (selection[playerIndex].x < 0) selection[playerIndex].x = 1;
+            else if (selection[playerIndex].x > 1) selection[playerIndex].x = 0;
         }
 
         public override void Draw(SpriteBatch spriteBatch, SpriteFont font)
@@ -57,16 +57,16 @@ namespace Planspelet
                 activeBook.DrawPublishInfo(spriteBatch, new Vector2(position.X + x, position.Y), scale, font);
             }
 
-            if (selectionX == 0)
-            {
-                pButton.Draw(spriteBatch, Color.Yellow);
-                eButton.Draw(spriteBatch, Color.White);
-            }
-            else if (selectionX == 1)
-            {
-                pButton.Draw(spriteBatch, Color.White);
-                eButton.Draw(spriteBatch, Color.Yellow);
-            }
+            //if (selection[playerIndex].x == 0)
+            //{
+            //    pButton.Draw(spriteBatch, Color.Yellow);
+            //    eButton.Draw(spriteBatch, Color.White);
+            //}
+            //else if (selection[playerIndex].x == 1)
+            //{
+            //    pButton.Draw(spriteBatch, Color.White);
+            //    eButton.Draw(spriteBatch, Color.Yellow);
+            //}
         }
     }
 }

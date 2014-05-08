@@ -10,6 +10,8 @@ namespace Planspelet
 {
     class Archive: Tab
     {
+        Texture2D[] selectionTexture;
+
         List<Book> books;
         int rows;
         int columns;
@@ -20,11 +22,12 @@ namespace Planspelet
         float columnSpacing = 80;
 
         int activeShelf = 0;
-        
 
-        double selectionTimer, selectionDelay;
+        //spriteBatch.Draw(selectionTexture, position, new Rectangle(0, 0, baseTexture.Width, baseTexture.Height), Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
 
-        public Archive(Vector2 position, float scale, int rows, int columns)
+        //double selectionTimer, selectionDelay;
+
+        public Archive(TextureManager textureManager, Vector2 position, float scale, int rows, int columns)
             :base(position, scale)
         {
             books = new List<Book>();
@@ -32,13 +35,18 @@ namespace Planspelet
             this.columns = columns;
 
             this.position = position;
-            selectionDelay = 200;
+
+            selectionTexture = new Texture2D[4];
+            selectionTexture[0] = textureManager.selectionTexture;
+            selectionTexture[1] = textureManager.selectionTexture;
+            selectionTexture[2] = textureManager.selectionTexture;
+            selectionTexture[3] = textureManager.selectionTexture;
         }
 
-        public void Update(GameTime gameTime)
-        {
-            selectionTimer -= gameTime.ElapsedGameTime.TotalMilliseconds;
-        }
+        //public void Update(GameTime gameTime)
+        //{
+        //    selectionTimer -= gameTime.ElapsedGameTime.TotalMilliseconds;
+        //}
         public Archive(Archive archive)
             :base(archive)
         {
@@ -53,9 +61,9 @@ namespace Planspelet
             rowSpacing = archive.rowSpacing;
             columnSpacing = archive.columnSpacing;
             activeShelf = 0;
-            selection = false;
-            selectionX = 0;
-            selectionY = 0;
+            //selection = false;
+            //selectionX = 0;
+            //selectionY = 0;
 
         }
         public override Tab Clone()
@@ -82,7 +90,7 @@ namespace Planspelet
             books.Add(book);
         }
 
-        public override void ReceiveInput(Input input)
+        public override void ReceiveInput(Input input, int playerIndex)
         {
             int x = 0;
             int y = 0;
@@ -96,7 +104,10 @@ namespace Planspelet
             else if (input.Right)
                 x = 1;
 
-            MoveSelection(x, y);
+            if (!selection[playerIndex].active)
+                selection[playerIndex].active = true;
+            else
+                MoveSelection(x, y, playerIndex);
         }
 
         /// <summary>
@@ -104,12 +115,12 @@ namespace Planspelet
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        public void MoveSelection(int x, int y)
+        private void MoveSelection(int x, int y, int playerIndex)
         {
-            if (x > 0) selectionX++;
-            else if (x < 0) selectionX--;
-            if (y > 0) selectionY++;
-            else if (y < 0) selectionY--;
+            if (x > 0) selection[playerIndex].x++;
+            else if (x < 0) selection[playerIndex].x--;
+            if (y > 0) selection[playerIndex].y++;
+            else if (y < 0) selection[playerIndex].y--;
 
             int booksOnShelf;
             int fullRows;
@@ -125,72 +136,72 @@ namespace Planspelet
 
             if (x > 0)
             {
-                if (selectionY > fullRows - 1 && selectionX >  booksOnLastRow - 1)
+                if (selection[playerIndex].y > fullRows - 1 && selection[playerIndex].x > booksOnLastRow - 1)
                 {
                     if (activeShelf + 1 < numOfShelves)
                         activeShelf++;
                     else
                         activeShelf = 0;
 
-                    selectionX = 0;
-                    selectionY = 0;
+                    selection[playerIndex].x = 0;
+                    selection[playerIndex].y = 0;
                 }
-                else if (selectionX > columns - 1)
+                else if (selection[playerIndex].x > columns - 1)
                 {
-                    selectionX = 0;
-                    selectionY++;
+                    selection[playerIndex].x = 0;
+                    selection[playerIndex].y++;
                 }
             }
             else if (x < 0)
             {
-                if (selectionX < 0)
+                if (selection[playerIndex].x < 0)
                 {
-                    if (selectionY == 0)
+                    if (selection[playerIndex].y == 0)
                     {
-                        selectionX = booksOnLastRow - 1;
-                        selectionY = fullRows;
+                        selection[playerIndex].x = booksOnLastRow - 1;
+                        selection[playerIndex].y = fullRows;
                     }
                     else
                     {
-                        selectionX = columns - 1;
-                        selectionY--;
+                        selection[playerIndex].x = columns - 1;
+                        selection[playerIndex].y--;
                     }
                 }
             }
 
             if (y > 0)
             {
-                if (selectionY > rows - 1)
-                    selectionY = 0;
-                if (selectionY == fullRows && selectionX > booksOnLastRow - 1)
-                    selectionX = booksOnLastRow - 1;
+                if (selection[playerIndex].y > rows - 1)
+                    selection[playerIndex].y = 0;
+                if (selection[playerIndex].y == fullRows && selection[playerIndex].x > booksOnLastRow - 1)
+                    selection[playerIndex].x = booksOnLastRow - 1;
             }
-            else if (y < 0 && selectionY < 0)
+            else if (y < 0 && selection[playerIndex].y < 0)
             {
                 //This was moving the selection to the first book whenever you pressed up at the top row, it's corrected now
-                selectionY = numOfShelves;
-                if (selectionX > booksOnLastRow - 1)
-                    selectionX = booksOnLastRow - 1;
+                selection[playerIndex].y = numOfShelves;
+                if (selection[playerIndex].x > booksOnLastRow - 1)
+                    selection[playerIndex].x = booksOnLastRow - 1;
             }
         }
 
-        public Book GetSelectedBook()
+        public Book GetSelectedBook(int playerIndex)
         {
-            int selection = activeShelf * selectionX * selectionY + selectionX + selectionY * columns;
+            int selectionIndex = activeShelf * selection[playerIndex].x * selection[playerIndex].y + selection[playerIndex].x + selection[playerIndex].y * columns;
 
-            return books[selection];
+            return books[selectionIndex];
         }
         /// <summary>
         /// This method will copy and remove the selected book from the Archive. Make sure to save the copy!
         /// </summary>
         /// <returns></returns>
-        public Book TransferSelectedBook()
+        public Book TransferSelectedBook(int playerIndex)
         {
-            int selection = activeShelf * selectionX * selectionY + selectionX + selectionY * columns;
-            Book returnBook = books[selection];
-            if (selection + 1 == books.Count)
-                MoveSelection(-1, 0);
-            books.RemoveAt(selection);
+            int selectionIndex = activeShelf * selection[playerIndex].x * selection[playerIndex].y + selection[playerIndex].x + selection[playerIndex].y * columns;
+            Book returnBook = books[selectionIndex];
+            if (selectionIndex + 1 == books.Count)
+                MoveSelection(-1, 0, playerIndex);
+            books.RemoveAt(selectionIndex);
             return returnBook;
         }
 
@@ -205,22 +216,36 @@ namespace Planspelet
             int booksOnShelf = books.Count - activeShelf * rows * columns;
             if (booksOnShelf > rows * columns) booksOnShelf = rows * columns;
 
+            int startIndex = activeShelf * rows * columns;
+
             for (int y = 0; y < rows; y++)
             {
                 for (int x = 0; x < columns; x++)
                 {
                     if (counter < booksOnShelf)
                     {
-                        books[counter + activeShelf * rows * columns].isSelected = false;
+                        //books[counter + activeShelf * rows * columns].isSelected = false;
 
-                        if (selection && x == selectionX && y == selectionY)
-                            books[counter + activeShelf * rows * columns].isSelected = true;
+                        //if (selection && x == selectionX && y == selection)
+                        //    books[counter + activeShelf * rows * columns].isSelected = true;
 
-                        books[counter + activeShelf * rows * columns].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, Color.White, scale);
+                        books[startIndex + counter].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, Color.White, scale);
                         //else
                         //    books[counter + activeShelf * rows * columns].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, Color.White, scale);
                     }
                     counter++;
+                }
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (selection[i].active)
+                {
+                    int x = selection[i].x;
+                    int y = selection[i].y;
+                    Rectangle source = new Rectangle(0, 0, selectionTexture[i].Width, selectionTexture[i].Height);
+                    spriteBatch.Draw(selectionTexture[i], position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, source, Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+                    //spriteBatch.Draw(selectionTexture[i], position + new Vector2(columnSpacing * x, rowSpacing * y), new Rectangle(0, 0, baseTexture.Width, baseTexture.Height), Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
                 }
             }
         }
