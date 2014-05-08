@@ -24,15 +24,15 @@ namespace Planspelet
         {
             for (int i = 0; i < inputs.Length; i++)
             {
-                inputs[i].GetInput(GamePad.GetState((PlayerIndex)i));
+                inputs[i].ProcessInput(GamePad.GetState((PlayerIndex)i));
                 inputs[i].Update(gameTime);
             }
         }
 
         public Input GetPlayerInput(int index)
         {
-            return inputs[0];
-            //return inputs[index];
+            //return inputs[0];
+            return inputs[index];
         }
     }
 }

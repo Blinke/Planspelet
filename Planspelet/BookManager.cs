@@ -22,11 +22,6 @@ namespace Planspelet
             
         }
 
-        public void Update(GameTime gameTime)
-        {
-            //archive.Update(gameTime);
-        }
-
         public void ReceiveInput(Input input, Player player)
         {
             archive.ReceiveInput(input, player.playerID);
@@ -34,6 +29,7 @@ namespace Planspelet
             if (GameManager.phase == GameManager.TurnPhase.BookPicking && input.ButtonA)
             {
                 player.AddBook(archive.TransferSelectedBook(player.playerID));
+                archive.DeactivateSelection(player.playerID);
                 player.phaseDone = true;
             }
 
@@ -53,7 +49,6 @@ namespace Planspelet
                 int bookRnd = rnd.Next(0, bookTexture.Count);
                 int detailRnd = rnd.Next(0, detailTexture.Count);
                 archive.AddBook(new Book(bookTexture[bookRnd], detailTexture[detailRnd], "bla"));
-                //archive.AddBook(new Book(bookTexture[bookRnd], detailTexture[detailRnd], selectionTexture, "bla"));
             }
         }
     }

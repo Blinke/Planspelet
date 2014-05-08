@@ -42,10 +42,9 @@ namespace Planspelet
 
         public void Update(GameTime gameTime)
         {
-            window.Title = currentTurn.ToString();
+            window.Title = phase.ToString();
 
             inputManager.Update(gameTime);
-            bookManager.Update(gameTime);
 
             for (int i = 0; i < players.Length; i++)
             {
@@ -56,7 +55,8 @@ namespace Planspelet
                     switch (phase)
                     {
                         case TurnPhase.BookPicking:
-                            bookManager.ReceiveInput(inputManager.GetPlayerInput(0), players[i]);
+                            if (!players[i].phaseDone)
+                                bookManager.ReceiveInput(inputManager.GetPlayerInput(i), players[i]);
                             break;
 
                         case TurnPhase.Browsing:
@@ -84,7 +84,7 @@ namespace Planspelet
 
         private void TurnPhaseCheck()
         {
-            if (players.Count(p => p.phaseDone) == players.Length)
+            if (players.All(p => p.phaseDone))
             {
                 for (int i = 0; i < players.Length; i++)
                     players[i].phaseDone = false;
@@ -112,8 +112,7 @@ namespace Planspelet
             bookManager.GenerateBooks();
 
             for (int i = 0; i < players.Length; i++)
-                if (players[i] != null)
-                    players[i].phaseDone = false;
+                players[i].phaseDone = false;
         }
 
         private void GameStart(TextureManager textureManager)

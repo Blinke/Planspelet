@@ -26,10 +26,10 @@ namespace Planspelet
         public Input()
         {
             sensitivity = 0.6f;
-            selectionDelay = 200;
+            selectionDelay = 150;
         }
 
-        public void GetInput(GamePadState gPadState)
+        public void ProcessInput(GamePadState gPadState)
         {
             previousKeyboardState = currentKeyboardState;
             currentKeyboardState = Keyboard.GetState();
@@ -42,6 +42,7 @@ namespace Planspelet
             ButtonB = false;
             ButtonX = false;
             ButtonY = false;
+
 
             if (selectionTimer <= 0)
             {

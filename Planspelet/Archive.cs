@@ -23,10 +23,6 @@ namespace Planspelet
 
         int activeShelf = 0;
 
-        //spriteBatch.Draw(selectionTexture, position, new Rectangle(0, 0, baseTexture.Width, baseTexture.Height), Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
-
-        //double selectionTimer, selectionDelay;
-
         public Archive(TextureManager textureManager, Vector2 position, float scale, int rows, int columns)
             :base(position, scale)
         {
@@ -37,16 +33,11 @@ namespace Planspelet
             this.position = position;
 
             selectionTexture = new Texture2D[4];
-            selectionTexture[0] = textureManager.selectionTexture;
-            selectionTexture[1] = textureManager.selectionTexture;
-            selectionTexture[2] = textureManager.selectionTexture;
-            selectionTexture[3] = textureManager.selectionTexture;
+
+            for (int i = 0; i < selectionTexture.Length; i++)
+                selectionTexture[i] = textureManager.middleSelection[i];
         }
 
-        //public void Update(GameTime gameTime)
-        //{
-        //    selectionTimer -= gameTime.ElapsedGameTime.TotalMilliseconds;
-        //}
         public Archive(Archive archive)
             :base(archive)
         {
@@ -173,7 +164,7 @@ namespace Planspelet
             {
                 if (selection[playerIndex].y > rows - 1)
                     selection[playerIndex].y = 0;
-                if (selection[playerIndex].y == fullRows && selection[playerIndex].x > booksOnLastRow - 1)
+                if (selection[playerIndex].y >= fullRows && selection[playerIndex].x > booksOnLastRow - 1)
                     selection[playerIndex].x = booksOnLastRow - 1;
             }
             else if (y < 0 && selection[playerIndex].y < 0)
@@ -221,6 +212,11 @@ namespace Planspelet
             books.Clear();
         }
 
+        public void DeactivateSelection(int playerIndex)
+        { 
+            selection[playerIndex].active = false;
+        }
+
         public override void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
             int counter = 0;
@@ -248,7 +244,7 @@ namespace Planspelet
                 }
             }
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < selectionTexture.Length; i++)
             {
                 if (selection[i].active)
                 {
