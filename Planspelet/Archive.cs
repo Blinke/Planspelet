@@ -173,7 +173,7 @@ namespace Planspelet
             {
                 if (selection[playerIndex].y > rows - 1)
                     selection[playerIndex].y = 0;
-                if (selection[playerIndex].y == fullRows && selection[playerIndex].x > booksOnLastRow - 1)
+                if (selection[playerIndex].y >= fullRows && selection[playerIndex].x > booksOnLastRow - 1)
                     selection[playerIndex].x = booksOnLastRow - 1;
             }
             else if (y < 0 && selection[playerIndex].y < 0)
