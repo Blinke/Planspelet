@@ -114,6 +114,7 @@
     <Compile Include="Input.cs" />
     <Compile Include="GameManager.cs" />
     <Compile Include="InputManager.cs" />
+    <Compile Include="Market.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerPanel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

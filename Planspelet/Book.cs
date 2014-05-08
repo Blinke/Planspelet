@@ -7,15 +7,23 @@ using Microsoft.Xna.Framework;
 
 namespace Planspelet
 {
+    enum Genre
+    {
+        None = -1,
+        Drama = 0,
+        NonFiction = 1,
+    };
+
     class Book
     {
         Texture2D baseTexture, detailTexture;
-        //Texture2D selectionTexture;
-        string title;
-        //public bool isSelected;
+        string title; // really needed?
+        Genre genre;
 
-        public int Width { get { return baseTexture.Width; } }
-        public int Height { get { return baseTexture.Height; } }
+        public const int Width = 70;
+        public const int Height = 100;
+        //public int Width { get { return baseTexture.Width; } }
+        //public int Height { get { return baseTexture.Height; } }
 
         public Book(Texture2D baseTexture, Texture2D detailTexture, string title)//(Texture2D baseTexture, Texture2D detailTexture, Texture2D selectionTexture[], string title)
         {

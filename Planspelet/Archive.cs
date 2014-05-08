@@ -18,8 +18,8 @@ namespace Planspelet
         public int NumberOfBooks { get { return books.Count; } }
         int numOfShelves = 1;
 
-        float rowSpacing = 110;
-        float columnSpacing = 80;
+        const float rowSpacing = Book.Height + 10;
+        const float columnSpacing = Book.Width + 10;
 
         int activeShelf = 0;
 
@@ -58,8 +58,8 @@ namespace Planspelet
             rows = archive.rows;
             columns = archive.columns;
             numOfShelves = archive.numOfShelves;
-            rowSpacing = archive.rowSpacing;
-            columnSpacing = archive.columnSpacing;
+            //rowSpacing = archive.rowSpacing;
+            //columnSpacing = archive.columnSpacing;
             activeShelf = 0;
             //selection = false;
             //selectionX = 0;
@@ -184,6 +184,15 @@ namespace Planspelet
                     selection[playerIndex].x = booksOnLastRow - 1;
             }
         }
+        private void AdjustSelections()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                int selectionIndex = activeShelf * rows * columns + selection[i].x + selection[i].y * columns;
+                if (selectionIndex + 1 >= books.Count)
+                    MoveSelection(-1, 0, i);
+            }
+        }
 
         public Book GetSelectedBook(int playerIndex)
         {
@@ -197,10 +206,12 @@ namespace Planspelet
         /// <returns></returns>
         public Book TransferSelectedBook(int playerIndex)
         {
-            int selectionIndex = activeShelf * selection[playerIndex].x * selection[playerIndex].y + selection[playerIndex].x + selection[playerIndex].y * columns;
+            //int selectionIndex = activeShelf * selection[playerIndex].x * selection[playerIndex].y + selection[playerIndex].x + selection[playerIndex].y * columns;
+            int selectionIndex = activeShelf * rows * columns + selection[playerIndex].x + selection[playerIndex].y * columns;
             Book returnBook = books[selectionIndex];
-            if (selectionIndex + 1 == books.Count)
-                MoveSelection(-1, 0, playerIndex);
+            AdjustSelections();
+            //if (selectionIndex + 1 == books.Count)
+            //    MoveSelection(-1, 0, playerIndex);
             books.RemoveAt(selectionIndex);
             return returnBook;
         }
