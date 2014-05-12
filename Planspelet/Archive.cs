@@ -240,7 +240,7 @@ namespace Planspelet
                         //if (selection && x == selectionX && y == selection)
                         //    books[counter + activeShelf * rows * columns].isSelected = true;
 
-                        books[startIndex + counter].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, Color.White, scale);
+                        books[startIndex + counter].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, Color.White, scale, false);
                         //else
                         //    books[counter + activeShelf * rows * columns].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, Color.White, scale);
                     }

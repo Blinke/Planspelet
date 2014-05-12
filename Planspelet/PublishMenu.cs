@@ -53,7 +53,7 @@ namespace Planspelet
             if (activeBook != null)
             {
                 int x = (int)((Book.Width + 20) * bookScale);
-                activeBook.Draw(spriteBatch, position, Color.White, bookScale);
+                activeBook.Draw(spriteBatch, position, Color.White, bookScale, false);
                 activeBook.DrawPublishInfo(spriteBatch, new Vector2(position.X + x, position.Y), scale, font);
             }
 

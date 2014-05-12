@@ -9,7 +9,6 @@ namespace Planspelet
 {
     enum Genre
     {
-        None = -1,
         Drama = 0,
         NonFiction = 1,
     };
@@ -25,6 +24,9 @@ namespace Planspelet
         //public int Width { get { return baseTexture.Width; } }
         //public int Height { get { return baseTexture.Height; } }
 
+        int totalCost;
+        int totalProfit;
+
         public Book(Texture2D baseTexture, Texture2D detailTexture, string title)//(Texture2D baseTexture, Texture2D detailTexture, Texture2D selectionTexture[], string title)
         {
             this.baseTexture = baseTexture;
@@ -38,7 +40,7 @@ namespace Planspelet
             title = book.title;
         }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 position, Color tint, float scale)
+        public void Draw(SpriteBatch spriteBatch, Vector2 position, Color tint, float scale, bool drawStatistics)
         {
             spriteBatch.Draw(baseTexture, position, new Rectangle(0, 0, baseTexture.Width, baseTexture.Height), tint, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
             spriteBatch.Draw(detailTexture, position, new Rectangle(0, 0, baseTexture.Width, baseTexture.Height), tint, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
@@ -47,6 +49,10 @@ namespace Planspelet
             //{
             //    spriteBatch.Draw(selectionTexture, position, new Rectangle(0, 0, baseTexture.Width, baseTexture.Height), Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
             //}
+
+            if (drawStatistics)
+            {
+            }
         }
 
         public void DrawPublishInfo(SpriteBatch spriteBatch, Vector2 position, float scale, SpriteFont font)
