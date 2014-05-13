@@ -11,12 +11,13 @@ namespace Planspelet
     {
         Drama = 0,
         NonFiction = 1,
+        Mystert = 2,
     };
 
     class Book
     {
         Texture2D baseTexture, detailTexture;
-        string title; // really needed?
+        //string title; // really needed?
         Genre genre;
 
         public const int Width = 70;
@@ -32,12 +33,12 @@ namespace Planspelet
             this.baseTexture = baseTexture;
             this.detailTexture = detailTexture;
             //this.selectionTexture = selectionTexture;
-            this.title = title;
+            //this.title = title;
         }
         public Book(Book book)
         {
             baseTexture = book.baseTexture;
-            title = book.title;
+            //title = book.title;
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position, Color tint, float scale, bool drawStatistics)
@@ -57,7 +58,7 @@ namespace Planspelet
 
         public void DrawPublishInfo(SpriteBatch spriteBatch, Vector2 position, float scale, SpriteFont font)
         {
-            spriteBatch.DrawString(font, title, position, Color.White);
+            //spriteBatch.DrawString(font, title, position, Color.White);
             // Draw title and any other information interesting for publishing/printing
         }
     }

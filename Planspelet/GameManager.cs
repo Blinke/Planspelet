@@ -36,7 +36,7 @@ namespace Planspelet
             players = new Player[4];
             bookManager = new BookManager(textureManager);
 
-            market = new Market(textureManager, new Vector2(20, 20), 15, 11);
+            market = new Market(textureManager, new Vector2(20, 20), 31, 13);
 
             GameStart(textureManager);
 

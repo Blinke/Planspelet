@@ -73,6 +73,10 @@ namespace Planspelet
             demand[randIndex] = new Demand(genre, false);
         }
 
+        public void RemoveDemand(Genre genre, int number)
+        {
+        }
+
         public int GetDemand(Genre genre)
         {
             int counter = 0;
