@@ -117,7 +117,9 @@ namespace Planspelet
         /// <param name="y"></param>
         private void MoveSelection(int x, int y, int playerIndex)
         {
-            if (x == 0 && y == 0) return;
+            #region DON'T EVEN THINK ABOUT TOUCHING IT!!!
+            if (x == 0 && y == 0)
+                return;
 
             if (x > 0) selection[playerIndex].x++;
             else if (x < 0) selection[playerIndex].x--;
@@ -136,181 +138,66 @@ namespace Planspelet
             if (fullRows == rows) booksOnLastRow = columns;
             else booksOnLastRow = booksOnShelf % columns;
 
-            #region Partial rows
-            if (fullRows != rows && booksOnLastRow != 0)
+            if (x > 0)
             {
-                if (selection[playerIndex].y > fullRows && selection[playerIndex].x > booksOnLastRow - 1)
+                #region moving right
+                if ((selection[playerIndex].x > booksOnLastRow - 1 && fullRows == rows && selection[playerIndex].y >= fullRows - 1) ||
+                    (selection[playerIndex].x > booksOnLastRow - 1 && selection[playerIndex].y > fullRows - 1))
                 {
-                    if (activeShelf + 1 < numOfShelves)
-                        activeShelf++;
-                    else
-                        activeShelf = 0;
-
-                    selection[playerIndex].x = 0;
-                    selection[playerIndex].y = 0;
+                    selection[playerIndex].x--;// = 0;
+                    //selection[playerIndex].y = 0;
                 }
-            }
-            #endregion
-            #region No partial rows
-            else
-            {
-                #region X movement
-                if (selection[playerIndex].x > columns - 1)
+                else if (selection[playerIndex].x > columns - 1)
                 {
-                    #region X too large
-                    if (selection[playerIndex].y == fullRows - 1)// && booksOnLastRow == 0) || 
-                    {
-                        selection[playerIndex].x = 0;
-                        selection[playerIndex].y = 0;
-                    }
-                    else
-                    {
-                        selection[playerIndex].x = 0;
-                        selection[playerIndex].y++;
-                    }
-                    #endregion
+                    selection[playerIndex].x = 0;
+                    selection[playerIndex].y++;
+                }
+                #endregion
+            }
+            else if (x < 0)
+            {
+                #region moving left
+                if (selection[playerIndex].x < 0 && selection[playerIndex].y == 0)
+                {
+                    selection[playerIndex].x++;// = booksOnLastRow - 1;
+                    //if (fullRows == rows) selection[playerIndex].y = fullRows - 1;
+                    //else selection[playerIndex].y = fullRows;
                 }
                 else if (selection[playerIndex].x < 0)
                 {
-                    #region X below 0
-                    if (selection[playerIndex].y == 0)
-                    {
-                        selection[playerIndex].x = booksOnLastRow - 1;
-                        selection[playerIndex].y = fullRows - 1;
-                    }
-                    else
-                    {
-                        selection[playerIndex].x = columns - 1;
-                        selection[playerIndex].y--;
-                    }
-                    #endregion
-                }
-                #endregion
-                #region Y movement
-                if (selection[playerIndex].y > fullRows - 1)
-                {
-                    selection[playerIndex].y = 0;
-                    selection[playerIndex].x++;
+                    selection[playerIndex].x = columns - 1;
+                    selection[playerIndex].y--;
                 }
                 #endregion
             }
-            #endregion
 
-            //if (x > 0)
-            //{
-            //    if (selection[playerIndex].y > fullRows - 1 && selection[playerIndex].x > booksOnLastRow - 1)
-            //    {
-            //        if (activeShelf + 1 < numOfShelves)
-            //            activeShelf++;
-            //        else
-            //            activeShelf = 0;
-
-            //        selection[playerIndex].x = 0;
-            //        selection[playerIndex].y = 0;
-            //    }
-            //    else if (selection[playerIndex].x > columns - 1)
-            //    {
-            //        selection[playerIndex].x = 0;
-            //        selection[playerIndex].y++;
-            //    }
-            //}
-            //else if (x < 0)
-            //{
-            //    if (selection[playerIndex].x < 0)
-            //    {
-            //        if (selection[playerIndex].y == 0)
-            //        {
-            //            selection[playerIndex].x = booksOnLastRow - 1;
-            //            selection[playerIndex].y = fullRows;
-            //        }
-            //        else
-            //        {
-            //            selection[playerIndex].x = columns - 1;
-            //            selection[playerIndex].y--;
-            //        }
-            //    }
-            //}
-
-            //if (y > 0)
-            //{
-            //    int i = 0;
-            //}
-            //if (selection[playerIndex].y > fullRows - 1)// && selection[playerIndex].x > booksOnLastRow)
-            //{
-            //    selection[playerIndex].y = 0;
-            //    selection[playerIndex].x++;
-            //}
-            //else if (selection[playerIndex].y < 0)
-            //    selection[playerIndex].y = 0;
-
-            #region commented
-            //if (x > 0)
-            //{
-            //    if (selection[playerIndex].y > fullRows - 1 && selection[playerIndex].x > booksOnLastRow - 1)
-            //    {
-            //        if (activeShelf + 1 < numOfShelves)
-            //            activeShelf++;
-            //        else
-            //            activeShelf = 0;
-
-            //        selection[playerIndex].x = 0;
-            //        selection[playerIndex].y = 0;
-            //    }
-            //    else if (selection[playerIndex].x > columns - 1)
-            //    {
-            //        selection[playerIndex].x = 0;
-            //        selection[playerIndex].y++;
-            //    }
-            //}
-            //else if (x < 0)
-            //{
-            //    if (selection[playerIndex].x < 0)
-            //    {
-            //        if (selection[playerIndex].y == 0)
-            //        {
-            //            selection[playerIndex].x = booksOnLastRow - 1;
-            //            selection[playerIndex].y = fullRows;
-            //        }
-            //        else
-            //        {
-            //            selection[playerIndex].x = columns - 1;
-            //            selection[playerIndex].y--;
-            //        }
-            //    }
-            //}
-
-            //if (y > 0)
-            //{ 
-            //    int i = 0;
-            //}
-            //if (selection[playerIndex].y > fullRows - 1)// && selection[playerIndex].x > booksOnLastRow)
-            //{
-            //    selection[playerIndex].y = 0;
-            //    selection[playerIndex].x++;
-            //}
-            //else if (selection[playerIndex].y < 0)
-            //    selection[playerIndex].y = 0;
-
-            //if (y > 0)
-            //{
-            //    if (selection[playerIndex].y > fullRows - 1)
-            //        selection[playerIndex].y = 0;
-            //    //if (selection[playerIndex].y >= fullRows)// && selection[playerIndex].x > booksOnLastRow - 1)
-            //    //{
-            //    //    //selection[playerIndex].x = booksOnLastRow - 1;
-            //    //    selection[playerIndex].y = fullRows - 1;
-            //    //}
-            //}
-            //else if (y < 0)
-            //{
-            //    if  (selection[playerIndex].y < 0)
-            //        selection[playerIndex].y = 0;
-            //    //selection[playerIndex].y = fullRows - 1;
-            //    //This was moving the selection to the first book whenever you pressed up at the top row, it's corrected now
-            //    //selection[playerIndex].y = numOfShelves;
-            //    //if (selection[playerIndex].x > booksOnLastRow - 1)
-            //    //    selection[playerIndex].x = booksOnLastRow - 1;
-            //}
+            if (y > 0)
+            {
+                #region moving down
+                if (selection[playerIndex].y > fullRows - 1 && fullRows == rows)
+                {
+                    selection[playerIndex].y--;
+                }
+                else if (selection[playerIndex].y > fullRows - 1 && selection[playerIndex].x >= booksOnLastRow - 1)
+                {
+                    if (selection[playerIndex].y > fullRows || booksOnLastRow == 0)
+                    {
+                        selection[playerIndex].y--;
+                    }
+                    else
+                    {
+                        selection[playerIndex].x = booksOnLastRow - 1;
+                    }
+                }
+                #endregion
+            }
+            if (y < 0)
+            {
+                if (selection[playerIndex].y < 0)
+                {
+                    selection[playerIndex].y++;
+                }
+            }
             #endregion
         }
         private void AdjustSelections()
