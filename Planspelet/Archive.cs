@@ -239,6 +239,8 @@ namespace Planspelet
 
         public override void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
+            if (books.Count == 0) return;
+
             int counter = 0;
             int booksOnShelf = books.Count - activeShelf * rows * columns;
             if (booksOnShelf > rows * columns) booksOnShelf = rows * columns;
