@@ -19,6 +19,7 @@ namespace Planspelet
         Texture2D baseTexture, detailTexture;
         //string title; // really needed?
         Genre genre;
+        public bool eBook;
 
         public const int Width = 70;
         public const int Height = 100;
@@ -35,6 +36,7 @@ namespace Planspelet
             //this.selectionTexture = selectionTexture;
             //this.title = title;
         }
+
         public Book(Book book)
         {
             baseTexture = book.baseTexture;

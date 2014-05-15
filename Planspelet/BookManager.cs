@@ -34,6 +34,7 @@ namespace Planspelet
             if (GameManager.phase == GameManager.TurnPhase.BookPicking && input.ButtonA)
             {
                 player.AddBook(archive.TransferSelectedBook(player.playerID));
+                player.OpenPublishMenu();
                 player.phaseDone = true;
             }
 
