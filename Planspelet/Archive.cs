@@ -174,17 +174,13 @@ namespace Planspelet
             if (y > 0)
             {
                 #region moving down
-                if (selection[playerIndex].y > fullRows - 1 && fullRows == rows)
+                if (selection[playerIndex].y > fullRows - 1)
                 {
-                    selection[playerIndex].y--;
-                }
-                else if (selection[playerIndex].y > fullRows - 1 && selection[playerIndex].x >= booksOnLastRow - 1)
-                {
-                    if (selection[playerIndex].y > fullRows || booksOnLastRow == 0)
+                    if (fullRows == rows || booksOnLastRow == 0 || selection[playerIndex].y > fullRows)//selection[playerIndex].y > fullRows - 1 && fullRows == rows)
                     {
                         selection[playerIndex].y--;
                     }
-                    else
+                    else if (selection[playerIndex].y > fullRows - 1 && selection[playerIndex].x >= booksOnLastRow - 1)
                     {
                         selection[playerIndex].x = booksOnLastRow - 1;
                     }
