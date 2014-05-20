@@ -14,16 +14,23 @@ namespace Planspelet
         Input input, prevInput;
         Archive archive;
         PublishMenu publishMenu;
+
+        Vector2 position;
         Tab activeTab;
+
+        int budget;
 
         public int playerID { get; private set; }
 
         public Player(TextureManager textureManager, int playerID)
         {
-            archive = new Archive(textureManager, GetPosition(playerID), 0.75f, 2, 5);
+            position = GetPosition(playerID);
+            archive = new Archive(textureManager, position, 0.75f, 2, 5);
             this.playerID = playerID;
-            publishMenu = new PublishMenu(textureManager, GetPosition(playerID), 0.75f);
+            publishMenu = new PublishMenu(textureManager, position, 0.75f, playerID);
             activeTab = archive;
+
+            budget = 0;
         }
 
         public void Update(GameTime gameTime)
@@ -31,22 +38,23 @@ namespace Planspelet
             //archive.Update(gameTime);
         }
 
-        public void Draw(SpriteBatch spriteBatch, SpriteFont font)
-        {
-            archive.Draw(spriteBatch, font);
-        }
-
         public void RecieveInput(Input newInput)
         {
             prevInput = input;
             input = newInput;
 
-            if (GameManager.phase == GameManager.TurnPhase.Browsing && input.ButtonY)
+            if (GameManager.phase == GameManager.TurnPhase.Browsing && activeTab is Archive && input.ButtonY)
                 phaseDone = true;
 
-            if (GameManager.phase == GameManager.TurnPhase.Browsing)
-                archive.ReceiveInput(input, playerID);    
+            //if (GameManager.phase == GameManager.TurnPhase.Browsing)
+            //    archive.ReceiveInput(input, playerID);
+            activeTab.ReceiveInput(input, playerID);
 
+            if (activeTab is PublishMenu)
+            {
+                if (publishMenu.FinalizeChoice())
+                    activeTab = archive;
+            }
         }
 
         private Vector2 GetPosition(int ID)
@@ -86,12 +94,19 @@ namespace Planspelet
         public void OpenPublishMenu()
         {
             activeTab = publishMenu;
-            publishMenu.SetActiveBook(archive.GetSelectedBook(playerID));
+            publishMenu.Open(archive.GetSelectedBook(playerID));
         }
 
         public void OpenArchive()
         {
             activeTab = archive;
+        }
+
+        public void Draw(SpriteBatch spriteBatch, SpriteFont font)
+        {
+            activeTab.Draw(spriteBatch, font);
+            spriteBatch.DrawString(font, budget.ToString(), position, Color.White);
+            //archive.Draw(spriteBatch, font);
         }
     }
 

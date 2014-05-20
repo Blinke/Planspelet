@@ -111,6 +111,7 @@
     <Compile Include="Book.cs" />
     <Compile Include="BookManager.cs" />
     <Compile Include="Button.cs" />
+    <Compile Include="Economy.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="GameManager.cs" />
     <Compile Include="InputManager.cs" />

@@ -30,6 +30,7 @@ namespace Planspelet
             {
                 player.AddBook(archive.TransferSelectedBook(player.playerID));
                 archive.DeactivateSelection(player.playerID);
+                player.OpenPublishMenu();
                 player.phaseDone = true;
             }
 

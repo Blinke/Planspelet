@@ -16,6 +16,7 @@ namespace Planspelet
         InputManager inputManager;
         Player[] players;
         BookManager bookManager;
+        Market market;
         GameWindow window;
 
         SpriteFont font;
@@ -34,6 +35,8 @@ namespace Planspelet
             this.window = window;
             players = new Player[4];
             bookManager = new BookManager(textureManager);
+
+            market = new Market(textureManager, new Vector2(20, 20), 31, 13);
 
             GameStart(textureManager);
 
@@ -80,6 +83,7 @@ namespace Planspelet
             {
                 player.Draw(spriteBatch, font);
             }
+            market.Draw(spriteBatch);
         }
 
         private void TurnPhaseCheck()

@@ -108,6 +108,10 @@ namespace Planspelet
         /// <param name="y"></param>
         private void MoveSelection(int x, int y, int playerIndex)
         {
+            #region DON'T EVEN THINK ABOUT TOUCHING IT!!!
+            if (x == 0 && y == 0)
+                return;
+
             if (x > 0) selection[playerIndex].x++;
             else if (x < 0) selection[playerIndex].x--;
             if (y > 0) selection[playerIndex].y++;
@@ -127,40 +131,58 @@ namespace Planspelet
 
             if (x > 0)
             {
-                if (selection[playerIndex].y > fullRows - 1 && selection[playerIndex].x > booksOnLastRow - 1)
+                #region moving right
+                if ((selection[playerIndex].x > booksOnLastRow - 1 && fullRows == rows && selection[playerIndex].y >= fullRows - 1) ||
+                    (selection[playerIndex].x > booksOnLastRow - 1 && selection[playerIndex].y > fullRows - 1))
                 {
-                    if (activeShelf + 1 < numOfShelves)
-                        activeShelf++;
-                    else
-                        activeShelf = 0;
-
-                    selection[playerIndex].x = 0;
-                    selection[playerIndex].y = 0;
+                    selection[playerIndex].x--;// = 0;
+                    //selection[playerIndex].y = 0;
                 }
                 else if (selection[playerIndex].x > columns - 1)
                 {
                     selection[playerIndex].x = 0;
                     selection[playerIndex].y++;
                 }
+                #endregion
             }
             else if (x < 0)
             {
-                if (selection[playerIndex].x < 0)
+                #region moving left
+                if (selection[playerIndex].x < 0 && selection[playerIndex].y == 0)
                 {
-                    if (selection[playerIndex].y == 0)
-                    {
-                        selection[playerIndex].x = booksOnLastRow - 1;
-                        selection[playerIndex].y = fullRows;
-                    }
-                    else
-                    {
-                        selection[playerIndex].x = columns - 1;
-                        selection[playerIndex].y--;
-                    }
+                    selection[playerIndex].x++;// = booksOnLastRow - 1;
+                    //if (fullRows == rows) selection[playerIndex].y = fullRows - 1;
+                    //else selection[playerIndex].y = fullRows;
                 }
+                else if (selection[playerIndex].x < 0)
+                {
+                    selection[playerIndex].x = columns - 1;
+                    selection[playerIndex].y--;
+                }
+                #endregion
             }
 
             if (y > 0)
+            {
+                #region moving down
+                if (selection[playerIndex].y > fullRows - 1 && fullRows == rows)
+                {
+                    selection[playerIndex].y--;
+                }
+                else if (selection[playerIndex].y > fullRows - 1 && selection[playerIndex].x >= booksOnLastRow - 1)
+                {
+                    if (selection[playerIndex].y > fullRows || booksOnLastRow == 0)
+                    {
+                        selection[playerIndex].y--;
+                    }
+                    else
+                    {
+                        selection[playerIndex].x = booksOnLastRow - 1;
+                    }
+                }
+                #endregion
+            }
+            if (y < 0)
             {
                 if (selection[playerIndex].y > rows - 1)
                     selection[playerIndex].y = 0;
@@ -173,7 +195,13 @@ namespace Planspelet
                 selection[playerIndex].y = numOfShelves;
                 if (selection[playerIndex].x > booksOnLastRow - 1)
                     selection[playerIndex].x = booksOnLastRow - 1;
+
+                if (selection[playerIndex].y < 0)
+                {
+                    selection[playerIndex].y++;
+                }
             }
+            #endregion
         }
         private void AdjustSelections()
         {
@@ -219,6 +247,8 @@ namespace Planspelet
 
         public override void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
+            if (books.Count == 0) return;
+
             int counter = 0;
             int booksOnShelf = books.Count - activeShelf * rows * columns;
             if (booksOnShelf > rows * columns) booksOnShelf = rows * columns;
@@ -236,7 +266,7 @@ namespace Planspelet
                         //if (selection && x == selectionX && y == selection)
                         //    books[counter + activeShelf * rows * columns].isSelected = true;
 
-                        books[startIndex + counter].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, Color.White, scale);
+                        books[startIndex + counter].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, Color.White, scale, false);
                         //else
                         //    books[counter + activeShelf * rows * columns].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, Color.White, scale);
                     }
