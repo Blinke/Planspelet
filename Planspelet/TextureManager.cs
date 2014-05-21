@@ -14,6 +14,7 @@ namespace Planspelet
         public Texture2D eBookTexture;
         public Texture2D pBookTexture;
         public Texture2D selectionTexture;
+        public Texture2D[] middleSelection;
         public List<Texture2D> bookTexture, detailTexture;
 
         public void LoadTextures(ContentManager content, GraphicsDevice graphics)
@@ -21,6 +22,13 @@ namespace Planspelet
             eBookTexture = content.Load<Texture2D>("e-book");
             pBookTexture = content.Load<Texture2D>("physical");
             selectionTexture = content.Load<Texture2D>("selection");
+            middleSelection = new Texture2D[4];
+
+            for (int i = 0; i < middleSelection.Length; i++)
+            {
+                middleSelection[i] = content.Load<Texture2D>(@"selection_p" + (i + 1));
+            }
+
             bookTexture = new List<Texture2D>();
             detailTexture = new List<Texture2D>();
 
