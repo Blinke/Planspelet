@@ -24,7 +24,8 @@ namespace Planspelet
         public enum TurnPhase
         {
             BookPicking,
-            Browsing
+            Browsing,
+            Selling
         }
 
         public static TurnPhase phase;
@@ -65,6 +66,11 @@ namespace Planspelet
                         case TurnPhase.Browsing:
                             players[i].Update(gameTime);
                             break;
+
+                        case TurnPhase.Selling:
+                            //Call each players selling method or whatever
+                            players[i].phaseDone = true;
+                            break;
                     }
                 }
             }
@@ -100,7 +106,10 @@ namespace Planspelet
                         break;
 
                     case TurnPhase.Browsing:
-                        phase = TurnPhase.BookPicking;
+                        phase = TurnPhase.Selling;
+                        break;
+
+                    case TurnPhase.Selling:
                         NextTurn();
                         break;
                 }

@@ -12,6 +12,7 @@ namespace Planspelet
         float sensitivity;
         double selectionTimer, selectionDelay;
 
+        GamePadState prevgPadState;
         KeyboardState currentKeyboardState, previousKeyboardState;
 
         public bool Up { get; private set; }
@@ -31,6 +32,9 @@ namespace Planspelet
 
         public void ProcessInput(GamePadState gPadState)
         {
+            if (prevgPadState == null)
+                prevgPadState = gPadState;
+
             previousKeyboardState = currentKeyboardState;
             currentKeyboardState = Keyboard.GetState();
 
@@ -72,14 +76,16 @@ namespace Planspelet
             if (currentKeyboardState.IsKeyDown(Keys.F) && previousKeyboardState.IsKeyUp(Keys.F))
                 ButtonY = true;
 
-            if (gPadState.Buttons.A == ButtonState.Pressed)
+            if (gPadState.Buttons.A == ButtonState.Pressed && prevgPadState.Buttons.A == ButtonState.Released)
                 ButtonA = true;
-            if (gPadState.Buttons.B == ButtonState.Pressed)
+            if (gPadState.Buttons.B == ButtonState.Pressed && prevgPadState.Buttons.B == ButtonState.Released)
                 ButtonB = true;
-            if (gPadState.Buttons.X == ButtonState.Pressed)
+            if (gPadState.Buttons.X == ButtonState.Pressed && prevgPadState.Buttons.X == ButtonState.Released)
                 ButtonX = true;
-            if (gPadState.Buttons.Y == ButtonState.Pressed)
+            if (gPadState.Buttons.Y == ButtonState.Pressed && prevgPadState.Buttons.Y == ButtonState.Released)
                 ButtonY = true;
+
+            prevgPadState = gPadState;
         }
 
         public void Update(GameTime gameTime)
