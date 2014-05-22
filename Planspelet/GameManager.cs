@@ -18,6 +18,7 @@ namespace Planspelet
         BookManager bookManager;
         Market market;
         GameWindow window;
+        Economy economyManager;
 
         SpriteFont font;
 
@@ -38,6 +39,7 @@ namespace Planspelet
             bookManager = new BookManager(textureManager);
 
             market = new Market(textureManager, new Vector2(20, 20), 31, 13);
+            economyManager = new Economy();
 
             GameStart(textureManager);
 
@@ -110,12 +112,15 @@ namespace Planspelet
                         break;
 
                     case TurnPhase.Selling:
+                        for (int i = 0; i < players.Length; i++)
+                            economyManager.AddBooksToSell(players[i].GetBooksForSale());
+                        economyManager.SellBooks(market);
                         NextTurn();
                         break;
                 }
             }
         }
-
+        
         private void NextTurn()
         { 
             currentTurn++;

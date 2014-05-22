@@ -7,5 +7,20 @@ namespace Planspelet
 {
     class Economy
     {
+
+        public Economy()
+        { 
+            
+        }
+
+        public void AddBooksToSell(List<Book> playerBooks)
+        { 
+            
+        }
+
+        public void SellBooks(Market market)
+        { 
+            
+        }
     }
 }

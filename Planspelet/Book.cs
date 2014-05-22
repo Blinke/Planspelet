@@ -25,12 +25,17 @@ namespace Planspelet
         public const int Height = 100;
         //public int Width { get { return baseTexture.Width; } }
         //public int Height { get { return baseTexture.Height; } }
+        public int Stock { get; set; }
 
+        int publishingCost;
         int totalCost;
         int totalProfit;
 
-        public Book(Texture2D baseTexture, Texture2D detailTexture, string title)//(Texture2D baseTexture, Texture2D detailTexture, Texture2D selectionTexture[], string title)
+        public Book(Texture2D baseTexture, Texture2D detailTexture, Random rnd)//(Texture2D baseTexture, Texture2D detailTexture, Texture2D selectionTexture[], string title)
         {
+            Stock = 20;
+            publishingCost = rnd.Next(5, 11) * 100;
+            totalCost += publishingCost;
             this.baseTexture = baseTexture;
             this.detailTexture = detailTexture;
             //this.selectionTexture = selectionTexture;
@@ -41,6 +46,11 @@ namespace Planspelet
         {
             baseTexture = book.baseTexture;
             //title = book.title;
+        }
+
+        public int GetCost()
+        {
+            return publishingCost;
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position, Color tint, float scale, bool drawStatistics)
