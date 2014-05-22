@@ -220,6 +220,16 @@ namespace Planspelet
             return returnBook;
         }
 
+        public int GetNumberOfBooks(Genre genre)
+        {
+            int count = 0;
+            foreach (Book b in books)
+            {
+                if (b.GetGenre() == genre)
+                    count++;
+            }
+            return count;
+        }
         public void ClearArchive()
         {
             books.Clear();

@@ -32,18 +32,20 @@ namespace Planspelet
         int totalCost;
         int totalProfit;
 
-        public Book(Texture2D baseTexture, Texture2D detailTexture, string title)//(Texture2D baseTexture, Texture2D detailTexture, Texture2D selectionTexture[], string title)
+        public Book(Texture2D baseTexture, Texture2D detailTexture)//(Texture2D baseTexture, Texture2D detailTexture, Texture2D selectionTexture[], string title)
         {
             this.baseTexture = baseTexture;
             this.detailTexture = detailTexture;
-            //this.selectionTexture = selectionTexture;
-            //this.title = title;
         }
 
         public Book(Book book)
         {
             baseTexture = book.baseTexture;
-            //title = book.title;
+            detailTexture = book.detailTexture;
+        }
+        public Genre GetGenre()
+        {
+            return genre;
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position, Color tint, float scale, bool drawStatistics)
