@@ -105,7 +105,11 @@ namespace Planspelet
 
         public List<Book> GetBooksForSale()
         {
-            return (List<Book>)archive.GetBooks().Where(b => b.Stock > 0);
+            List<Book> tempList = new List<Book>();
+
+            tempList.AddRange(archive.GetBooks().Where(b => b.Stock > 0));
+
+            return tempList;
         }
 
         public void Draw(SpriteBatch spriteBatch, SpriteFont font)
