@@ -237,8 +237,9 @@ namespace Planspelet
             int counter = 0;
             int booksOnShelf = books.Count - activeShelf * rows * columns;
             if (booksOnShelf > rows * columns) booksOnShelf = rows * columns;
-
             int startIndex = activeShelf * rows * columns;
+
+            Color tint;
 
             for (int y = 0; y < rows; y++)
             {
@@ -246,14 +247,9 @@ namespace Planspelet
                 {
                     if (counter < booksOnShelf)
                     {
-                        //books[counter + activeShelf * rows * columns].isSelected = false;
-
-                        //if (selection && x == selectionX && y == selection)
-                        //    books[counter + activeShelf * rows * columns].isSelected = true;
-
-                        books[startIndex + counter].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, Color.White, scale, false);
-                        //else
-                        //    books[counter + activeShelf * rows * columns].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, Color.White, scale);
+                        if (books[startIndex + counter].inPrint) tint = Color.White;
+                        else tint = Color.Gray;
+                        books[startIndex + counter].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, tint, scale, false);
                     }
                     counter++;
                 }
@@ -267,7 +263,6 @@ namespace Planspelet
                     int y = selection[i].y;
                     Rectangle source = new Rectangle(0, 0, selectionTexture[i].Width, selectionTexture[i].Height);
                     spriteBatch.Draw(selectionTexture[i], position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, source, Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
-                    //spriteBatch.Draw(selectionTexture[i], position + new Vector2(columnSpacing * x, rowSpacing * y), new Rectangle(0, 0, baseTexture.Width, baseTexture.Height), Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
                 }
             }
         }

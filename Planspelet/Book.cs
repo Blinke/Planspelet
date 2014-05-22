@@ -17,16 +17,18 @@ namespace Planspelet
     class Book
     {
         Texture2D baseTexture, detailTexture;
-        //string title; // really needed?
-        Genre genre;
-        public bool eBook;
-        public bool inPrint;
-
         public const int Width = 70;
         public const int Height = 100;
         //public int Width { get { return baseTexture.Width; } }
         //public int Height { get { return baseTexture.Height; } }
 
+        //string title; // really needed?
+        Genre genre;
+        public bool eBook;
+        public bool inPrint = true;
+
+        int printCost;
+        int storageCost;
         int totalCost;
         int totalProfit;
 
