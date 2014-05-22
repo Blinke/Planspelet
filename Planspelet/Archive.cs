@@ -220,7 +220,7 @@ namespace Planspelet
             return returnBook;
         }
 
-        public int GetNumberOfBooks(Genre genre)
+        public int CountBooksByGenre(Genre genre)
         {
             int count = 0;
             foreach (Book b in books)
@@ -230,6 +230,17 @@ namespace Planspelet
             }
             return count;
         }
+        public int CountBooksInPrint(Genre genre)
+        {
+            int count = 0;
+            foreach (Book b in books)
+            {
+                if (b.GetGenre() == genre && b.inPrint)
+                    count++;
+            }
+            return count;
+        }
+
         public void ClearArchive()
         {
             books.Clear();
