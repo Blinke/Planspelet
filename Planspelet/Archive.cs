@@ -112,10 +112,14 @@ namespace Planspelet
             if (x == 0 && y == 0)
                 return;
 
-            if (x > 0) selection[playerIndex].x++;
-            else if (x < 0) selection[playerIndex].x--;
-            if (y > 0) selection[playerIndex].y++;
-            else if (y < 0) selection[playerIndex].y--;
+            if (x > 0)
+                selection[playerIndex].x++;
+            else if (x < 0)
+                selection[playerIndex].x--;
+            if (y > 0)
+                selection[playerIndex].y++;
+            else if (y < 0)
+                selection[playerIndex].y--;
 
             int booksOnShelf;
             int fullRows;
@@ -178,24 +182,9 @@ namespace Planspelet
                 }
                 #endregion
             }
-            if (y < 0)
-            {
-                if (selection[playerIndex].y > rows - 1)
-                    selection[playerIndex].y = 0;
-                if (selection[playerIndex].y >= fullRows && selection[playerIndex].x > booksOnLastRow - 1)
-                    selection[playerIndex].x = booksOnLastRow - 1;
-            }
             else if (y < 0 && selection[playerIndex].y < 0)
             {
-                //This was moving the selection to the first book whenever you pressed up at the top row, it's corrected now
-                selection[playerIndex].y = numOfShelves;
-                if (selection[playerIndex].x > booksOnLastRow - 1)
-                    selection[playerIndex].x = booksOnLastRow - 1;
-
-                if (selection[playerIndex].y < 0)
-                {
                     selection[playerIndex].y++;
-                }
             }
             #endregion
         }
@@ -213,7 +202,7 @@ namespace Planspelet
         {
             int selectionIndex = activeShelf * selection[playerIndex].x * selection[playerIndex].y + selection[playerIndex].x + selection[playerIndex].y * columns;
 
-            return books[selectionIndex];
+            return books[selectionIndex]; // out of bound
         }
         /// <summary>
         /// This method will copy and remove the selected book from the Archive. Make sure to save the copy!
