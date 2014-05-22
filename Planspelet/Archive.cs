@@ -112,10 +112,14 @@ namespace Planspelet
             if (x == 0 && y == 0)
                 return;
 
-            if (x > 0) selection[playerIndex].x++;
-            else if (x < 0) selection[playerIndex].x--;
-            if (y > 0) selection[playerIndex].y++;
-            else if (y < 0) selection[playerIndex].y--;
+            if (x > 0)
+                selection[playerIndex].x++;
+            else if (x < 0)
+                selection[playerIndex].x--;
+            if (y > 0)
+                selection[playerIndex].y++;
+            else if (y < 0)
+                selection[playerIndex].y--;
 
             int booksOnShelf;
             int fullRows;
@@ -178,24 +182,9 @@ namespace Planspelet
                 }
                 #endregion
             }
-            if (y < 0)
-            {
-                if (selection[playerIndex].y > rows - 1)
-                    selection[playerIndex].y = 0;
-                if (selection[playerIndex].y >= fullRows && selection[playerIndex].x > booksOnLastRow - 1)
-                    selection[playerIndex].x = booksOnLastRow - 1;
-            }
             else if (y < 0 && selection[playerIndex].y < 0)
             {
-                //This was moving the selection to the first book whenever you pressed up at the top row, it's corrected now
-                selection[playerIndex].y = numOfShelves;
-                if (selection[playerIndex].x > booksOnLastRow - 1)
-                    selection[playerIndex].x = booksOnLastRow - 1;
-
-                if (selection[playerIndex].y < 0)
-                {
                     selection[playerIndex].y++;
-                }
             }
             #endregion
         }
@@ -213,7 +202,7 @@ namespace Planspelet
         {
             int selectionIndex = activeShelf * selection[playerIndex].x * selection[playerIndex].y + selection[playerIndex].x + selection[playerIndex].y * columns;
 
-            return books[selectionIndex];
+            return books[selectionIndex]; // out of bound
         }
         /// <summary>
         /// This method will copy and remove the selected book from the Archive. Make sure to save the copy!
@@ -229,6 +218,27 @@ namespace Planspelet
             //    MoveSelection(-1, 0, playerIndex);
             books.RemoveAt(selectionIndex);
             return returnBook;
+        }
+
+        public int CountBooksByGenre(Genre genre)
+        {
+            int count = 0;
+            foreach (Book b in books)
+            {
+                if (b.GetGenre() == genre)
+                    count++;
+            }
+            return count;
+        }
+        public int CountBooksInPrint(Genre genre)
+        {
+            int count = 0;
+            foreach (Book b in books)
+            {
+                if (b.GetGenre() == genre && b.inPrint)
+                    count++;
+            }
+            return count;
         }
 
         public void ClearArchive()
@@ -253,8 +263,9 @@ namespace Planspelet
             int counter = 0;
             int booksOnShelf = books.Count - activeShelf * rows * columns;
             if (booksOnShelf > rows * columns) booksOnShelf = rows * columns;
-
             int startIndex = activeShelf * rows * columns;
+
+            Color tint;
 
             for (int y = 0; y < rows; y++)
             {
@@ -262,14 +273,9 @@ namespace Planspelet
                 {
                     if (counter < booksOnShelf)
                     {
-                        //books[counter + activeShelf * rows * columns].isSelected = false;
-
-                        //if (selection && x == selectionX && y == selection)
-                        //    books[counter + activeShelf * rows * columns].isSelected = true;
-
-                        books[startIndex + counter].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, Color.White, scale, false);
-                        //else
-                        //    books[counter + activeShelf * rows * columns].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, Color.White, scale);
+                        if (books[startIndex + counter].inPrint) tint = Color.White;
+                        else tint = Color.Gray;
+                        books[startIndex + counter].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, tint, scale, false);
                     }
                     counter++;
                 }
@@ -283,7 +289,6 @@ namespace Planspelet
                     int y = selection[i].y;
                     Rectangle source = new Rectangle(0, 0, selectionTexture[i].Width, selectionTexture[i].Height);
                     spriteBatch.Draw(selectionTexture[i], position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, source, Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
-                    //spriteBatch.Draw(selectionTexture[i], position + new Vector2(columnSpacing * x, rowSpacing * y), new Rectangle(0, 0, baseTexture.Width, baseTexture.Height), Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
                 }
             }
         }

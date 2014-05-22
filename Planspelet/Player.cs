@@ -46,14 +46,17 @@ namespace Planspelet
             if (GameManager.phase == GameManager.TurnPhase.Browsing && activeTab is Archive && input.ButtonY)
                 phaseDone = true;
 
-            //if (GameManager.phase == GameManager.TurnPhase.Browsing)
-            //    archive.ReceiveInput(input, playerID);
             activeTab.ReceiveInput(input, playerID);
 
             if (activeTab is PublishMenu)
             {
                 if (publishMenu.FinalizeChoice())
-                    activeTab = archive;
+                    OpenArchive();
+            }
+            else if (activeTab is Archive)
+            {
+                if (input.ButtonA)
+                    archive.GetSelectedBook(playerID).inPrint = !archive.GetSelectedBook(playerID).inPrint;
             }
         }
 

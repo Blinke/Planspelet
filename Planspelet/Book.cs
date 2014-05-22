@@ -11,23 +11,24 @@ namespace Planspelet
     {
         Drama = 0,
         NonFiction = 1,
-        Mystert = 2,
+        Mystery = 2,
     };
 
     class Book
     {
         Texture2D baseTexture, detailTexture;
-        //string title; // really needed?
-        Genre genre;
-        public bool eBook;
-
         public const int Width = 70;
         public const int Height = 100;
         //public int Width { get { return baseTexture.Width; } }
         //public int Height { get { return baseTexture.Height; } }
         public int Stock { get; set; }
-
         int publishingCost;
+        Genre genre;
+        public bool eBook;
+        public bool inPrint = true;
+
+        int printCost;
+        int storageCost;
         int totalCost;
         int totalProfit;
 
@@ -38,14 +39,16 @@ namespace Planspelet
             totalCost += publishingCost;
             this.baseTexture = baseTexture;
             this.detailTexture = detailTexture;
-            //this.selectionTexture = selectionTexture;
-            //this.title = title;
         }
 
         public Book(Book book)
         {
             baseTexture = book.baseTexture;
-            //title = book.title;
+            detailTexture = book.detailTexture;
+        }
+        public Genre GetGenre()
+        {
+            return genre;
         }
 
         public int GetCost()
