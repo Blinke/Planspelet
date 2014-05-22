@@ -54,7 +54,8 @@ namespace Planspelet
             {
                 if (players[i] != null)
                 {
-                    players[i].RecieveInput(inputManager.GetPlayerInput(i));
+                    if (phase != TurnPhase.BookPicking) players[i].RecieveInput(inputManager.GetPlayerInput(i)); // Might not be the most elegant solution - Lukas
+                    //players[i].RecieveInput(inputManager.GetPlayerInput(i));
 
                     switch (phase)
                     {

@@ -11,7 +11,7 @@ namespace Planspelet
     {
         Drama = 0,
         NonFiction = 1,
-        Mystert = 2,
+        Mystery = 2,
     };
 
     class Book
@@ -20,6 +20,7 @@ namespace Planspelet
         //string title; // really needed?
         Genre genre;
         public bool eBook;
+        public bool inPrint;
 
         public const int Width = 70;
         public const int Height = 100;
