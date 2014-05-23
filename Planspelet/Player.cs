@@ -18,6 +18,8 @@ namespace Planspelet
         Vector2 position;
         Tab activeTab;
 
+        Texture2D background;
+
         int budget;
 
         public int playerID { get; private set; }
@@ -29,6 +31,8 @@ namespace Planspelet
             this.playerID = playerID;
             publishMenu = new PublishMenu(textureManager, position, 0.75f, playerID);
             activeTab = archive;
+
+            background = textureManager.playerBackground;
 
             budget = 0;
         }
@@ -117,6 +121,7 @@ namespace Planspelet
 
         public void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
+            spriteBatch.Draw(background, position, Color.White);
             activeTab.Draw(spriteBatch, font);
             spriteBatch.DrawString(font, budget.ToString(), position, Color.White);
             //archive.Draw(spriteBatch, font);

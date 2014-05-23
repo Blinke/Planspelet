@@ -24,7 +24,7 @@ namespace Planspelet
 
         }
 
-        public void AddBooksToSell(List<Book> books, int playerID)
+        public void AddBooksToSell(List<Book>[] books, Player player)
         {
             //playerBooks[playerID] = books;
         }

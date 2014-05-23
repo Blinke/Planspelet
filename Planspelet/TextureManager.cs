@@ -11,16 +11,19 @@ namespace Planspelet
 {
     class TextureManager
     {
-        public Texture2D eBookTexture;
-        public Texture2D pBookTexture;
+        public Texture2D playerBackground;
+        public Texture2D eButtonTexture;
+        public Texture2D pButtonTexture;
         public Texture2D selectionTexture;
         public Texture2D[] middleSelection;
         public List<Texture2D> bookTexture, detailTexture;
+        public Texture2D lossTexture, profitTexture, outlineTexture;
 
         public void LoadTextures(ContentManager content, GraphicsDevice graphics)
         {
-            eBookTexture = content.Load<Texture2D>("e-book");
-            pBookTexture = content.Load<Texture2D>("physical");
+            playerBackground = content.Load<Texture2D>("background");
+            eButtonTexture = content.Load<Texture2D>("e-book");
+            pButtonTexture = content.Load<Texture2D>("physical");
             selectionTexture = content.Load<Texture2D>("selection");
             middleSelection = new Texture2D[4];
 
@@ -39,6 +42,10 @@ namespace Planspelet
 
             LoadBookTextures(bookNames, ref bookTexture, content, "Books\\");
             LoadBookTextures(detailNames, ref detailTexture, content, "Books\\Details\\");
+
+            lossTexture = content.Load<Texture2D>("loss");
+            profitTexture = content.Load<Texture2D>("profit");
+            outlineTexture = content.Load<Texture2D>("outline");
         }
 
         private void LoadBookTextures(string[] textureFiles, ref List<Texture2D> textureList, ContentManager content, string path)

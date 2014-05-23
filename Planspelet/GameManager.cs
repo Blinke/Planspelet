@@ -117,13 +117,7 @@ namespace Planspelet
                         break;
 
                     case TurnPhase.Selling:
-<<<<<<< HEAD
                         economyManager.SellBooks(market, players);
-=======
-                        for (int i = 0; i < players.Length; i++)
-                            economyManager.AddBooksToSell(players[i].GetBooksForSale(), i);
-                        //economyManager.SellBooks(market);
->>>>>>> 7943345b3eb7f126c0975d8cefc3ae06a7e8141b
                         NextTurn();
                         break;
                 }

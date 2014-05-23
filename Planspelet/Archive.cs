@@ -11,6 +11,7 @@ namespace Planspelet
     class Archive: Tab
     {
         Texture2D[] selectionTexture;
+        Texture2D lossTexture, profitTexture, outlineTexture;
 
         List<Book> books;
         int rows;
@@ -36,6 +37,10 @@ namespace Planspelet
 
             for (int i = 0; i < selectionTexture.Length; i++)
                 selectionTexture[i] = textureManager.middleSelection[i];
+
+            lossTexture = textureManager.lossTexture;
+            profitTexture = textureManager.profitTexture;
+            outlineTexture = textureManager.outlineTexture;
         }
 
         public Archive(Archive archive)
@@ -275,7 +280,8 @@ namespace Planspelet
                     {
                         if (books[startIndex + counter].inPrint) tint = Color.White;
                         else tint = Color.Gray;
-                        books[startIndex + counter].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, tint, scale, false);
+                        books[startIndex + counter].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, tint, scale);
+                        DrawStatistics(spriteBatch, books[startIndex + counter], position + new Vector2(columnSpacing * x, rowSpacing * y) * scale);
                     }
                     counter++;
                 }
@@ -291,6 +297,20 @@ namespace Planspelet
                     spriteBatch.Draw(selectionTexture[i], position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, source, Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
                 }
             }
+        }
+
+        private void DrawStatistics(SpriteBatch spriteBatch, Book book, Vector2 position)
+        {
+            Rectangle source;
+
+            source = new Rectangle(0, 0, 8, (int)(Book.Height * 0.7 - 8));
+            spriteBatch.Draw(outlineTexture, position + new Vector2(Book.Width * scale - 10, 4), source, Color.White);
+
+
+            //int totalLength = (int)(Book.Height * 0.7 - 10);
+            //int lossLength = book.totalCost / book.totalProfit
+            //source = new Rectangle(0, 0, 6, (int)(Book.Height * 0.7 - 10));
+            //spriteBatch.Draw(lossTexture, position + new Vector2(Book.Width * scale - 9, 5), source, Color.White);
         }
     }
 }
