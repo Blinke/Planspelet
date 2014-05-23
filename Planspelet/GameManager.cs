@@ -141,7 +141,7 @@ namespace Planspelet
             for (int i = 0; i < players.Length; i++)
                 players[i].phaseDone = false;
 
-            market.RemoveDemand(Genre.Drama, 1);
+            market.RemoveDemand(Genre.Drama, 10);
             market.GenerateDemand(rand);
         }
 

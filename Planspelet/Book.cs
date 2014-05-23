@@ -12,10 +12,14 @@ namespace Planspelet
         Drama = 0,
         NonFiction = 1,
         Mystery = 2,
+        Fantasy = 3,
+        Horror = 4,
     };
 
     class Book
     {
+        public static int numberOfGenres = Enum.GetNames(typeof(Genre)).Length;
+
         Texture2D baseTexture, detailTexture;
         public const int Width = 70;
         public const int Height = 100;

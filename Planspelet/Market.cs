@@ -37,13 +37,13 @@ namespace Planspelet
         int Y_max;
         int totalNumber;
 
-        int numberOfGenres = Enum.GetNames(typeof(Genre)).Length;
+        //int numberOfGenres = Enum.GetNames(typeof(Genre)).Length;
 
 
         public Market(TextureManager textureManager, Vector2 position, int X_max, int Y_max, Random rand)
         {
             this.position = position;
-            textures = new Texture2D[numberOfGenres];
+            textures = new Texture2D[Book.numberOfGenres];
             for (int i = 0; i < textures.Length; i++)
             {
                 textures[i] = textureManager.bookTexture[i];
@@ -63,20 +63,20 @@ namespace Planspelet
         {
             for (int i = 0; i < demand.Length; i++)
             {
-                Genre genre = (Genre)(rand.Next(0, numberOfGenres - 1));
+                Genre genre = (Genre)(rand.Next(0, Book.numberOfGenres));
                 demand[i] = new Demand(genre, false, textures[(int)genre]);
             }
         }
 
         public void GenerateDemand(Random rand)
         {
-            if (emptyPos.Count == 0) return;
-            int randIndex = rand.Next(0, emptyPos.Count - 1);
-            emptyPos.Remove(randIndex);
-            Genre genre = (Genre)(rand.Next(0, numberOfGenres - 1));
-            demand[randIndex] = new Demand(genre, false, textures[(int)genre]);
-
-            
+            while (emptyPos.Count != 0)
+            {
+                int randIndex = rand.Next(0, emptyPos.Count - 1);
+                Genre genre = (Genre)(rand.Next(0, Book.numberOfGenres));
+                demand[emptyPos[randIndex]] = new Demand(genre, false, textures[(int)genre]);
+                emptyPos.RemoveAt(randIndex);
+            }
         }
 
         public void RemoveDemand(Genre genre, int number)
