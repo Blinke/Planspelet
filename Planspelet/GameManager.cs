@@ -52,7 +52,7 @@ namespace Planspelet
 
         public void Update(GameTime gameTime)
         {
-            window.Title = phase.ToString();
+            window.Title = players[0].salesMade.ToString() + " " + players[1].salesMade.ToString() + " " + players[2].salesMade.ToString() + " " + players[3].salesMade.ToString();
 
             inputManager.Update(gameTime);
 
@@ -89,7 +89,7 @@ namespace Planspelet
         {
             if (phase == TurnPhase.BookPicking)
             {
-                bookManager.Draw(spriteBatch, font);    
+                bookManager.Draw(spriteBatch, font);
             }
 
             foreach (Player player in players)
@@ -107,7 +107,7 @@ namespace Planspelet
                     players[i].phaseDone = false;
 
                 switch (phase)
-                { 
+                {
                     case TurnPhase.BookPicking:
                         phase = TurnPhase.Browsing;
                         break;
@@ -123,9 +123,9 @@ namespace Planspelet
                 }
             }
         }
-        
+
         private void NextTurn()
-        { 
+        {
             currentTurn++;
             phase = TurnPhase.BookPicking;
 

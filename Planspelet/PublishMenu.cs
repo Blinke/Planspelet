@@ -13,7 +13,7 @@ namespace Planspelet
 
         Vector2 bookOffset = new Vector2(100, 100);
         float bookScale = 1;
-        Book activeBook;
+        public Book activeBook;
         bool done;
 
         Button eButton;
@@ -67,10 +67,7 @@ namespace Planspelet
             {
                 activeBook.eBook = true;
             }
-            //else if (selection[playerIndex].x == 1)
-            //{
 
-            //}
 
             return true;
         }

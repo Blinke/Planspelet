@@ -27,24 +27,34 @@ namespace Planspelet
         //public int Height { get { return baseTexture.Height; } }
         public int Stock { get; set; }
         public int Owner { get; set; }
+        public int SalePrice { get; private set; }
+        public int BookAge { get; set; }
+        public int PrintSize { get; set; }
+        public float Profitablity { get; private set; }
+        float ageFactor;
         Genre genre;
         public bool eBook;
         public bool inPrint = true;
 
         int publishingCost;
-        int printCost;
+        public int PrintCost { get; set; }
         int storageCost;
         public int totalCost = 0;
         public int totalProfit = 0;
 
-        public Book(Texture2D baseTexture, Texture2D detailTexture, Random rnd)//(Texture2D baseTexture, Texture2D detailTexture, Texture2D selectionTexture[], string title)
+        public Book(Texture2D baseTexture, Texture2D detailTexture, Random rnd, Genre genre)//(Texture2D baseTexture, Texture2D detailTexture, Texture2D selectionTexture[], string title)
         {
             Owner = -1;
-            Stock = 20;
-            publishingCost = rnd.Next(5, 11) * 100;
+            PrintSize = 20;
+            Profitablity = 1;
+            SalePrice = 100;
+            ageFactor = 0.95f;
+            publishingCost = rnd.Next(2, 8) * 100;
+            PrintCost = 300;
             totalCost += publishingCost;
             this.baseTexture = baseTexture;
-            this.detailTexture = detailTexture; 
+            this.detailTexture = detailTexture;
+            this.genre = genre;
         }
 
         public Book(Book book)
@@ -59,7 +69,36 @@ namespace Planspelet
 
         public int GetCost()
         {
-            return publishingCost;
+            if (eBook)
+                return (int)(publishingCost * 0.8f);
+            else
+                return publishingCost;
+        }
+
+        public void CalcProfitablity()
+        {
+            Profitablity = 1 - (ageFactor * BookAge);
+
+            if (eBook)
+            {
+                Profitablity *= 0.5f;
+            }
+        }
+
+        public void AgeBook(int age)
+        {
+            BookAge += age;
+
+            if (BookAge == 10)
+            {
+                BookAge = 9;
+            }
+        }
+
+        public void Reprint()
+        {
+            Stock += PrintSize;
+            totalCost += PrintCost;
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position, Color tint, float scale)
