@@ -37,7 +37,6 @@ namespace Planspelet
         int Y_max;
         int totalNumber;
 
-
         public Market(TextureManager textureManager, Vector2 position, int X_max, int Y_max, Random rand)
         {
             this.position = position;
@@ -68,13 +67,13 @@ namespace Planspelet
 
         public void GenerateDemand(Random rand)
         {
-            if (emptyPos.Count == 0) return;
-            int randIndex = rand.Next(0, emptyPos.Count - 1);
-            emptyPos.Remove(randIndex);
-            Genre genre = (Genre)(rand.Next(0, Book.numberOfGenres));
-            demand[randIndex] = new Demand(genre, false, textures[(int)genre]);
-
-            
+            while (emptyPos.Count != 0)
+            {
+                int randIndex = rand.Next(0, emptyPos.Count - 1);
+                Genre genre = (Genre)(rand.Next(0, Book.numberOfGenres));
+                demand[emptyPos[randIndex]] = new Demand(genre, false, textures[(int)genre]);
+                emptyPos.RemoveAt(randIndex);
+            }
         }
 
         public void RemoveDemand(Genre genre, int number)

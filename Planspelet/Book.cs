@@ -12,6 +12,8 @@ namespace Planspelet
         Drama = 0,
         NonFiction = 1,
         Mystery = 2,
+        Fantasy = 3,
+        Horror = 4,
     };
 
     class Book
@@ -32,8 +34,8 @@ namespace Planspelet
         int publishingCost;
         int printCost;
         int storageCost;
-        int totalCost;
-        int totalProfit;
+        public int totalCost = 0;
+        public int totalProfit = 0;
 
         public Book(Texture2D baseTexture, Texture2D detailTexture, Random rnd)//(Texture2D baseTexture, Texture2D detailTexture, Texture2D selectionTexture[], string title)
         {
@@ -42,7 +44,7 @@ namespace Planspelet
             publishingCost = rnd.Next(5, 11) * 100;
             totalCost += publishingCost;
             this.baseTexture = baseTexture;
-            this.detailTexture = detailTexture;
+            this.detailTexture = detailTexture; 
         }
 
         public Book(Book book)
@@ -60,25 +62,10 @@ namespace Planspelet
             return publishingCost;
         }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 position, Color tint, float scale, bool drawStatistics)
+        public void Draw(SpriteBatch spriteBatch, Vector2 position, Color tint, float scale)
         {
             spriteBatch.Draw(baseTexture, position, new Rectangle(0, 0, baseTexture.Width, baseTexture.Height), tint, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
             spriteBatch.Draw(detailTexture, position, new Rectangle(0, 0, baseTexture.Width, baseTexture.Height), tint, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
-
-            //if (isSelected)
-            //{
-            //    spriteBatch.Draw(selectionTexture, position, new Rectangle(0, 0, baseTexture.Width, baseTexture.Height), Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
-            //}
-
-            if (drawStatistics)
-            {
-            }
-        }
-
-        public void DrawPublishInfo(SpriteBatch spriteBatch, Vector2 position, float scale, SpriteFont font)
-        {
-            //spriteBatch.DrawString(font, title, position, Color.White);
-            // Draw title and any other information interesting for publishing/printing
         }
     }
 }

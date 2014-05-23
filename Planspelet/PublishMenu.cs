@@ -22,8 +22,8 @@ namespace Planspelet
         public PublishMenu(TextureManager textureManager, Vector2 position, float scale, int playerIndex)
             :base(position, scale)
         {
-            this.eButton = new Button(textureManager.eBookTexture, position, new Vector2(200, 100));
-            this.pButton = new Button(textureManager.pBookTexture, position, new Vector2(100, 100));
+            this.eButton = new Button(textureManager.eButtonTexture, position, new Vector2(200, 100));
+            this.pButton = new Button(textureManager.pButtonTexture, position, new Vector2(100, 100));
             this.playerIndex = playerIndex;
         }
         public PublishMenu(PublishMenu publishMenu)
@@ -80,8 +80,8 @@ namespace Planspelet
             if (activeBook != null)
             {
                 int x = (int)((Book.Width + 20) * bookScale);
-                activeBook.Draw(spriteBatch, position, Color.White, bookScale, false);
-                activeBook.DrawPublishInfo(spriteBatch, new Vector2(position.X + x, position.Y), scale, font);
+                activeBook.Draw(spriteBatch, position, Color.White, bookScale);
+                //activeBook.DrawPublishInfo(spriteBatch, new Vector2(position.X + x, position.Y), scale, font);
             }
 
             if (selection[playerIndex].x == 0)
