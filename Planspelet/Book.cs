@@ -22,11 +22,11 @@ namespace Planspelet
         //public int Width { get { return baseTexture.Width; } }
         //public int Height { get { return baseTexture.Height; } }
         public int Stock { get; set; }
-        int publishingCost;
         Genre genre;
         public bool eBook;
         public bool inPrint = true;
 
+        int publishingCost;
         int printCost;
         int storageCost;
         int totalCost;
