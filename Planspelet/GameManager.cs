@@ -36,15 +36,17 @@ namespace Planspelet
         {
             //Should get the number of players from the start screen or something, can send that as an argument for the GameManager
             this.window = window;
+            rand = new Random();
+
             players = new Player[4];
             bookManager = new BookManager(textureManager);
 
-            market = new Market(textureManager, new Vector2(20, 20), 31, 13);
+            market = new Market(textureManager, new Vector2(20, 20), 31, 13, rand);
             economyManager = new Economy();
 
             GameStart(textureManager);
 
-            rand = new Random();
+            
             font = content.Load<SpriteFont>("SpriteFont1");
         }
 
@@ -117,7 +119,7 @@ namespace Planspelet
                     case TurnPhase.Selling:
                         for (int i = 0; i < players.Length; i++)
                             economyManager.AddBooksToSell(players[i].GetBooksForSale(), i);
-                        economyManager.SellBooks(market);
+                        //economyManager.SellBooks(market);
                         NextTurn();
                         break;
                 }

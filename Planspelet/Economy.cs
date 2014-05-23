@@ -25,7 +25,7 @@ namespace Planspelet
 
         public void AddBooksToSell(List<Book> books, int playerID)
         {
-            playerBooks[playerID] = books;
+            //playerBooks[playerID] = books;
         }
     }
 }
