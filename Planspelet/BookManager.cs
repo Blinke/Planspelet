@@ -49,7 +49,7 @@ namespace Planspelet
             {
                 int bookRnd = rnd.Next(0, bookTexture.Count);
                 int detailRnd = rnd.Next(0, detailTexture.Count);
-                archive.AddBook(new Book(bookTexture[bookRnd], detailTexture[detailRnd]));
+                archive.AddBook(new Book(bookTexture[bookRnd], detailTexture[detailRnd], rnd));
             }
         }
     }

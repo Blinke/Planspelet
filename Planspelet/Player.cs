@@ -86,6 +86,7 @@ namespace Planspelet
 
         public void AddBook(Book book)
         {
+            budget -= book.GetCost();
             archive.AddBook(book);
         }
 
@@ -103,6 +104,15 @@ namespace Planspelet
         public void OpenArchive()
         {
             activeTab = archive;
+        }
+
+        public List<Book> GetBooksForSale()
+        {
+            List<Book> tempList = new List<Book>();
+
+            tempList.AddRange(archive.GetBooks().Where(b => b.Stock > 0));
+
+            return tempList;
         }
 
         public void Draw(SpriteBatch spriteBatch, SpriteFont font)

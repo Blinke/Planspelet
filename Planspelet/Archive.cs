@@ -251,6 +251,11 @@ namespace Planspelet
             selection[playerIndex].active = false;
         }
 
+        public List<Book> GetBooks()
+        {
+            return books;
+        }
+
         public override void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
             if (books.Count == 0) return;
