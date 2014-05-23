@@ -255,6 +255,11 @@ namespace Planspelet
             books.Clear();
         }
 
+        public void RemoveOldBooks()
+        {
+            books.RemoveAll(b => b.Profitablity < 0.1f);
+        }
+
         public void DeactivateSelection(int playerIndex)
         {
             selection[playerIndex].active = false;

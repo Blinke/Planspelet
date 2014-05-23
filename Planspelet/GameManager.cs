@@ -133,7 +133,10 @@ namespace Planspelet
             bookManager.GenerateBooks();
 
             for (int i = 0; i < players.Length; i++)
+            {
                 players[i].phaseDone = false;
+                players[i].RemoveOldBooks();
+            }
 
             market.RemoveDemand(Genre.Drama, 10);
             market.GenerateDemand(rand);
