@@ -88,26 +88,6 @@ namespace Planspelet
             if (gameState == GameState.Play)
                 gameManager.Update(gameTime);
 
-            ////För att testa bokvisualiseringen:
-            //previousKeyboardState = currentKeyboardState;
-            //currentKeyboardState = Keyboard.GetState();
-
-            //int x = 0;
-            //int y = 0;
-            //if (currentKeyboardState.IsKeyDown(Keys.W) && previousKeyboardState.IsKeyUp(Keys.W)) y = -1;
-            //else if (currentKeyboardState.IsKeyDown(Keys.S) && previousKeyboardState.IsKeyUp(Keys.S)) y = 1;
-            //if (currentKeyboardState.IsKeyDown(Keys.A) && previousKeyboardState.IsKeyUp(Keys.A)) x = -1;
-            //else if (currentKeyboardState.IsKeyDown(Keys.D) && previousKeyboardState.IsKeyUp(Keys.D)) x = 1;
-
-            //testArchive.MoveSelection(x, y);
-
-            //Book testBook;
-            //if (currentKeyboardState.IsKeyDown(Keys.Enter) && previousKeyboardState.IsKeyUp(Keys.Enter))
-            //{
-            //    testBook = testArchive.TransferSelectedBook();
-            //}
-
-
             base.Update(gameTime);
         }
 

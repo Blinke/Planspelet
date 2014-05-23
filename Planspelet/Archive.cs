@@ -209,6 +209,10 @@ namespace Planspelet
 
             return books[selectionIndex]; // out of bound
         }
+        public Book GetLastBook()
+        {
+            return books[books.Count - 1];
+        }
         /// <summary>
         /// This method will copy and remove the selected book from the Archive. Make sure to save the copy!
         /// </summary>
@@ -302,15 +306,50 @@ namespace Planspelet
         private void DrawStatistics(SpriteBatch spriteBatch, Book book, Vector2 position)
         {
             Rectangle source;
+            Vector2 offset;
 
-            source = new Rectangle(0, 0, 8, (int)(Book.Height * 0.7 - 8));
-            spriteBatch.Draw(outlineTexture, position + new Vector2(Book.Width * scale - 10, 4), source, Color.White);
+            int totalLength = (int)(Book.Height * scale * 0.9 - 10);
+            int lossLength = 0;
 
+            if (book.Owner == -1)
+            {
+                offset = new Vector2(-10, -10);
+                totalLength = (int)(book.totalCost / 1000f * totalLength);
+                lossLength = totalLength - 2;
+                source = new Rectangle(0, 0, 8, totalLength);
+                spriteBatch.Draw(outlineTexture, position + new Vector2(Book.Width * scale, Book.Height * scale - totalLength) + offset, source, Color.White);
+                source = new Rectangle(0, 0, 6, lossLength);
+                spriteBatch.Draw(lossTexture, position + new Vector2(Book.Width * scale + 1, Book.Height * scale - totalLength + 1) + offset, source, Color.White);
+            }
+            else
+            {
+                if (book.totalProfit != 0)
+                {
+                    if (book.totalCost > book.totalProfit)
+                    {
+                        lossLength = totalLength - (int)((book.totalProfit / (float)book.totalCost) * totalLength);
+                    }
+                    else
+                    {
+                        if (book.totalCost == 0) lossLength = 0;
+                        else if (book.totalCost == book.totalProfit) lossLength = (int)(totalLength * 0.5f);
+                        else
+                        {
+                            lossLength = (int)((book.totalCost / (float)book.totalProfit) * totalLength);
+                        }
+                    }
+                    lossLength -= 2;
+                }
+                else lossLength = totalLength - 2;
 
-            //int totalLength = (int)(Book.Height * 0.7 - 10);
-            //int lossLength = book.totalCost / book.totalProfit
-            //source = new Rectangle(0, 0, 6, (int)(Book.Height * 0.7 - 10));
-            //spriteBatch.Draw(lossTexture, position + new Vector2(Book.Width * scale - 9, 5), source, Color.White);
+                offset = new Vector2(-10, 8);
+                source = new Rectangle(0, 0, 8, totalLength);
+                spriteBatch.Draw(outlineTexture, position + new Vector2(Book.Width * scale, 0) + offset, source, Color.White);
+                source = new Rectangle(0, 0, 6, totalLength - 2);
+                spriteBatch.Draw(profitTexture, position + new Vector2(Book.Width * scale + 1, 1) + offset, source, Color.White);
+                source = new Rectangle(0, 0, 6, lossLength);
+                spriteBatch.Draw(lossTexture, position + new Vector2(Book.Width * scale + 1, 1) + offset, source, Color.White);
+            }
         }
     }
 }

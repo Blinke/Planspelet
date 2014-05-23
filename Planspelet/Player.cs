@@ -102,7 +102,7 @@ namespace Planspelet
         public void OpenPublishMenu()
         {
             activeTab = publishMenu;
-            publishMenu.Open(archive.GetSelectedBook(playerID));
+            publishMenu.Open(archive.GetLastBook());
         }
 
         public void OpenArchive()
