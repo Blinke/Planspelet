@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Planspelet
 {
-    class Archive: Tab
+    class Archive : Tab
     {
         Texture2D[] selectionTexture;
         Texture2D lossTexture, profitTexture, outlineTexture;
@@ -25,7 +25,7 @@ namespace Planspelet
         int activeShelf = 0;
 
         public Archive(TextureManager textureManager, Vector2 position, float scale, int rows, int columns)
-            :base(position, scale)
+            : base(position, scale)
         {
             books = new List<Book>();
             this.rows = rows;
@@ -44,7 +44,7 @@ namespace Planspelet
         }
 
         public Archive(Archive archive)
-            :base(archive)
+            : base(archive)
         {
             books = new List<Book>();
             foreach (Book b in archive.books)
@@ -133,7 +133,7 @@ namespace Planspelet
             booksOnShelf = rows * columns;
             if (activeShelf == numOfShelves - 1)
                 booksOnShelf = books.Count - rows * columns * (numOfShelves - 1);
-            
+
             fullRows = booksOnShelf / columns;
             if (fullRows == rows) booksOnLastRow = columns;
             else booksOnLastRow = booksOnShelf % columns;
@@ -189,7 +189,7 @@ namespace Planspelet
             }
             else if (y < 0 && selection[playerIndex].y < 0)
             {
-                    selection[playerIndex].y++;
+                selection[playerIndex].y++;
             }
             #endregion
         }
@@ -256,7 +256,7 @@ namespace Planspelet
         }
 
         public void DeactivateSelection(int playerIndex)
-        { 
+        {
             selection[playerIndex].active = false;
         }
 
@@ -282,7 +282,7 @@ namespace Planspelet
                 {
                     if (counter < booksOnShelf)
                     {
-                        if (books[startIndex + counter].inPrint) tint = Color.White;
+                        if (books[startIndex + counter].Stock > 0 || books[startIndex + counter].Owner == -1 || books[startIndex + counter].eBook) tint = Color.White;
                         else tint = Color.Gray;
                         books[startIndex + counter].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, tint, scale);
                         DrawStatistics(spriteBatch, books[startIndex + counter], position + new Vector2(columnSpacing * x, rowSpacing * y) * scale);

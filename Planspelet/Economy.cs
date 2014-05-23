@@ -25,10 +25,13 @@ namespace Planspelet
             int numberOfGenres = Book.numberOfGenres;
 
             for (int i = 0; i < numberOfGenres; i++)
-            {
                 SellFromGenre((Genre)i, market, playerBooks, players, rand);
-            }
 
+            for (int i = 0; i < players.Length; i++)
+            {
+                foreach (Book book in playerBooks[i])
+                    book.AgeBook(1);
+            }
         }
 
         private void SellFromGenre(Genre genre, Market market, List<Book>[] playerBooks, Player[] players, Random rand)
@@ -41,16 +44,22 @@ namespace Planspelet
                 numberOfBooksFromGenre.AddRange(playerBooks[i].Where(b => b.GetGenre() == genre));
             }
 
+            foreach (Book book in numberOfBooksFromGenre)
+                book.CalcProfitablity();
+
             for (int i = 0; i < genreDemand; i++)
             {
                 if (numberOfBooksFromGenre.Count == 0)
-		            break;
+                    break;
+                int index = rand.Next(0, numberOfBooksFromGenre.Count);
 
-                int sellingIndex = rand.Next(0, numberOfBooksFromGenre.Count);
+                players[numberOfBooksFromGenre[index].Owner].BookSold(numberOfBooksFromGenre[index]);
 
-                players[numberOfBooksFromGenre[sellingIndex].Owner].BooksSold(1, 1);
-                numberOfBooksFromGenre.RemoveAt(sellingIndex);
                 market.RemoveDemand(genre, 1);
+                genreDemand -= 1;
+
+                if (numberOfBooksFromGenre[index].Stock == 0 && !numberOfBooksFromGenre[index].eBook)
+                    numberOfBooksFromGenre.RemoveAt(index);
             }
         }
 

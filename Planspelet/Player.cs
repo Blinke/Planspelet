@@ -21,6 +21,7 @@ namespace Planspelet
         Texture2D background;
 
         int budget;
+        public int salesMade;
 
         public int playerID { get; private set; }
 
@@ -55,12 +56,21 @@ namespace Planspelet
             if (activeTab is PublishMenu)
             {
                 if (publishMenu.FinalizeChoice())
+                {
+                    budget -= publishMenu.activeBook.GetCost();
                     OpenArchive();
+                }
             }
             else if (activeTab is Archive)
             {
                 if (input.ButtonA)
-                    archive.GetSelectedBook(playerID).inPrint = !archive.GetSelectedBook(playerID).inPrint;
+                {
+                    if (archive.GetSelectedBook(playerID).Stock == 0 && !archive.GetSelectedBook(playerID).eBook)
+                    {
+                        archive.GetSelectedBook(playerID).Reprint();
+                        budget -= archive.GetSelectedBook(playerID).PrintCost;
+                    }
+                }
             }
         }
 
@@ -90,7 +100,6 @@ namespace Planspelet
 
         public void AddBook(Book book)
         {
-            budget -= book.GetCost();
             archive.AddBook(book);
         }
 
@@ -119,9 +128,15 @@ namespace Planspelet
             return tempList;
         }
 
-        public void BooksSold(int count, int profitability)
+        public void BookSold(Book book)
         {
-            budget += count * 100 * profitability;
+            if (!book.eBook)
+                book.Stock -= 1;
+
+            salesMade += 1;
+            int profit = (int)(book.SalePrice * book.Profitablity);
+            book.totalProfit += profit;
+            budget += profit;
         }
 
         public void Draw(SpriteBatch spriteBatch, SpriteFont font)
