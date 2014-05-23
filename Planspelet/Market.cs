@@ -50,10 +50,10 @@ namespace Planspelet
             demand = new Demand[totalNumber];
 
             emptyPos = new List<int>();
-            for (int i = 0; i < totalNumber; i++)
-            {
-                emptyPos.Add(i);
-            }
+            //for (int i = 0; i < totalNumber; i++)
+            //{
+            //    emptyPos.Add(i);
+            //}
             Fill();
         }
 
@@ -67,14 +67,27 @@ namespace Planspelet
 
         public void GenerateDemand(Random rand)
         {
+            if (emptyPos.Count == 0) return;
             int randIndex = rand.Next(0, emptyPos.Count - 1);
             emptyPos.Remove(randIndex);
             Genre genre = (Genre)(rand.Next(0, numberOfGenres - 1));
             demand[randIndex] = new Demand(genre, false);
+
+            
         }
 
         public void RemoveDemand(Genre genre, int number)
         {
+            for (int i = 0; i < demand.Length; i++)
+            {
+                if (number == 0) break;
+                if (demand[i] != null && demand[i].genre == genre)
+                {
+                    demand[i] = null;
+                    emptyPos.Add(i);
+                    number--;
+                }
+            }
         }
 
         public int GetDemand(Genre genre)

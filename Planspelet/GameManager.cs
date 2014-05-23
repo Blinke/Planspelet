@@ -20,6 +20,7 @@ namespace Planspelet
         GameWindow window;
         Economy economyManager;
 
+        Random rand;
         SpriteFont font;
 
         public enum TurnPhase
@@ -43,6 +44,7 @@ namespace Planspelet
 
             GameStart(textureManager);
 
+            rand = new Random();
             font = content.Load<SpriteFont>("SpriteFont1");
         }
 
@@ -132,6 +134,9 @@ namespace Planspelet
 
             for (int i = 0; i < players.Length; i++)
                 players[i].phaseDone = false;
+
+            market.RemoveDemand(Genre.Drama, 1);
+            market.GenerateDemand(rand);
         }
 
         private void GameStart(TextureManager textureManager)
