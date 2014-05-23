@@ -47,7 +47,7 @@ namespace Planspelet
             Owner = -1;
             PrintSize = 20;
             Profitablity = 1;
-            SalePrice = 100;
+            SalePrice = 150;
             ageFactor = 0.95f;
             publishingCost = rnd.Next(2, 8) * 100;
             PrintCost = 300;
@@ -78,6 +78,8 @@ namespace Planspelet
         public void CalcProfitablity()
         {
             Profitablity = 1 - (ageFactor * BookAge);
+
+            Profitablity = 0.1f;
 
             if (eBook)
             {
