@@ -37,6 +37,7 @@ namespace Planspelet
         public bool inPrint = true;
 
         int publishingCost;
+        public const int maxPublishCost = 700;
         public int PrintCost { get; set; }
         int storageCost;
         public int totalCost = 0;

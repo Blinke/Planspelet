@@ -314,7 +314,7 @@ namespace Planspelet
             if (book.Owner == -1)
             {
                 offset = new Vector2(-10, -10);
-                totalLength = (int)(book.totalCost / 1000f * totalLength);
+                totalLength = (int)(book.totalCost / (float)Book.maxPublishCost * totalLength);
                 lossLength = totalLength - 2;
                 source = new Rectangle(0, 0, 8, totalLength);
                 spriteBatch.Draw(outlineTexture, position + new Vector2(Book.Width * scale, Book.Height * scale - totalLength) + offset, source, Color.White);
@@ -327,7 +327,9 @@ namespace Planspelet
                 {
                     if (book.totalCost > book.totalProfit)
                     {
-                        lossLength = totalLength - (int)((book.totalProfit / (float)book.totalCost) * totalLength);
+                        lossLength = totalLength - (int)((book.totalProfit / (float)(book.totalCost + book.totalProfit)) * totalLength);
+                        if (lossLength > totalLength)
+                            lossLength = 0;
                     }
                     else
                     {
@@ -335,7 +337,7 @@ namespace Planspelet
                         else if (book.totalCost == book.totalProfit) lossLength = (int)(totalLength * 0.5f);
                         else
                         {
-                            lossLength = (int)((book.totalCost / (float)book.totalProfit) * totalLength);
+                            lossLength = (int)((book.totalCost / (float)(book.totalCost + book.totalProfit)) * totalLength);
                         }
                     }
                     lossLength -= 2;
