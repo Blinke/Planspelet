@@ -18,14 +18,15 @@ namespace Planspelet
             playerBooks = new List<Book>[players.Length];
 
             for (int i = 0; i < players.Length; i++)
-            {
-                
-            }
+                AddBooksToSell(playerBooks, players[i]);
+            
+
+
         }
 
-        public void AddBooksToSell(List<Book> books, int playerID)
+        private void AddBooksToSell(List<Book>[] playerBooks, Player player)
         {
-            playerBooks[playerID] = books;
+            playerBooks[player.playerID] = player.GetBooksForSale();
         }
     }
 }
