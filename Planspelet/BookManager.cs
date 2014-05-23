@@ -28,7 +28,9 @@ namespace Planspelet
 
             if (GameManager.phase == GameManager.TurnPhase.BookPicking && input.ButtonA)
             {
-                player.AddBook(archive.TransferSelectedBook(player.playerID));
+                Book transferedBook = archive.TransferSelectedBook(player.playerID);
+                transferedBook.Owner = player.playerID;
+                player.AddBook(transferedBook);
                 archive.DeactivateSelection(player.playerID);
                 player.OpenPublishMenu();
                 player.phaseDone = true;

@@ -115,6 +115,11 @@ namespace Planspelet
             return tempList;
         }
 
+        public void BooksSold(int count, int profitability)
+        {
+            budget += count * 100 * profitability;
+        }
+
         public void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
             activeTab.Draw(spriteBatch, font);
