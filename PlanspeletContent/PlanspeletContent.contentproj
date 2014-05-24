@@ -49,6 +49,7 @@
       <Name>fontLarge</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
+      <SubType>Designer</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -173,6 +174,7 @@
       <Name>fontSmall</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
+      <SubType>Designer</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -183,11 +185,21 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ready_mark.png">
+      <Name>ready_mark</Name>
+	</Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="button.png">
       <Name>button</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="paper_background.png">
+      <Name>paper_background</Name>
+	</Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="buttonActive.png">

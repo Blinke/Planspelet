@@ -10,8 +10,9 @@ with.
 
     <!--
     Modify this string to change the font that will be imported.
+    Bradley Hand ITC
     -->
-    <FontName>Bradley Hand ITC</FontName>
+    <FontName>Arial</FontName>
 
     <!--
     Size is a float value, measured in points. Modify this value to change

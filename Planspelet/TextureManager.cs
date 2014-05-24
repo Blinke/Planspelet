@@ -14,10 +14,12 @@ namespace Planspelet
         public Texture2D playerBackground;
         public Texture2D buttonTexture, buttonActiveTexture, eButtonTexture, pButtonTexture;
         public Texture2D selectionTexture;
+        public Texture2D backgroundTexture;
         public Texture2D[] middleSelection;
         public List<Texture2D> bookTexture, detailTexture;
         public Texture2D eBookTexture;
         public Texture2D lossTexture, profitTexture, outlineTexture;
+        public Texture2D doneTexture;
 
         public void LoadTextures(ContentManager content, GraphicsDevice graphics)
         {
@@ -27,6 +29,8 @@ namespace Planspelet
             eButtonTexture = content.Load<Texture2D>("eButton");
             pButtonTexture = content.Load<Texture2D>("pButton");
             selectionTexture = content.Load<Texture2D>("selection");
+            backgroundTexture = content.Load<Texture2D>(@"paper_background");
+            doneTexture = content.Load<Texture2D>("ready_mark");
             middleSelection = new Texture2D[4];
 
             for (int i = 0; i < middleSelection.Length; i++)
