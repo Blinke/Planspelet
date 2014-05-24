@@ -298,7 +298,7 @@ namespace Planspelet
                         if (books[startIndex + counter].Stock > 0 || books[startIndex + counter].Owner == -1 || books[startIndex + counter].eBook) tint = Color.White;
                         else tint = Color.Gray;
                         books[startIndex + counter].Draw(spriteBatch, eBookTexture, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, tint, scale);
-                        DrawStatistics(spriteBatch, books[startIndex + counter], position + new Vector2(columnSpacing * x, rowSpacing * y) * scale);
+                        DrawStats(spriteBatch, books[startIndex + counter], position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, font);
                     }
                     counter++;
                 }
@@ -316,7 +316,7 @@ namespace Planspelet
             }
         }
 
-        private void DrawStatistics(SpriteBatch spriteBatch, Book book, Vector2 position)
+        private void DrawStats(SpriteBatch spriteBatch, Book book, Vector2 position, SpriteFont font)
         {
             Rectangle source;
             Vector2 offset;
@@ -324,6 +324,7 @@ namespace Planspelet
             int totalLength = (int)(Book.Height * scale * 0.9 - 10);
             int lossLength = 0;
 
+            #region No Owner
             if (book.Owner == -1)
             {
                 offset = new Vector2(-10, -10);
@@ -334,6 +335,7 @@ namespace Planspelet
                 source = new Rectangle(0, 0, 6, lossLength);
                 spriteBatch.Draw(lossTexture, position + new Vector2(Book.Width * scale + 1, Book.Height * scale - totalLength + 1) + offset, source, Color.White);
             }
+            #endregion
             else
             {
                 if (book.totalProfit != 0)
@@ -364,6 +366,8 @@ namespace Planspelet
                 spriteBatch.Draw(profitTexture, position + new Vector2(Book.Width * scale + 1, 1) + offset, source, Color.White);
                 source = new Rectangle(0, 0, 6, lossLength);
                 spriteBatch.Draw(lossTexture, position + new Vector2(Book.Width * scale + 1, 1) + offset, source, Color.White);
+
+                spriteBatch.DrawString(font, book.Stock.ToString(), position + new Vector2(8, Book.Height - 36) * scale, Color.White);
             }
         }
     }

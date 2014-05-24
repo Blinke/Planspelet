@@ -16,6 +16,7 @@ namespace Planspelet
         PublishMenu publishMenu;
 
         Vector2 position;
+        Vector2 offset = new Vector2(0, 40);
         Tab activeTab;
 
         Texture2D background;
@@ -28,9 +29,9 @@ namespace Planspelet
         public Player(TextureManager textureManager, int playerID)
         {
             position = GetPosition(playerID);
-            archive = new Archive(textureManager, position, 0.75f, 2, 5);
+            archive = new Archive(textureManager, position + offset, 0.75f, 2, 5);
             this.playerID = playerID;
-            publishMenu = new PublishMenu(textureManager, position, 0.75f, playerID);
+            publishMenu = new PublishMenu(textureManager, position + offset, 0.75f, playerID);
             activeTab = archive;
 
             background = textureManager.playerBackground;
@@ -150,7 +151,7 @@ namespace Planspelet
         {
             spriteBatch.Draw(background, position, Color.White);
             activeTab.Draw(spriteBatch, fontSmall);
-            spriteBatch.DrawString(fontLarge, budget.ToString(), position, Color.Black);
+            spriteBatch.DrawString(fontLarge, "Budget :" + budget.ToString(), position, Color.Black);
         }
     }
 

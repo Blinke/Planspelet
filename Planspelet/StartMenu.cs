@@ -48,6 +48,7 @@ namespace Planspelet
         int players = 1;
         public int GetNumPlayers { get { return players; } }
 
+        Vector2 position;
         SpriteFont font;
         Button[] buttons;
 
@@ -58,15 +59,17 @@ namespace Planspelet
             "WALL OF TEXT!!!";
         #endregion
 
-        public StartMenu(TextureManager textureManager, SpriteFont font)
+        public StartMenu(Vector2 position, TextureManager textureManager, SpriteFont font)
         {
+            this.position = position;
+
             input = new Input();
             this.font = font;
             buttons = new Button[]
             {
-                new Button(textureManager.buttonTexture, textureManager.buttonActiveTexture, new Vector2(200, 200), new Vector2(20, 20), "Players: ", font),
-                new Button(textureManager.buttonTexture, textureManager.buttonActiveTexture, new Vector2(500, 200), new Vector2(20, 20), "Instructions", font),
-                new Button(textureManager.buttonTexture, textureManager.buttonActiveTexture, new Vector2(800, 200), new Vector2(20, 20), "Start Game", font),
+                new Button(textureManager.buttonTexture, textureManager.buttonActiveTexture, position + new Vector2(0, 0), new Vector2(20, 20), "Players: ", font),
+                new Button(textureManager.buttonTexture, textureManager.buttonActiveTexture, position + new Vector2(300, 0), new Vector2(20, 20), "Instructions", font),
+                new Button(textureManager.buttonTexture, textureManager.buttonActiveTexture, position + new Vector2(600, 0), new Vector2(20, 20), "Start Game", font),
             };
 
         }
@@ -112,7 +115,7 @@ namespace Planspelet
             }
             else if (selection == 1)
             {
-                spriteBatch.DrawString(font, Instructions, new Vector2(400, 100), Color.Black);
+                spriteBatch.DrawString(font, Instructions, position + new Vector2(200, -300), Color.Black);
             }
         }
     }

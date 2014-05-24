@@ -66,7 +66,7 @@ namespace Planspelet
 
             textureManager = new TextureManager();
             textureManager.LoadTextures(Content, graphics.GraphicsDevice);
-            startMenu = new StartMenu(textureManager, fontLarge);
+            startMenu = new StartMenu(new Vector2(200, 500), textureManager, fontLarge);
             //gameManager = new GameManager(Window, textureManager, 1);
             spriteBatch = new SpriteBatch(GraphicsDevice);
 

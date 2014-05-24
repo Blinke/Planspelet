@@ -134,8 +134,6 @@ namespace Planspelet
                 players[i].phaseDone = false;
                 players[i].RemoveOldBooks();
             }
-
-            market.RemoveDemand(Genre.Drama, 10);
             market.GenerateDemand(rand);
         }
 

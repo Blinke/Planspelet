@@ -60,9 +60,17 @@ namespace Planspelet
 
         public Book(Book book)
         {
-            // Missing something?
+            Owner = book.Owner;
+            PrintSize = book.PrintSize;
+            Profitablity = book.Profitablity;
+            SalePrice = book.SalePrice;
+            ageFactor = book.ageFactor;
+            publishingCost = book.publishingCost;
+            PrintCost = book.PrintCost;
+            totalCost = book.totalCost;
             baseTexture = book.baseTexture;
             detailTexture = book.detailTexture;
+            genre = book.genre;
         }
         public Genre GetGenre()
         {
