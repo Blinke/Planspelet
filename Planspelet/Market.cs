@@ -21,17 +21,26 @@ namespace Planspelet
                 this.eBook = eBook;
                 this.texture = texture;
             }
+            public void Draw(SpriteBatch spriteBatch, Texture2D eBookTexture, Vector2 position, float scale)
+            {
+                Rectangle source = new Rectangle(0, 0, Book.Width, Book.Height);
+                spriteBatch.Draw(texture, position, source, Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+                if (eBook)
+                    spriteBatch.Draw(eBookTexture, position, source, Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+            }
         }
 
-        public const float minEBookChance = 0.1f;
-        public const float maxEBookChance = 0.3f;
-        public static float currentEbookChance;
+        #region Members
+        public const int minEBookChance = 10;
+        public const int maxEBookChance = 30;
+        int currentEbookChance = 20;
 
         Demand[] demand;
         List<int> emptyPos;
 
         Vector2 position;
         Texture2D[] textures;
+        Texture2D eBookTexture;
         float scale = 0.5f;
 
         int parsingX = 10;
@@ -40,6 +49,7 @@ namespace Planspelet
         int X_max;
         int Y_max;
         int totalNumber;
+        #endregion
 
         public Market(TextureManager textureManager, Vector2 position, int X_max, int Y_max, Random rand)
         {
@@ -49,6 +59,7 @@ namespace Planspelet
             {
                 textures[i] = textureManager.bookTexture[i];
             }
+            eBookTexture = textureManager.eBookTexture;
 
             this.X_max = X_max;
             this.Y_max = Y_max;
@@ -59,7 +70,6 @@ namespace Planspelet
             emptyPos = new List<int>();
             Fill(rand);
         }
-
         private void Fill(Random rand)
         {
             for (int i = 0; i < demand.Length; i++)
@@ -68,18 +78,30 @@ namespace Planspelet
                 demand[i] = new Demand(genre, false, textures[(int)genre]);
             }
         }
-
         public void GenerateDemand(Random rand)
         {
             while (emptyPos.Count != 0)
             {
                 int randIndex = rand.Next(0, emptyPos.Count - 1);
                 Genre genre = (Genre)(rand.Next(0, Book.numberOfGenres));
-                demand[emptyPos[randIndex]] = new Demand(genre, false, textures[(int)genre]);
-                emptyPos.RemoveAt(randIndex);
+                bool eBook = false;
+                int randEbook = rand.Next(0, 100);
+                if (randEbook < currentEbookChance)
+                {
+                    eBook = true;
+                    currentEbookChance -= 5;
+                    if (currentEbookChance < minEBookChance) currentEbookChance = minEBookChance;
+                }
+                else
+                {
+                    currentEbookChance += 5;
+                    if (currentEbookChance > maxEBookChance) currentEbookChance = maxEBookChance;
+                }
+
+                demand[emptyPos[randIndex]] = new Demand(genre, eBook, textures[(int)genre]);
+                emptyPos.RemoveAt(randIndex);  
             }
         }
-
         public void RemoveDemand(Genre genre, int number)
         {
             for (int i = 0; i < demand.Length; i++)
@@ -93,7 +115,6 @@ namespace Planspelet
                 }
             }
         }
-
         public int GetDemand(Genre genre)
         {
             int counter = 0;
@@ -104,7 +125,6 @@ namespace Planspelet
 
             return counter;
         }
-
         public void Draw(SpriteBatch spriteBatch)
         {
             int counter = 0;
@@ -113,26 +133,25 @@ namespace Planspelet
             for (int i = 0; i < X_max; i++)
             {
                 if (demand[counter] == null) { counter++; continue; }
-                spriteBatch.Draw(demand[counter].texture, position + new Vector2((Book.Width + parsingX) * i, 0) * scale, source, Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+                demand[counter].Draw(spriteBatch, eBookTexture, position + new Vector2((Book.Width + parsingX) * i, 0) * scale, scale);
                 counter++;
             }
             for (int i = 1; i < Y_max; i++)
             {
                 if (demand[counter] == null) { counter++; continue; }
-                spriteBatch.Draw(demand[counter].texture, position + new Vector2((Book.Width + parsingX) * (X_max - 1), (Book.Height + parsingY) * i) * scale, source, Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+                demand[counter].Draw(spriteBatch, eBookTexture, position + new Vector2((Book.Width + parsingX) * (X_max - 1), (Book.Height + parsingY) * i) * scale, scale);
                 counter++;
             }
             for (int i = 1; i < X_max; i++)
             {
                 if (demand[counter] == null) { counter++; continue; }
-                spriteBatch.Draw(demand[counter].texture, position + new Vector2((Book.Width + parsingX) * (X_max - 1 - i), (Book.Height + parsingY) * (Y_max - 1)) * scale, source, Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+                demand[counter].Draw(spriteBatch, eBookTexture, position + new Vector2((Book.Width + parsingX) * (X_max - 1 - i), (Book.Height + parsingY) * (Y_max - 1)) * scale, scale);
                 counter++;
             }
             for (int i = 1; i < Y_max - 1; i++)
             {
                 if (demand[counter] == null) { counter++; continue; }
-                
-                spriteBatch.Draw(demand[counter].texture, position + new Vector2(0, (Book.Height + parsingY) * (Y_max - 1 - i)) * scale, source, Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+                demand[counter].Draw(spriteBatch, eBookTexture, position + new Vector2(0, (Book.Height + parsingY) * (Y_max - 1 - i)) * scale, scale);
                 counter++;
             }
 

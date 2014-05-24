@@ -42,13 +42,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="book.png">
-      <Name>book</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="book_template.png">
       <Name>book_template</Name>
     </Compile>
@@ -59,13 +52,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="e-book.png">
-      <Name>e-book</Name>
+    <Compile Include="eButton.png">
+      <Name>eButton</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="physical.png">
-      <Name>physical</Name>
+    <Compile Include="pButton.png">
+      <Name>pButton</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -180,6 +173,13 @@
       <Name>fontSmall</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="eBook.jpg">
+      <Name>eBook</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

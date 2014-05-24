@@ -12,6 +12,7 @@ namespace Planspelet
     {
         Texture2D[] selectionTexture;
         Texture2D lossTexture, profitTexture, outlineTexture;
+        Texture2D eBookTexture;
 
         List<Book> books;
         int rows;
@@ -37,6 +38,8 @@ namespace Planspelet
 
             for (int i = 0; i < selectionTexture.Length; i++)
                 selectionTexture[i] = textureManager.middleSelection[i];
+
+            eBookTexture = textureManager.eBookTexture;
 
             lossTexture = textureManager.lossTexture;
             profitTexture = textureManager.profitTexture;
@@ -284,7 +287,7 @@ namespace Planspelet
                     {
                         if (books[startIndex + counter].Stock > 0 || books[startIndex + counter].Owner == -1 || books[startIndex + counter].eBook) tint = Color.White;
                         else tint = Color.Gray;
-                        books[startIndex + counter].Draw(spriteBatch, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, tint, scale);
+                        books[startIndex + counter].Draw(spriteBatch, eBookTexture, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, tint, scale);
                         DrawStatistics(spriteBatch, books[startIndex + counter], position + new Vector2(columnSpacing * x, rowSpacing * y) * scale);
                     }
                     counter++;

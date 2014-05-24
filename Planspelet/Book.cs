@@ -60,6 +60,7 @@ namespace Planspelet
 
         public Book(Book book)
         {
+            // Missing something?
             baseTexture = book.baseTexture;
             detailTexture = book.detailTexture;
         }
@@ -102,6 +103,12 @@ namespace Planspelet
             totalCost += PrintCost;
         }
 
+        public void Draw(SpriteBatch spriteBatch, Texture2D eBookTexture, Vector2 position, Color tint, float scale)
+        {
+            spriteBatch.Draw(baseTexture, position, new Rectangle(0, 0, baseTexture.Width, baseTexture.Height), tint, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(detailTexture, position, new Rectangle(0, 0, baseTexture.Width, baseTexture.Height), tint, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+            if (eBook) spriteBatch.Draw(eBookTexture, position, new Rectangle(0, 0, baseTexture.Width, baseTexture.Height), tint, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+        }
         public void Draw(SpriteBatch spriteBatch, Vector2 position, Color tint, float scale)
         {
             spriteBatch.Draw(baseTexture, position, new Rectangle(0, 0, baseTexture.Width, baseTexture.Height), tint, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
