@@ -45,10 +45,10 @@ namespace Planspelet
         public Book(Texture2D baseTexture, Texture2D detailTexture, Random rnd, Genre genre)//(Texture2D baseTexture, Texture2D detailTexture, Texture2D selectionTexture[], string title)
         {
             Owner = -1;
-            PrintSize = 20;
+            PrintSize = 10;
             Profitablity = 1;
             SalePrice = 150;
-            ageFactor = 0.95f;
+            ageFactor = 0.05f;
             publishingCost = rnd.Next(2, 8) * 100;
             PrintCost = 300;
             totalCost += publishingCost;
@@ -78,8 +78,6 @@ namespace Planspelet
         public void CalcProfitablity()
         {
             Profitablity = 1 - (ageFactor * BookAge);
-
-            Profitablity = 0.1f;
 
             if (eBook)
             {

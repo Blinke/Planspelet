@@ -65,7 +65,7 @@ namespace Planspelet
             {
                 if (input.ButtonA)
                 {
-                    if (archive.GetSelectedBook(playerID).Stock == 0 && !archive.GetSelectedBook(playerID).eBook)
+                    if (archive.GetSelectedBook(playerID) != null && archive.GetSelectedBook(playerID).Stock == 0 && !archive.GetSelectedBook(playerID).eBook)
                     {
                         archive.GetSelectedBook(playerID).Reprint();
                         budget -= archive.GetSelectedBook(playerID).PrintCost;

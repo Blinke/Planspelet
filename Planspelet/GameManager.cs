@@ -118,6 +118,8 @@ namespace Planspelet
 
                     case TurnPhase.Selling:
                         economyManager.SellBooks(market, players);
+                        for (int i = 0; i < players.Length; i++)
+                            bookManager.archive.DeactivateSelection(players[i].playerID);
                         NextTurn();
                         break;
                 }

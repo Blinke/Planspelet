@@ -16,7 +16,7 @@ namespace Planspelet
 
         public BookManager(TextureManager textureManager)
         {
-            archive = new Archive(textureManager, new Vector2(530, 250), 0.75f, 3, 3);
+            archive = new Archive(textureManager, new Vector2(530, 280), 0.75f, 2, 3);
             bookTexture = textureManager.bookTexture;
             detailTexture = textureManager.detailTexture;
             
@@ -26,16 +26,23 @@ namespace Planspelet
         {
             archive.ReceiveInput(input, player.playerID);
 
-            if (GameManager.phase == GameManager.TurnPhase.BookPicking && input.ButtonA)
+            if (GameManager.phase == GameManager.TurnPhase.BookPicking)
             {
-                Book transferedBook = archive.TransferSelectedBook(player.playerID);
-                transferedBook.Owner = player.playerID;
-                player.AddBook(transferedBook);
-                archive.DeactivateSelection(player.playerID);
-                player.OpenPublishMenu();
-                player.phaseDone = true;
+                if (input.ButtonA)
+                {
+                    Book transferedBook = archive.TransferSelectedBook(player.playerID);
+                    transferedBook.Owner = player.playerID;
+                    player.AddBook(transferedBook);
+                    archive.DeactivateSelection(player.playerID);
+                    player.OpenPublishMenu();
+                    player.phaseDone = true; 
+                }
+                else if (input.ButtonB)
+                {
+                    archive.DeactivateSelection(player.playerID);
+                    player.phaseDone = true;
+                }
             }
-
         }
 
         public void Draw(SpriteBatch spriteBatch, SpriteFont font)
