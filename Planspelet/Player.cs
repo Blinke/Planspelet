@@ -19,6 +19,8 @@ namespace Planspelet
         Tab activeTab;
 
         Texture2D background;
+        Texture2D doneTexture;
+
 
         int budget;
         public int salesMade;
@@ -34,6 +36,7 @@ namespace Planspelet
             activeTab = archive;
 
             background = textureManager.playerBackground;
+            doneTexture = textureManager.doneTexture;
 
             budget = 0;
         }
@@ -81,16 +84,16 @@ namespace Planspelet
             switch (ID)
             {
                 case 0:
-                    playerPosition = new Vector2(100, 75);
+                    playerPosition = new Vector2(100, 115);
                     break;
                 case 1:
-                    playerPosition = new Vector2(850, 75);
+                    playerPosition = new Vector2(880, 115);
                     break;
                 case 2:
                     playerPosition = new Vector2(100, 450);
                     break;
                 case 3:
-                    playerPosition = new Vector2(850, 450);
+                    playerPosition = new Vector2(880, 450);
                     break;
             }
 
@@ -148,9 +151,14 @@ namespace Planspelet
 
         public void Draw(SpriteBatch spriteBatch, SpriteFont fontSmall, SpriteFont fontLarge)
         {
-            spriteBatch.Draw(background, position, Color.White);
+            //spriteBatch.Draw(background, position, Color.White);
             activeTab.Draw(spriteBatch, fontSmall);
             spriteBatch.DrawString(fontLarge, budget.ToString(), position, Color.Black);
+
+            if (phaseDone && GameManager.phase == GameManager.TurnPhase.Browsing)
+            {
+                spriteBatch.Draw(doneTexture, new Vector2(position.X + 50, position.Y - 30), Color.White);
+            }
         }
     }
 
