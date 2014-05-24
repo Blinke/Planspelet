@@ -21,7 +21,8 @@ namespace Planspelet
         Economy economyManager;
 
         Random rand;
-        SpriteFont font;
+        SpriteFont fontSmall;
+        SpriteFont fontLarge;
 
         public enum TurnPhase
         {
@@ -46,8 +47,8 @@ namespace Planspelet
 
             GameStart(textureManager);
 
-
-            font = content.Load<SpriteFont>("SpriteFont1");
+            fontSmall = content.Load<SpriteFont>("fontSmall");
+            fontLarge = content.Load<SpriteFont>("fontLarge");
         }
 
         public void Update(GameTime gameTime)
@@ -89,12 +90,12 @@ namespace Planspelet
         {
             if (phase == TurnPhase.BookPicking)
             {
-                bookManager.Draw(spriteBatch, font);
+                bookManager.Draw(spriteBatch, fontSmall);
             }
 
             foreach (Player player in players)
             {
-                player.Draw(spriteBatch, font);
+                player.Draw(spriteBatch, fontSmall, fontLarge);
             }
             market.Draw(spriteBatch);
         }

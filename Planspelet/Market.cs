@@ -23,6 +23,10 @@ namespace Planspelet
             }
         }
 
+        public const float minEBookChance = 0.1f;
+        public const float maxEBookChance = 0.3f;
+        public static float currentEbookChance;
+
         Demand[] demand;
         List<int> emptyPos;
 

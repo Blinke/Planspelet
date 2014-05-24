@@ -19,6 +19,10 @@ namespace Planspelet
         Button eButton;
         Button pButton;
 
+        Vector2 tipOffset = new Vector2(75, 0);
+        string pBookTip = "Physical books can sell to E-book demand, \nif there are no E-books on the market.";
+        string eBookTip = "E-books have lower publishing cost and do not need to be printed (and do not have that associated cost either). However, they generate lower demand.";
+
         public PublishMenu(TextureManager textureManager, Vector2 position, float scale, int playerIndex)
             :base(position, scale)
         {
@@ -78,19 +82,22 @@ namespace Planspelet
             {
                 int x = (int)((Book.Width + 20) * bookScale);
                 activeBook.Draw(spriteBatch, position, Color.White, bookScale);
-                //activeBook.DrawPublishInfo(spriteBatch, new Vector2(position.X + x, position.Y), scale, font);
             }
 
+            string tip = " ";
             if (selection[playerIndex].x == 0)
             {
+                tip = pBookTip;
                 pButton.Draw(spriteBatch, Color.Yellow);
                 eButton.Draw(spriteBatch, Color.White);
             }
             else if (selection[playerIndex].x == 1)
             {
+                tip = eBookTip;
                 pButton.Draw(spriteBatch, Color.White);
                 eButton.Draw(spriteBatch, Color.Yellow);
             }
+            spriteBatch.DrawString(font, tip, position + tipOffset, Color.Black);
         }
     }
 }

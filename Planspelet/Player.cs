@@ -139,12 +139,11 @@ namespace Planspelet
             budget += profit;
         }
 
-        public void Draw(SpriteBatch spriteBatch, SpriteFont font)
+        public void Draw(SpriteBatch spriteBatch, SpriteFont fontSmall, SpriteFont fontLarge)
         {
             spriteBatch.Draw(background, position, Color.White);
-            activeTab.Draw(spriteBatch, font);
-            spriteBatch.DrawString(font, budget.ToString(), position, Color.White);
-            //archive.Draw(spriteBatch, font);
+            activeTab.Draw(spriteBatch, fontSmall);
+            spriteBatch.DrawString(fontLarge, budget.ToString(), position, Color.Black);
         }
     }
 
