@@ -115,7 +115,7 @@ namespace Planspelet
         {
             spriteBatch.Draw(baseTexture, position, new Rectangle(0, 0, baseTexture.Width, baseTexture.Height), tint, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
             spriteBatch.Draw(detailTexture, position, new Rectangle(0, 0, baseTexture.Width, baseTexture.Height), tint, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
-            if (eBook) spriteBatch.Draw(eBookTexture, position, new Rectangle(0, 0, baseTexture.Width, baseTexture.Height), tint, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+            if (eBook) spriteBatch.Draw(eBookTexture, position, new Rectangle(0, 0, eBookTexture.Width, eBookTexture.Height), tint, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
         }
         public void Draw(SpriteBatch spriteBatch, Vector2 position, Color tint, float scale)
         {

@@ -11,7 +11,7 @@ namespace Planspelet
     {
         private class Demand
         {
-            public Genre genre;
+            public Genre genre { get; private set; }
             public bool eBook;
             public Texture2D texture;
 
@@ -23,10 +23,9 @@ namespace Planspelet
             }
             public void Draw(SpriteBatch spriteBatch, Texture2D eBookTexture, Vector2 position, float scale)
             {
-                Rectangle source = new Rectangle(0, 0, Book.Width, Book.Height);
-                spriteBatch.Draw(texture, position, source, Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(texture, position, new Rectangle(0, 0, texture.Width, texture.Height), Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
                 if (eBook)
-                    spriteBatch.Draw(eBookTexture, position, source, Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+                    spriteBatch.Draw(eBookTexture, position, new Rectangle(0, 0, eBookTexture.Width, eBookTexture.Height), Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
             }
         }
 
@@ -37,6 +36,7 @@ namespace Planspelet
 
         Demand[] demand;
         List<int> emptyPos;
+        bool doSort = true;
 
         Vector2 position;
         Texture2D[] textures;
@@ -77,6 +77,25 @@ namespace Planspelet
                 Genre genre = (Genre)(rand.Next(0, Book.numberOfGenres));
                 demand[i] = new Demand(genre, false, textures[(int)genre]);
             }
+            if (doSort) Sort();
+        }
+        private void Sort()
+        {
+            Demand[] tempDemand = new Demand[totalNumber];
+
+            int sorted = 0;
+            for (int i = 0; i < Book.numberOfGenres; i++)
+            {
+                for (int j = 0; j < totalNumber; j++)
+                {
+                    if ((Genre)i == demand[j].genre)
+                    {
+                        tempDemand[sorted] = demand[j];
+                        sorted++;
+                    }
+                }
+            }
+            demand = tempDemand;
         }
         public void GenerateDemand(Random rand)
         {
@@ -101,8 +120,9 @@ namespace Planspelet
                 demand[emptyPos[randIndex]] = new Demand(genre, eBook, textures[(int)genre]);
                 emptyPos.RemoveAt(randIndex);  
             }
+            if (doSort) Sort();
         }
-        public void RemoveDemand(Genre genre, int number)
+        public void RemoveDemand(Genre genre, int number, int playerIndex)
         {
             for (int i = 0; i < demand.Length; i++)
             {
