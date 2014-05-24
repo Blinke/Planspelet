@@ -16,7 +16,7 @@ namespace Planspelet
 
         public BookManager(TextureManager textureManager)
         {
-            archive = new Archive(textureManager, new Vector2(530, 280), 0.75f, 2, 3);
+            archive = new Archive(textureManager, new Vector2(540, 280), 0.75f, 2, 3);
             bookTexture = textureManager.bookTexture;
             detailTexture = textureManager.detailTexture;
             
@@ -54,7 +54,7 @@ namespace Planspelet
         {
             Random rnd = new Random();
 
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < 6; i++)
             {
                 int bookRnd = rnd.Next(0, bookTexture.Count);
                 int detailRnd = rnd.Next(0, detailTexture.Count);

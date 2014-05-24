@@ -24,6 +24,8 @@ namespace Planspelet
         SpriteFont fontSmall;
         SpriteFont fontLarge;
 
+        Texture2D backgroundTexture;
+
         public enum TurnPhase
         {
             BookPicking,
@@ -49,6 +51,7 @@ namespace Planspelet
 
             fontSmall = content.Load<SpriteFont>("fontSmall");
             fontLarge = content.Load<SpriteFont>("fontLarge");
+            backgroundTexture = textureManager.backgroundTexture;
         }
 
         public void Update(GameTime gameTime)
@@ -72,7 +75,8 @@ namespace Planspelet
                             break;
 
                         case TurnPhase.Browsing:
-                            players[i].Update(gameTime);
+                            if (players[i].phaseDone)
+                                players[i].Update(gameTime);
                             break;
 
                         case TurnPhase.Selling:
@@ -88,6 +92,8 @@ namespace Planspelet
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.Draw(backgroundTexture, Vector2.Zero, Color.White);
+
             if (phase == TurnPhase.BookPicking)
             {
                 bookManager.Draw(spriteBatch, fontSmall);
@@ -141,7 +147,6 @@ namespace Planspelet
                 players[i].RemoveOldBooks();
             }
 
-            market.RemoveDemand(Genre.Drama, 10);
             market.GenerateDemand(rand);
         }
 
