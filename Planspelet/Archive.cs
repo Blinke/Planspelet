@@ -210,7 +210,12 @@ namespace Planspelet
         {
             int selectionIndex = activeShelf * selection[playerIndex].x * selection[playerIndex].y + selection[playerIndex].x + selection[playerIndex].y * columns;
 
-            return books[selectionIndex]; // out of bound
+            if (books.Count > 0)
+            {
+                return books[selectionIndex]; // out of bound
+            }
+
+            return null;
         }
         public Book GetLastBook()
         {
@@ -258,9 +263,14 @@ namespace Planspelet
             books.Clear();
         }
 
+        public void RemoveOldBooks()
+        {
+            books.RemoveAll(b => b.Profitablity < 0.1f);
+        }
+
         public void DeactivateSelection(int playerIndex)
         {
-            selection[playerIndex].active = false;
+            selection[playerIndex].active = !selection[playerIndex].active;
         }
 
         public List<Book> GetBooks()

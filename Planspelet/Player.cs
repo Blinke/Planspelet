@@ -65,7 +65,7 @@ namespace Planspelet
             {
                 if (input.ButtonA)
                 {
-                    if (archive.GetSelectedBook(playerID).Stock == 0 && !archive.GetSelectedBook(playerID).eBook)
+                    if (archive.GetSelectedBook(playerID) != null && archive.GetSelectedBook(playerID).Stock == 0 && !archive.GetSelectedBook(playerID).eBook)
                     {
                         archive.GetSelectedBook(playerID).Reprint();
                         budget -= archive.GetSelectedBook(playerID).PrintCost;
@@ -75,7 +75,7 @@ namespace Planspelet
         }
 
         private Vector2 GetPosition(int ID)
-        { 
+        {
             Vector2 playerPosition = Vector2.Zero;
 
             switch (ID)
@@ -119,11 +119,16 @@ namespace Planspelet
             activeTab = archive;
         }
 
+        public void RemoveOldBooks()
+        {
+            archive.RemoveOldBooks();
+        }
+
         public List<Book> GetBooksForSale()
         {
             List<Book> tempList = new List<Book>();
 
-            tempList.AddRange(archive.GetBooks().Where(b => b.Stock > 0));
+            tempList.AddRange(archive.GetBooks().Where(b => b.Stock > 0 || b.eBook));
 
             return tempList;
         }
@@ -131,7 +136,9 @@ namespace Planspelet
         public void BookSold(Book book)
         {
             if (!book.eBook)
+            {
                 book.Stock -= 1;
+            }
 
             salesMade += 1;
             int profit = (int)(book.SalePrice * book.Profitablity);
