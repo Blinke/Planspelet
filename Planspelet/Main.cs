@@ -17,9 +17,13 @@ namespace Planspelet
     public class Main : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
+        StartMenu startMenu;
         GameManager gameManager;
         TextureManager textureManager;
         SpriteBatch spriteBatch;
+
+        SpriteFont fontSmall;
+        SpriteFont fontLarge;
 
         public enum GameState
         {
@@ -57,12 +61,16 @@ namespace Planspelet
         /// </summary>
         protected override void LoadContent()
         {
+            fontSmall = Content.Load<SpriteFont>("fontSmall");
+            fontLarge = Content.Load<SpriteFont>("fontLarge");
+
             textureManager = new TextureManager();
             textureManager.LoadTextures(Content, graphics.GraphicsDevice);
-            gameManager = new GameManager(Content, Window, textureManager);
+            startMenu = new StartMenu(textureManager, fontLarge);
+            //gameManager = new GameManager(Window, textureManager, 1);
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            gameState = GameState.Play;
+            gameState = GameState.StartScreen;
         }
 
         /// <summary>
@@ -85,8 +93,21 @@ namespace Planspelet
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            if (gameState == GameState.Play)
-                gameManager.Update(gameTime);
+            switch (gameState)
+            {
+                case GameState.StartScreen:
+                    if (startMenu.Update(gameTime))
+                    {
+                        gameManager = new GameManager(Window, textureManager, startMenu.GetNumPlayers);
+                        gameState = GameState.Play;
+                    }
+                    break;
+                case GameState.Play:
+                    gameManager.Update(gameTime);
+                    break;
+                default:
+                    break;
+            }
 
             base.Update(gameTime);
         }
@@ -101,9 +122,17 @@ namespace Planspelet
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
-            if (gameState == GameState.Play)
-                gameManager.Draw(spriteBatch);    
-
+            switch (gameState)
+            {
+                case GameState.StartScreen:
+                    startMenu.Draw(spriteBatch);
+                    break;
+                case GameState.Play:
+                    gameManager.Draw(spriteBatch, fontSmall, fontLarge);   
+                    break;
+                default:
+                    break;
+            }
 
             spriteBatch.End();
             base.Draw(gameTime);

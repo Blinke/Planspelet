@@ -21,8 +21,7 @@ namespace Planspelet
         Economy economyManager;
 
         Random rand;
-        SpriteFont fontSmall;
-        SpriteFont fontLarge;
+
 
         Texture2D backgroundTexture;
 
@@ -35,13 +34,13 @@ namespace Planspelet
 
         public static TurnPhase phase;
 
-        public GameManager(ContentManager content, GameWindow window, TextureManager textureManager)
+        public GameManager(GameWindow window, TextureManager textureManager, int numberOfPlayers)
         {
             //Should get the number of players from the start screen or something, can send that as an argument for the GameManager
             this.window = window;
             rand = new Random();
 
-            players = new Player[4];
+            players = new Player[numberOfPlayers];
             bookManager = new BookManager(textureManager);
 
             market = new Market(textureManager, new Vector2(20, 20), 31, 13, rand);
@@ -49,15 +48,11 @@ namespace Planspelet
 
             GameStart(textureManager);
 
-            fontSmall = content.Load<SpriteFont>("fontSmall");
-            fontLarge = content.Load<SpriteFont>("fontLarge");
             backgroundTexture = textureManager.backgroundTexture;
         }
 
         public void Update(GameTime gameTime)
         {
-            window.Title = players[0].salesMade.ToString() + " " + players[1].salesMade.ToString() + " " + players[2].salesMade.ToString() + " " + players[3].salesMade.ToString();
-
             inputManager.Update(gameTime);
 
             for (int i = 0; i < players.Length; i++)
@@ -90,7 +85,7 @@ namespace Planspelet
             TurnPhaseCheck();
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, SpriteFont fontSmall, SpriteFont fontLarge)
         {
             spriteBatch.Draw(backgroundTexture, Vector2.Zero, Color.White);
 

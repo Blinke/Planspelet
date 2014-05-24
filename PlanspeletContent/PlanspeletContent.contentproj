@@ -187,6 +187,11 @@
   <ItemGroup>
     <Compile Include="ready_mark.png">
       <Name>ready_mark</Name>
+	</Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="button.png">
+      <Name>button</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -194,6 +199,11 @@
   <ItemGroup>
     <Compile Include="paper_background.png">
       <Name>paper_background</Name>
+	</Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="buttonActive.png">
+      <Name>buttonActive</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
