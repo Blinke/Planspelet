@@ -122,6 +122,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="PublishMenu.cs" />
+    <Compile Include="StartMenu.cs" />
     <Compile Include="Tab.cs" />
     <Compile Include="TextureManager.cs" />
   </ItemGroup>
