@@ -9,7 +9,7 @@ namespace Planspelet
 {
     class InputManager
     {
-        Input[] inputs;
+        public Input[] inputs;
         
         public InputManager(int numberOfPlayers)
         {

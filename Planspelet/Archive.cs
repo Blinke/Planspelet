@@ -367,7 +367,7 @@ namespace Planspelet
                 source = new Rectangle(0, 0, 6, lossLength);
                 spriteBatch.Draw(lossTexture, position + new Vector2(Book.Width * scale + 1, 1) + offset, source, Color.White);
 
-                spriteBatch.DrawString(font, book.Stock.ToString(), position + new Vector2(8, Book.Height - 36) * scale, Color.White);
+                if(!book.eBook) spriteBatch.DrawString(font, book.Stock.ToString(), position + new Vector2(8, Book.Height - 36) * scale, Color.White);
             }
         }
     }

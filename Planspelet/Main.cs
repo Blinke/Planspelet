@@ -93,21 +93,34 @@ namespace Planspelet
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            switch (gameState)
+            if (gameState == GameState.StartScreen)
             {
-                case GameState.StartScreen:
-                    if (startMenu.Update(gameTime))
-                    {
-                        gameManager = new GameManager(Window, textureManager, startMenu.GetNumPlayers);
-                        gameState = GameState.Play;
-                    }
-                    break;
-                case GameState.Play:
-                    gameManager.Update(gameTime);
-                    break;
-                default:
-                    break;
+                if (startMenu.Update(gameTime))
+                {
+                    gameManager = new GameManager(Window, startMenu, textureManager);
+                    gameState = GameState.Play;
+                }
             }
+            else if (gameState == GameState.Play)
+            {
+                gameManager.Update(gameTime);
+            }
+
+            //switch (gameState)
+            //{
+            //    case GameState.Play:
+            //        gameManager.Update(gameTime);
+            //        break;
+            //    case GameState.StartScreen:
+            //        if (startMenu.Update(gameTime))
+            //        {
+            //            gameManager = new GameManager(Window, textureManager, startMenu.GetNumPlayers);
+            //            gameState = GameState.Play;
+            //        }
+            //        break;
+            //    default:
+            //        break;
+            //}
 
             base.Update(gameTime);
         }

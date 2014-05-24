@@ -42,7 +42,7 @@ namespace Planspelet
             }
         }
 
-        Input input;
+        public Input input { get; private set; }
         int selection = 0;
 
         int players = 1;

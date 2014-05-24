@@ -34,19 +34,19 @@ namespace Planspelet
 
         public static TurnPhase phase;
 
-        public GameManager(GameWindow window, TextureManager textureManager, int numberOfPlayers)
+        public GameManager(GameWindow window, StartMenu startMenu, TextureManager textureManager)
         {
             //Should get the number of players from the start screen or something, can send that as an argument for the GameManager
             this.window = window;
             rand = new Random();
 
-            players = new Player[numberOfPlayers];
+            players = new Player[startMenu.GetNumPlayers];
             bookManager = new BookManager(textureManager);
 
             market = new Market(textureManager, new Vector2(20, 20), 31, 13, rand);
             economyManager = new Economy();
 
-            GameStart(textureManager);
+            GameStart(textureManager, startMenu);
 
             backgroundTexture = textureManager.backgroundTexture;
         }
@@ -144,11 +144,12 @@ namespace Planspelet
             market.GenerateDemand(rand);
         }
 
-        private void GameStart(TextureManager textureManager)
+        private void GameStart(TextureManager textureManager, StartMenu startMenu)
         {
             currentTurn = 1;
             phase = TurnPhase.BookPicking;
             inputManager = new InputManager(players.Length);
+            inputManager.inputs[0] = startMenu.input;
 
             for (int i = 0; i < players.Length; i++)
                 players[i] = new Player(textureManager, i);
