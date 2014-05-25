@@ -29,12 +29,6 @@ namespace Planspelet
             //Goes through each genre and sells books from every player
             for (int i = 0; i < numberOfGenres; i++)
                 SellFromGenre((Genre)i, market, printedBooks, eBooks, players, rand);
-
-            for (int i = 0; i < players.Length; i++)
-            {
-                foreach (Book book in printedBooks[i])
-                    book.AgeBook(1);
-            }
         }
 
         private void SellFromGenre(Genre genre, Market market, List<Book>[] printedBooks, List<Book>[] eBooks, Player[] players, Random rand)
@@ -43,8 +37,8 @@ namespace Planspelet
             List<Book> digitalOfGenre = new List<Book>();
 
             //Gets the demands of the specific genre from the Market class
-            int printedGenreDemand = market.GetDemand(genre);
-            int digitalGenreDemand = market.GetEbookDemand(genre);
+            int printedGenreDemand = market.GetDemand(genre, false);
+            int digitalGenreDemand = market.GetDemand(genre, true);
 
             //Collects all the books of the specific genre from all players
             for (int i = 0; i < printedBooks.Length; i++)
@@ -55,6 +49,7 @@ namespace Planspelet
             foreach (Book book in printedOfGenre)
                 book.CalcProfitablity();
 
+            //Sell digital books
             for (int i = 0; i < digitalGenreDemand; i++)
             {
                 if (digitalOfGenre.Count == 0)
@@ -62,29 +57,40 @@ namespace Planspelet
 
                 int index = rand.Next(0, digitalOfGenre.Count);
 
-                SellBook(genre, index, digitalOfGenre, players, market, ref digitalGenreDemand);
+                SellBook(genre, index, true, digitalOfGenre, players, market, ref digitalGenreDemand);
             }
 
+            //Leftover demand for ebooks is sold printed books
+            for (int i = 0; i < digitalGenreDemand; i++)
+            {
+                if (printedOfGenre.Count == 0)
+                    break;
+
+                int index = rand.Next(0, digitalOfGenre.Count);
+
+                SellBook(genre, index, true, printedOfGenre, players, market, ref digitalGenreDemand);
+            }
+
+            //Sell printed books
             for (int i = 0; i < printedGenreDemand; i++)
             {
-                //Break the loop if there are no more books to sell
-                if (printedOfGenre.Count == 0 && digitalOfGenre.Count == 0)
+                if (printedOfGenre.Count == 0)
                     break;
 
                 int index = rand.Next(0, printedOfGenre.Count);
 
-                SellBook(genre, index, printedOfGenre, players, market, ref printedGenreDemand);
+                SellBook(genre, index, false, printedOfGenre, players, market, ref printedGenreDemand);
             }
         }
 
-        private void SellBook(Genre genre, int index, List<Book> books, Player[] players, Market market, ref int demand)
+        private void SellBook(Genre genre, int index, bool eBook, List<Book> books, Player[] players, Market market, ref int demand)
         {
             players[books[index].Owner].BookSold(books[index]);
 
-            market.RemoveDemand(genre, 1, books[index].Owner);
+            market.RemoveDemand(genre, eBook, 1, books[index].Owner);
             demand -= 1;
 
-            if (books[index].Stock == 0 && !books[index].eBook)
+            if (books[index].Stock <= 0 && !eBook)
                 books.RemoveAt(index);
         }
 

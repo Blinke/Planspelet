@@ -128,6 +128,11 @@ namespace Planspelet
             archive.RemoveOldBooks();
         }
 
+        public void AgeBooks()
+        {
+            budget += archive.GetStorageCost();
+        }
+
         public List<Book> GetBooksForSale(bool eBook)
         {
             List<Book> tempList = new List<Book>();

@@ -265,7 +265,25 @@ namespace Planspelet
 
         public void RemoveOldBooks()
         {
-            books.RemoveAll(b => b.Profitablity < 0.1f);
+            books.RemoveAll(b => b.BookAge > 8);
+        }
+
+        public int GetStorageCost()
+        {
+            int storageCost = 0;
+
+            foreach (Book book in books)
+            {
+                if (!book.eBook)
+                {
+                    storageCost += book.Stock * book.StorageCost;
+                    book.totalCost += book.Stock * book.StorageCost;
+                }
+
+                book.AgeBook(1);
+            }
+
+            return storageCost;
         }
 
         public void DeactivateSelection(int playerIndex)

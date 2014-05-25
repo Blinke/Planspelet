@@ -140,6 +140,7 @@ namespace Planspelet
             {
                 players[i].phaseDone = false;
                 players[i].RemoveOldBooks();
+                players[i].AgeBooks();
             }
             market.GenerateDemand(rand);
         }
