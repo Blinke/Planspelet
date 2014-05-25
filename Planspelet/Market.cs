@@ -79,26 +79,27 @@ namespace Planspelet
             }
             if (doSort) Sort();
         }
-        private void Sort()
-        {
-            Demand[] tempDemand = new Demand[totalNumber];
-
-            int sorted = 0;
-            for (int i = 0; i < Book.numberOfGenres; i++)
-            {
-                for (int j = 0; j < totalNumber; j++)
-                {
-                    if ((Genre)i == demand[j].genre)
-                    {
-                        tempDemand[sorted] = demand[j];
-                        sorted++;
-                    }
-                }
-            }
-            demand = tempDemand;
-        }
         public void GenerateDemand(Random rand)
         {
+            for (int i = 0; i < demand.Length; i++)
+            {
+                if (demand[i] == null) continue;
+                int randomChange = rand.Next(0, 1000);
+                if (randomChange < 25)
+                {
+                    bool eBook = false;
+                    int randEbook = rand.Next(0, 100);
+                    if (randEbook < currentEbookChance)
+                    {
+                        eBook = true;
+                        currentEbookChance -= 5;
+                        if (currentEbookChance < minEBookChance) currentEbookChance = minEBookChance;
+                    }
+                    Genre genre = (Genre)(rand.Next(0, Book.numberOfGenres));
+                    demand[i] = new Demand(genre, eBook, textures[(int)genre]);
+                }
+            }
+
             while (emptyPos.Count != 0)
             {
                 int randIndex = rand.Next(0, emptyPos.Count - 1);
@@ -120,14 +121,16 @@ namespace Planspelet
                 demand[emptyPos[randIndex]] = new Demand(genre, eBook, textures[(int)genre]);
                 emptyPos.RemoveAt(randIndex);  
             }
-            if (doSort) Sort();
+
+            if (doSort)
+                Sort();
         }
-        public void RemoveDemand(Genre genre, int number, int playerIndex)
+        public void RemoveDemand(Genre genre, bool eBook, int number, int playerIndex)
         {
             for (int i = 0; i < demand.Length; i++)
             {
                 if (number == 0) break;
-                if (demand[i] != null && demand[i].genre == genre)
+                if (demand[i] != null && demand[i].genre == genre && demand[i].eBook == eBook)
                 {
                     demand[i] = null;
                     emptyPos.Add(i);
@@ -135,14 +138,32 @@ namespace Planspelet
                 }
             }
         }
-        public int GetDemand(Genre genre)
+        private void Sort()
+        {
+            Demand[] tempDemand = new Demand[totalNumber];
+
+            int sorted = 0;
+            for (int i = 0; i < Book.numberOfGenres; i++)
+            {
+                for (int j = 0; j < totalNumber; j++)
+                {
+                    if ((Genre)i == demand[j].genre)
+                    {
+                        tempDemand[sorted] = demand[j];
+                        sorted++;
+                    }
+                }
+            }
+            demand = tempDemand;
+        }
+        public int GetDemand(Genre genre, bool ebook)
         {
             int counter = 0;
             foreach (Demand d in demand)
             {
-                if (d != null && d.genre == genre) counter++;
+                if (!ebook && d != null && d.genre == genre) counter++;
+                else if (d != null && d.genre == genre && d.eBook == true) counter++;
             }
-
             return counter;
         }
         public void Draw(SpriteBatch spriteBatch)
