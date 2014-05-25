@@ -36,7 +36,7 @@ namespace Planspelet
 
         private void SellFromGenre(Genre genre, Market market, List<Book>[] playerBooks, Player[] players, Random rand)
         {
-            int genreDemand = market.GetDemand(genre);
+            int genreDemand = 0; // market.GetDemand(genre);
             List<Book> booksOfGenre = new List<Book>();
 
             for (int i = 0; i < playerBooks.Length; i++)
@@ -55,7 +55,7 @@ namespace Planspelet
 
                 players[booksOfGenre[index].Owner].BookSold(booksOfGenre[index]);
 
-                market.RemoveDemand(genre, 1, booksOfGenre[index].Owner);
+                //market.RemoveDemand(genre, 1, booksOfGenre[index].Owner);
                 genreDemand -= 1;
 
                 if (booksOfGenre[index].Stock == 0 && !booksOfGenre[index].eBook)
