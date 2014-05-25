@@ -32,6 +32,7 @@ namespace Planspelet
         public int BookAge { get; set; }
         public int PrintSize { get; set; }
         public float Profitablity { get; private set; }
+        public int StorageCost { get; private set; }
         float ageFactor;
         Genre genre;
         public bool eBook;
@@ -40,7 +41,6 @@ namespace Planspelet
         int publishingCost;
         public const int maxPublishCost = 700;
         public int PrintCost { get; set; }
-        int storageCost;
         public int totalCost = 0;
         public int totalProfit = 0;
 
@@ -53,6 +53,7 @@ namespace Planspelet
             ageFactor = 0.05f;
             publishingCost = rnd.Next(2, 8) * 100;
             PrintCost = 300;
+            StorageCost = 50;
             totalCost += publishingCost;
             this.baseTexture = baseTexture;
             this.detailTexture = detailTexture;

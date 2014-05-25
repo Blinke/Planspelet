@@ -119,7 +119,7 @@ namespace Planspelet
                         break;
 
                     case TurnPhase.Selling:
-                        economyManager.SellBooks(market, players);
+                        economyManager.SellAllBooks(market, players);
                         for (int i = 0; i < players.Length; i++)
                             bookManager.archive.DeactivateSelection(players[i].playerID);
                         NextTurn();
@@ -140,6 +140,7 @@ namespace Planspelet
             {
                 players[i].phaseDone = false;
                 players[i].RemoveOldBooks();
+                players[i].AgeBooks();
             }
             market.GenerateDemand(rand);
         }
