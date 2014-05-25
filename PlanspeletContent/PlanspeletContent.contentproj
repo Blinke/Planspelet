@@ -94,11 +94,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Books\bookBlue.png">
-      <Name>bookBlue</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Books\bookGray.png">
       <Name>bookGray</Name>
       <Importer>TextureImporter</Importer>
@@ -178,16 +173,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="eBook.jpg">
-      <Name>eBook</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="ready_mark.png">
       <Name>ready_mark</Name>
-	</Compile>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="button.png">
@@ -199,11 +187,25 @@
   <ItemGroup>
     <Compile Include="paper_background.png">
       <Name>paper_background</Name>
-	</Compile>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="buttonActive.png">
       <Name>buttonActive</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ebook.png">
+      <Name>ebook</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Books\bookBlue.png">
+      <Name>bookBlue</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

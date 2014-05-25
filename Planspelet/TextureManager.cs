@@ -48,7 +48,7 @@ namespace Planspelet
 
             LoadBookTextures(bookNames, ref bookTexture, content, "Books\\");
             LoadBookTextures(detailNames, ref detailTexture, content, "Books\\Details\\");
-            eBookTexture = content.Load<Texture2D>("eBook");
+            eBookTexture = content.Load<Texture2D>("ebook");
 
             lossTexture = content.Load<Texture2D>("loss");
             profitTexture = content.Load<Texture2D>("profit");
