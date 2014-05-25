@@ -150,10 +150,6 @@ namespace Planspelet
             currentTurn = 1;
             phase = TurnPhase.BookPicking;
             inputManager = new InputManager(players.Length);
-            for (int i = 0; i < players.Length; i++)
-            {
-                inputManager.inputs[i] = startMenu.input;
-            }
 
             for (int i = 0; i < players.Length; i++)
                 players[i] = new Player(textureManager, i);
