@@ -45,18 +45,21 @@ namespace Planspelet
         {
             string text;
             Vector2 textPosition;
-            int textLineLength = 60;
+            int textLineLength;
 
             Texture2D[] textures;
             Vector2[] texturePositions;
 
-            public Instruction(string text, Vector2 textPosition, Texture2D[] textures, Vector2[] texturePositions)
+            public Instruction(string text, int textLineLength, Vector2 textPosition, Texture2D[] textures, Vector2[] texturePositions)
             {
                 this.text = text;
+                this.textLineLength = textLineLength;
+                AdjustText();
                 this.textPosition = textPosition;
                 this.textures = textures;
                 this.texturePositions = texturePositions;
             }
+            public Instruction(string text, int textLineLength, Vector2 textPosition) : this(text, textLineLength, textPosition, null, null) { }
             public void AdjustText()
             {
                 List<char> textCharacters = text.ToList();
@@ -64,65 +67,52 @@ namespace Planspelet
                 string line = "";
                 while (textCharacters.Count != 0)
                 {
+                    // Fill one line of text.
+
                     if (textCharacters[0] == " "[0])
                         textCharacters.RemoveAt(0);
 
                     string word = "";
-                    while (textCharacters.Count != 0 && textCharacters[0] != " "[0])
+                    while (textCharacters.Count != 0 && textCharacters[0] != " "[0] && textCharacters[0] != "\n"[0])
                     {
+                        // Fill one word of text.
                         word += textCharacters[0];
                         textCharacters.RemoveAt(0);
                     }
-                    //while (textCharacters.Count != 0)
-                    //{
-                    //    if (textCharacters[0] == "\n"[0])
-                    //    {
-                    //        line += word;
-                    //        text += line;
-                    //    }
-                    //    if (textCharacters[0] == " "[0])
-                    //    word += textCharacters[0];
-                    //    textCharacters.RemoveAt(0);
-                    //}
-                    if (word == "to")
-                        word = "to";
-
-                    if ((line + word).Length < textLineLength) line += word + " ";
-                    else
+                    if (textCharacters.Count == 0)
                     {
-                        line += "\n";
+                        adjustedText += line + word;
+                        break;
+                    }
+                    if (textCharacters[0] == "\n"[0])
+                    {
+                        line += word + textCharacters[0];
+                        textCharacters.RemoveAt(0);
                         adjustedText += line;
                         line = "";
                     }
-
-                    /*
-                    for (int i = 0; i < textLineLength; i++)
+                    else if (textCharacters[0] == " "[0])
                     {
-                        if (textCharacters.Count == 0) break;
-                        if (textCharacters[0] == "\n"[0])
+                        if ((line + word).Length < textLineLength)
                         {
-                            text += textCharacters[0];
+                            line += word + textCharacters[0];
                             textCharacters.RemoveAt(0);
-                            break;
                         }
                         else
                         {
-                            text += textCharacters[0];
-                            textCharacters.RemoveAt(0);
-                            if (i == textLineLength - 1) text += "\n";
+                            line += word + "\n";
+                            adjustedText += line;
+                            line = "";
                         }
                     }
-                     * */
-
                 }
+                text = adjustedText;
             }
-
 
             public void Draw(SpriteBatch spriteBatch, SpriteFont font)
             {
-                
-
                 spriteBatch.DrawString(font, text, textPosition, Color.Black);
+                if (textures != null)
                 for (int i = 0; i < texturePositions.Length; i++)
                 {
                     spriteBatch.Draw(textures[i], texturePositions[i], Color.White);
@@ -144,9 +134,9 @@ namespace Planspelet
 
         #region ButtonTips
         string playerButtonTip =
-            "Press A or B to change the number of players.";
+            "Press A and B to change the number of players.";
         string instructionButtonTip =
-            "Press A to cycle through instructions.";
+            "Press A and B cycle through instructions.";
         #endregion
 
         public StartMenu(Vector2 position, TextureManager textureManager, SpriteFont font)
@@ -165,18 +155,52 @@ namespace Planspelet
             #region Instructions
             string[] instructionTexts = new string[]
             {
-                "'Shall we publish it?' is a game about managing a publishing company. Up to four " +
+                "Shall we publish it?" +
+                "\n\nThis is a game about managing a publishing company. Up to four " +
                 "companies will compete against eachother over new book offers and sales.\n\n" +
-                "As a player you need to judge the demand of the market and adjust your choices accord" +
-                "ingly. Will you take up a new book? Will that genre be profitable enough, consider" + 
-                "ing the competition? What books do you reprint?",
+                "As a player you need to judge the demand of the market and adjust your choices accordingly. " +
+                "What books do you reprint? Will you take up a new book? Will that genre be profitable enough, considering the competition?" +
+                "\n\nThe right calls will keep your budget healty.",
+
+                "Genres:" +
+                "\n\nBooks come in "+ Book.numberOfGenres.ToString() + " different genres, and every genre has a specific color." + 
+                "\n\nEvery turn players can take up a new book from an arrange of book offers, a red bar will indicate the cost to accept the book." + 
+                "\n\n Books of the same genre sell equally well, despite any differences in cost. Pick up books of a genre you do not have, or additional " +
+                "books of a genre that is in high demand.",
+
+                "E-books:" + 
+                "\n\nIf you have accepted a book you will be asked whether to publish it as an E-book or not." +
+                "Regular books have greater profitability, they sell more often and for a better price. However, they need to be printed (for a print cost)" +
+                "and printed books have a storage cost as well." + 
+                "\n\nYou need to judge when the demand for E-books is high enough to warrant publishing one over another regular book.",
+
+                "Printing & selling:" + 
+                "\n\nWhen all players have finished accepting book offers, they are now free to print books." +
+                "\n\nAt the lower left corner of every book is number representing the number of books in stock." + 
+                "Selecting a book and clicking 'A' will increase it's stock for a price. When you are satisfied, press 'Y' to continue" +
+                "\n\nWhen all players have finished printing books, the books will sell to the market. The market demand is represented as a border of books lining" +
+                "the game window. Books of a genre with high demand and low competition will sell in higher numbers." +
+                "On each book is a bar representing the total profit and total cost of that particular book.",
             };
-            Vector2 textPosition = position + new Vector2(0, -400);
+            Vector2 textPosition = position + new Vector2(0, -450);
             instructions = new Instruction[]
             {
-                new Instruction(instructionTexts[0], textPosition,
+                new Instruction(instructionTexts[0], 60, textPosition),
+
+                new Instruction(instructionTexts[1], 45, textPosition,
                     textureManager.bookTexture.ToArray(),
-                    new Vector2[]{}),
+                    new Vector2[]{
+                        new Vector2(800, 100), new Vector2(800 + Book.Width + 8, 100), new Vector2(800 + Book.Width * 2 + 16, 100),
+                        new Vector2(800 + Book.Width*0.5f, 108 + Book.Height), new Vector2(800 + Book.Width*1.5f + 8, 108 + Book.Height)}),
+
+                new Instruction(instructionTexts[2], 50, textPosition,
+                    new Texture2D[]{
+                        textureManager.bookTexture[0],
+                        textureManager.eBookTexture},
+                    new Vector2[]{
+                        new Vector2(800, 100), new Vector2(800, 100)}),
+
+                new Instruction(instructionTexts[3], 70, textPosition),
             };
             #endregion
 
@@ -201,6 +225,8 @@ namespace Planspelet
             }
             else if (selection == 1)
             {
+                if (input.ButtonA) { if (currentInstructions < instructions.Length - 1) currentInstructions++; }
+                else if (input.ButtonB) { if (currentInstructions > 0) currentInstructions--; }
             }
             else if (selection == 2)
             {

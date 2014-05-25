@@ -19,6 +19,7 @@ namespace Planspelet
     class Book
     {
         public static int numberOfGenres = Enum.GetNames(typeof(Genre)).Length;
+        public static int maxStock = 10;
 
         Texture2D baseTexture, detailTexture;
         public const int Width = 70;
@@ -46,7 +47,7 @@ namespace Planspelet
         public Book(Texture2D baseTexture, Texture2D detailTexture, Random rnd, Genre genre)//(Texture2D baseTexture, Texture2D detailTexture, Texture2D selectionTexture[], string title)
         {
             Owner = -1;
-            PrintSize = 10;
+            PrintSize = 5;
             Profitablity = 1;
             SalePrice = 150;
             ageFactor = 0.05f;
@@ -106,10 +107,21 @@ namespace Planspelet
             }
         }
 
-        public void Reprint()
+        public int Reprint()
         {
-            Stock += PrintSize;
-            totalCost += PrintCost;
+            int tempPrintCost = 0;
+            if (Stock + PrintSize > Book.maxStock)
+            {
+                tempPrintCost = PrintCost * ((Book.maxStock - Stock) / PrintSize);
+                Stock = Book.maxStock;
+            }
+            else
+            {
+                tempPrintCost = PrintCost;
+                Stock += PrintSize;
+            }
+            totalCost += tempPrintCost;
+            return tempPrintCost;
         }
 
         public void Draw(SpriteBatch spriteBatch, Texture2D eBookTexture, Vector2 position, Color tint, float scale)
