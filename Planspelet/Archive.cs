@@ -369,6 +369,7 @@ namespace Planspelet
 
                 if(!book.eBook) spriteBatch.DrawString(font, book.Stock.ToString(), position + new Vector2(8, Book.Height - 36) * scale, Color.White);
             }
+            spriteBatch.DrawString(font, book.GetGenre().ToString(), position + new Vector2(Book.Width / 2, Book.Height / 2) * scale, Color.White);
         }
     }
 }
