@@ -128,11 +128,14 @@ namespace Planspelet
             archive.RemoveOldBooks();
         }
 
-        public List<Book> GetBooksForSale()
+        public List<Book> GetBooksForSale(bool eBook)
         {
             List<Book> tempList = new List<Book>();
 
-            tempList.AddRange(archive.GetBooks().Where(b => b.Stock > 0 || b.eBook));
+            if (!eBook)
+                tempList.AddRange(archive.GetBooks().Where(b => b.Stock > 0));
+            else
+                tempList.AddRange(archive.GetBooks().Where(b => b.eBook));
 
             return tempList;
         }
