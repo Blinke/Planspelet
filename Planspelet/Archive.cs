@@ -145,7 +145,7 @@ namespace Planspelet
             {
                 #region moving right
                 if ((selection[playerIndex].x > booksOnLastRow - 1 && fullRows == rows && selection[playerIndex].y >= fullRows - 1) ||
-                    (selection[playerIndex].x > booksOnLastRow - 1 && selection[playerIndex].y > fullRows - 1))
+                    (selection[playerIndex].x > booksOnLastRow - 1 && selection[playerIndex].x > columns - 1))
                 {
                     selection[playerIndex].x--;// = 0;
                     //selection[playerIndex].y = 0;

@@ -9,10 +9,11 @@ namespace Planspelet
 {
     class Input
     {
+        bool firstUpdate = true;
         float sensitivity;
         double selectionTimer, selectionDelay;
 
-        GamePadState prevgPadState;
+        GamePadState currentgPadState, previousgPadState;
         KeyboardState currentKeyboardState, previousKeyboardState;
 
         public bool Up { get; private set; }
@@ -32,11 +33,13 @@ namespace Planspelet
 
         public void ProcessInput(GamePadState gPadState)
         {
-            if (prevgPadState == null)
-                prevgPadState = gPadState;
-
-            previousKeyboardState = currentKeyboardState;
             currentKeyboardState = Keyboard.GetState();
+            if (firstUpdate)
+            {
+                previousgPadState = gPadState;
+                previousKeyboardState = currentKeyboardState;
+                firstUpdate = false;
+            }
 
             Up = false;
             Down = false;
@@ -70,7 +73,7 @@ namespace Planspelet
                 Left = true;
             else if (currentKeyboardState.IsKeyDown(Keys.D) && previousKeyboardState.IsKeyUp(Keys.D))
                 Right = true;
-            
+
             if (currentKeyboardState.IsKeyDown(Keys.R) && previousKeyboardState.IsKeyUp(Keys.R))
                 ButtonA = true;
             if (currentKeyboardState.IsKeyDown(Keys.E) && previousKeyboardState.IsKeyUp(Keys.E))
@@ -78,16 +81,17 @@ namespace Planspelet
             if (currentKeyboardState.IsKeyDown(Keys.F) && previousKeyboardState.IsKeyUp(Keys.F))
                 ButtonY = true;
 
-            if (gPadState.Buttons.A == ButtonState.Pressed && prevgPadState.Buttons.A == ButtonState.Released)
+            if (gPadState.Buttons.A == ButtonState.Pressed && previousgPadState.Buttons.A == ButtonState.Released)
                 ButtonA = true;
-            if (gPadState.Buttons.B == ButtonState.Pressed && prevgPadState.Buttons.B == ButtonState.Released)
+            if (gPadState.Buttons.B == ButtonState.Pressed && previousgPadState.Buttons.B == ButtonState.Released)
                 ButtonB = true;
-            if (gPadState.Buttons.X == ButtonState.Pressed && prevgPadState.Buttons.X == ButtonState.Released)
+            if (gPadState.Buttons.X == ButtonState.Pressed && previousgPadState.Buttons.X == ButtonState.Released)
                 ButtonX = true;
-            if (gPadState.Buttons.Y == ButtonState.Pressed && prevgPadState.Buttons.Y == ButtonState.Released)
+            if (gPadState.Buttons.Y == ButtonState.Pressed && previousgPadState.Buttons.Y == ButtonState.Released)
                 ButtonY = true;
 
-            prevgPadState = gPadState;
+            previousgPadState = gPadState;
+            previousKeyboardState = currentKeyboardState;
         }
 
         public void Update(GameTime gameTime)
