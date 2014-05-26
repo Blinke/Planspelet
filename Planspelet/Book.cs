@@ -41,7 +41,7 @@ namespace Planspelet
         public bool inPrint = true;
 
         int publishingCost;
-        public const int maxPublishCost = 700;
+        public const int maxPublishCost = 8;
         public int PrintCost { get; set; }
         public int totalCost = 0;
         public int totalProfit = 0;
@@ -53,7 +53,7 @@ namespace Planspelet
             Profitablity = 1;
             SalePrice = 150;
             ageFactor = 0.05f;
-            publishingCost = rnd.Next(2, 8) * 100;
+            publishingCost = rnd.Next(2, maxPublishCost) * 100;
             PrintCost = 300;
             StorageCost = 50;
             totalCost += publishingCost;

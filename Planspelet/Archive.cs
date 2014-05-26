@@ -364,7 +364,7 @@ namespace Planspelet
             if (book.Owner == -1)
             {
                 offset = new Vector2(-10, -10);
-                totalLength = (int)(book.totalCost / (float)Book.maxPublishCost * totalLength);
+                totalLength = (int)(book.totalCost / (100 * ((float)Book.maxPublishCost-1)) * totalLength);
                 lossLength = totalLength - 2;
                 source = new Rectangle(0, 0, 8, totalLength);
                 spriteBatch.Draw(outlineTexture, position + new Vector2(Book.Width * scale, Book.Height * scale - totalLength) + offset, source, Color.White);
