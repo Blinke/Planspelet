@@ -36,7 +36,7 @@ namespace Planspelet
                 Rectangle source = new Rectangle(0, 0, texture.Width, texture.Height);
                 spriteBatch.Draw(texture, position, source, color, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
                 if (!active) color = Main.FontColor;
-                if (active) spriteBatch.DrawString(font, label, position + textOffset, color);
+                spriteBatch.DrawString(font, label, position + textOffset, color);
             }
         }
         private class Instruction
@@ -163,7 +163,7 @@ namespace Planspelet
                 "companies will compete against eachother over new book offers and sales.\n\n " +
                 "As a player you need to judge the demand of the market and adjust your choices accordingly. " +
                 "What books do you reprint? Will you take up a new book? Will that genre be profitable enough, considering the competition? " +
-                "\n\nThe right calls will keep your business healty.",
+                "\n\nThe right calls will keep your business healthy.",
 
                 "Genres:" +
                 "\n\nBooks come in "+ Book.numberOfGenres.ToString() + " different genres, and every genre has a specific color." + 
@@ -173,10 +173,10 @@ namespace Planspelet
                 
                 "Accepting new books:" +
                 "\n\nThe red bar indicates the initial one-time cost to accept the book. " + 
-                "\n\nExpensive books compete better and sell for a slightly better price, but do not cost more to print. " +
+                "\n\nExpensive books compete better and sell for a slightly higher price, but they do not cost more to print. " +
                 "\n\nIf you have accepted a book you will be asked whether to publish it as an E-book or not. " +
                 "\n\nRegular books have greater profitability; they sell more often and for a better price. However, they need to be printed (for a cost) " +
-                "and printed books have a storage cost as well. ",
+                "and printed books have a storage cost as well.",
 
                 "Printing & selling:" + 
                 "\n\nWhen all players have finished accepting book offers, they are now free to print books." +
@@ -195,17 +195,17 @@ namespace Planspelet
                     textureManager.bookTexture.ToArray(),
                     new Vector2[]{
                         new Vector2(900, 175), new Vector2(900 + Book.Width + 8, 175), new Vector2(900 + Book.Width * 2 + 16, 175),
-                        new Vector2(900 + Book.Width*0.5f, 183 + Book.Height), new Vector2(890 + Book.Width*1.5f + 8, 183 + Book.Height)}),
+                        new Vector2(900 + Book.Width*0.5f, 183 + Book.Height), new Vector2(890 + Book.Width*1.5f + 16, 183 + Book.Height)}),
                 
-                new Instruction(instructionTexts[2], 50, textPosition,
+                new Instruction(instructionTexts[2], 60, textPosition,
                     new Texture2D[]{
                         textureManager.examples[0],
                         textureManager.bookTexture[0],
                         textureManager.eBookTexture},
                     new Vector2[]{
-                        new Vector2(800, 200),
-                        new Vector2(800, 400),
-                        new Vector2(800, 400)}),
+                        new Vector2(900, 175),
+                        new Vector2(900, 340),
+                        new Vector2(900, 340)}),
 
                 new Instruction(instructionTexts[3], 70, textPosition),
             };
@@ -258,12 +258,12 @@ namespace Planspelet
             }
             else if (selection == 1)
             {
-                spriteBatch.DrawString(font, instructionButtonTip + " (" + (currentInstructions + 1).ToString() + " of " + instructions.Length + ")", buttons[0].GetPosition + new Vector2(0, -40), Color.Black);
+                spriteBatch.DrawString(font, instructionButtonTip + " (" + (currentInstructions + 1).ToString() + " of " + instructions.Length + ")", buttons[1].GetPosition + new Vector2(-120, -40), Color.Black);
                 instructions[currentInstructions].Draw(spriteBatch, font);
             }
             else if (selection == 2)
             {
-                spriteBatch.DrawString(font, startButtonTip, buttons[0].GetPosition + new Vector2(0, -40), Color.Black);
+                spriteBatch.DrawString(font, startButtonTip, buttons[2].GetPosition + new Vector2(-20, -40), Color.Black);
             }
         }
     }
