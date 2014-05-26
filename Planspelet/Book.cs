@@ -20,6 +20,7 @@ namespace Planspelet
     {
         public static int numberOfGenres = Enum.GetNames(typeof(Genre)).Length;
         public static int maxStock = 20;
+        public static int maxAge = 8;
 
         Texture2D baseTexture, detailTexture;
         public const int Width = 70;

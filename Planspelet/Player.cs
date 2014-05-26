@@ -124,7 +124,7 @@ namespace Planspelet
 
         public void RemoveOldBooks()
         {
-            archive.RemoveOldBooks();
+            archive.RemoveOldBooks(playerID);
         }
 
         public void AgeBooks()

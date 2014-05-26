@@ -273,9 +273,17 @@ namespace Planspelet
             books.Clear();
         }
 
-        public void RemoveOldBooks()
+        public void RemoveOldBooks(int playerIndex)
         {
-            books.RemoveAll(b => b.BookAge > 8);
+            for (int i = 0; i < books.Count; i++)
+            {
+                if (books[i].BookAge > Book.maxAge)
+                {
+                    books.RemoveAt(i);
+                    i--;
+                    MoveSelection(-1, 0, playerIndex);
+                }
+            }
         }
 
         public int GetStorageCost()

@@ -157,29 +157,29 @@ namespace Planspelet
             {
                 "Shall we publish it?" +
                 "\n\nThis is a game about managing a publishing company. Up to four " +
-                "companies will compete against eachother over new book offers and sales.\n\n" +
+                "companies will compete against eachother over new book offers and sales.\n\n " +
                 "As a player you need to judge the demand of the market and adjust your choices accordingly. " +
-                "What books do you reprint? Will you take up a new book? Will that genre be profitable enough, considering the competition?" +
+                "What books do you reprint? Will you take up a new book? Will that genre be profitable enough, considering the competition? " +
                 "\n\nThe right calls will keep your budget healty.",
 
                 "Genres:" +
                 "\n\nBooks come in "+ Book.numberOfGenres.ToString() + " different genres, and every genre has a specific color." + 
-                "\n\nEvery turn players can take up a new book from an arrange of book offers, a red bar will indicate the cost to accept the book." + 
+                "\n\nEvery turn players can take up a new book from an arrange of book offers, a red bar will indicate the cost to accept the book. " + 
                 "\n\n Books of the same genre sell equally well, despite any differences in cost. Pick up books of a genre you do not have, or additional " +
                 "books of a genre that is in high demand.",
 
                 "E-books:" + 
-                "\n\nIf you have accepted a book you will be asked whether to publish it as an E-book or not." +
-                "Regular books have greater profitability, they sell more often and for a better price. However, they need to be printed (for a print cost)" +
+                "\n\nIf you have accepted a book you will be asked whether to publish it as an E-book or not. " +
+                "Regular books have greater profitability, they sell more often and for a better price. However, they need to be printed (for a print cost) " +
                 "and printed books have a storage cost as well." + 
-                "\n\nYou need to judge when the demand for E-books is high enough to warrant publishing one over another regular book.",
+                "\n\nYou need to judge when the demand for E-books is high enough to warrant publishing one over another regular book. ",
 
                 "Printing & selling:" + 
                 "\n\nWhen all players have finished accepting book offers, they are now free to print books." +
-                "\n\nAt the lower left corner of every book is number representing the number of books in stock." + 
-                "Selecting a book and clicking 'A' will increase it's stock for a price. When you are satisfied, press 'Y' to continue" +
-                "\n\nWhen all players have finished printing books, the books will sell to the market. The market demand is represented as a border of books lining" +
-                "the game window. Books of a genre with high demand and low competition will sell in higher numbers." +
+                "\n\nAt the lower left corner of every book is number representing the number of books in stock. " + 
+                "Selecting a book and clicking 'A' will increase it's stock for a price. When you are satisfied, press 'Y' to continu e" +
+                "\n\nWhen all players have finished printing books, the books will sell to the market. The market demand is represented as a border of books lining " +
+                "the game window. Books of a genre with high demand and low competition will sell in higher numbers. " +
                 "On each book is a bar representing the total profit and total cost of that particular book.",
             };
             Vector2 textPosition = position + new Vector2(0, -450);
