@@ -65,7 +65,7 @@ namespace Planspelet
                     Left = true;
             }
 
-            if (playerIndex == 1)
+            if (playerIndex == 0)
             {
                 if (currentKeyboardState.IsKeyDown(Keys.W) && previousKeyboardState.IsKeyUp(Keys.W))
                     Up = true;

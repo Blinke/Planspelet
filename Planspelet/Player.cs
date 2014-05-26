@@ -146,7 +146,7 @@ namespace Planspelet
 
         public bool BookSold(Book book)
         {
-            if (book.Stock <= 0) return false;
+            if (book.Stock <= 0 && !book.eBook) return false;
             if (!book.eBook)
             {
                 book.Stock -= 1;

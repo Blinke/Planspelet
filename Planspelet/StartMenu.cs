@@ -208,7 +208,7 @@ namespace Planspelet
 
         public bool Update(GameTime gameTime)
         {
-            input.ProcessInput(GamePad.GetState(PlayerIndex.One), 1);
+            input.ProcessInput(GamePad.GetState(PlayerIndex.One), 0);
             input.Update(gameTime);
 
             buttons[selection].active = false;
