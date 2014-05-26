@@ -12,6 +12,7 @@ namespace Planspelet
     class TextureManager
     {
         public Texture2D playerBackground;
+        public Texture2D cleanBackground;
         public Texture2D buttonTexture, buttonActiveTexture, eButtonTexture, pButtonTexture;
         public Texture2D selectionTexture;
         public Texture2D backgroundTexture;
@@ -25,6 +26,8 @@ namespace Planspelet
         public void LoadTextures(ContentManager content, GraphicsDevice graphics)
         {
             playerBackground = content.Load<Texture2D>("background");
+            cleanBackground = content.Load<Texture2D>("clean_background");
+
             buttonTexture = content.Load<Texture2D>("button");
             buttonActiveTexture = content.Load<Texture2D>("buttonActive");
             eButtonTexture = content.Load<Texture2D>("eButton");

@@ -132,6 +132,8 @@ namespace Planspelet
         Instruction[] instructions;
         int currentInstructions = 0;
 
+        Texture2D background;
+
         #region ButtonTips
         string playerButtonTip =
             "Press A and B to change the number of players";
@@ -144,6 +146,7 @@ namespace Planspelet
         public StartMenu(Vector2 position, TextureManager textureManager, SpriteFont font)
         {
             this.position = position;
+            background = textureManager.cleanBackground;
 
             input = new Input();
             this.font = font;
@@ -243,6 +246,7 @@ namespace Planspelet
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.Draw(background, Vector2.Zero, Color.White);
             buttons[0].label = "Players: " + players.ToString();
             foreach (Button b in buttons)
             {
@@ -257,6 +261,10 @@ namespace Planspelet
             {
                 spriteBatch.DrawString(font, instructionButtonTip + " ("+(currentInstructions+1).ToString() + " of " + instructions.Length +")", buttons[0].GetPosition + new Vector2(0, -40), Color.Black);
                 instructions[currentInstructions].Draw(spriteBatch, font);
+            }
+            else if (selection == 2)
+            {
+                spriteBatch.DrawString(font, startButtonTip, buttons[0].GetPosition + new Vector2(0, -40), Color.Black);
             }
         }
     }

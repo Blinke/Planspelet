@@ -84,16 +84,16 @@ namespace Planspelet
             switch (ID)
             {
                 case 0:
-                    playerPosition = new Vector2(100, 115);
+                    playerPosition = new Vector2(95, 95);
                     break;
                 case 1:
-                    playerPosition = new Vector2(880, 115);
+                    playerPosition = new Vector2(875, 95);
                     break;
                 case 2:
-                    playerPosition = new Vector2(100, 450);
+                    playerPosition = new Vector2(95, 430);
                     break;
                 case 3:
-                    playerPosition = new Vector2(880, 450);
+                    playerPosition = new Vector2(875, 430);
                     break;
             }
 

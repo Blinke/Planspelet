@@ -24,9 +24,9 @@ namespace Planspelet
             panelPosition = position;
         }
 
-        public void Draw(SpriteBatch spriteBatch, Color color)
+        public void Draw(SpriteBatch spriteBatch, Color color, float scale)
         {
-            spriteBatch.Draw(texture, panelPosition + offset, color);
+            spriteBatch.Draw(texture, panelPosition + offset, new Rectangle(0, 0, texture.Width, texture.Height), color, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
         }
     }
 }

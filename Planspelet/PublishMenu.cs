@@ -11,8 +11,8 @@ namespace Planspelet
     {
         int playerIndex;
 
-        Vector2 bookOffset = new Vector2(100, 100);
-        float bookScale = 1;
+        Vector2 bookOffset = new Vector2(60, 100);
+        float bookScale = 0.8f;
         public Book activeBook;
         Texture2D eBookTexture;
         bool done;
@@ -20,7 +20,7 @@ namespace Planspelet
         Button eButton;
         Button pButton;
 
-        Vector2 tipOffset = new Vector2(75, 0);
+        Vector2 tipOffset = new Vector2(65, 0);
         string pBookTip =
             "Physical books cost to print";
         string eBookTip =
@@ -30,8 +30,8 @@ namespace Planspelet
         public PublishMenu(TextureManager textureManager, Vector2 position, float scale, int playerIndex)
             :base(position, scale)
         {
-            this.eButton = new Button(textureManager.eButtonTexture, position, new Vector2(200, 100));
-            this.pButton = new Button(textureManager.pButtonTexture, position, new Vector2(100, 100));
+            this.eButton = new Button(textureManager.eButtonTexture, position, new Vector2(180, 50));
+            this.pButton = new Button(textureManager.pButtonTexture, position, new Vector2(80, 45));
             eBookTexture = textureManager.eBookTexture;
             this.playerIndex = playerIndex;
         }
@@ -93,14 +93,14 @@ namespace Planspelet
             if (selection[playerIndex].x == 0)
             {
                 tip = pBookTip;
-                pButton.Draw(spriteBatch, Color.Yellow);
-                eButton.Draw(spriteBatch, Color.White);
+                pButton.Draw(spriteBatch, Color.Black, 0.5f);
+                eButton.Draw(spriteBatch, Color.White, 0.5f);
             }
             else if (selection[playerIndex].x == 1)
             {
                 tip = eBookTip;
-                pButton.Draw(spriteBatch, Color.White);
-                eButton.Draw(spriteBatch, Color.Yellow);
+                pButton.Draw(spriteBatch, Color.White, 0.5f);
+                eButton.Draw(spriteBatch, Color.Black, 0.5f);
                 spriteBatch.Draw(eBookTexture, position, new Rectangle(0, 0, eBookTexture.Width, eBookTexture.Height), Color.White, 0, Vector2.Zero, bookScale, SpriteEffects.None, 0);
             }
             spriteBatch.DrawString(font, tip, position + tipOffset, Color.Black);
