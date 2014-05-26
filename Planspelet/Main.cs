@@ -106,6 +106,7 @@ namespace Planspelet
             else if (gameState == GameState.Play)
             {
                 gameManager.Update(gameTime);
+                if (Keyboard.GetState().IsKeyDown(Keys.LeftControl) && Keyboard.GetState().IsKeyDown(Keys.N)) gameState = GameState.StartScreen;
             }
 
             //switch (gameState)

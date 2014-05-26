@@ -167,7 +167,7 @@ namespace Planspelet
 
             if (phaseDone && GameManager.phase == GameManager.TurnPhase.Browsing)
             {
-                spriteBatch.Draw(doneTexture, new Vector2(position.X + 50, position.Y - 30), Color.White);
+                spriteBatch.Draw(doneTexture, new Vector2(position.X + 50, position.Y - 10), Color.White);
             }
         }
     }
