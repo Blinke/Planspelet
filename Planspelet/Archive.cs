@@ -144,17 +144,44 @@ namespace Planspelet
             if (x > 0)
             {
                 #region moving right
-                if ((selection[playerIndex].x > booksOnLastRow - 1 && fullRows == rows && selection[playerIndex].y >= fullRows - 1) ||
-                    (selection[playerIndex].x > booksOnLastRow - 1 && selection[playerIndex].x > columns - 1))
+                if (fullRows == rows)
                 {
-                    selection[playerIndex].x--;// = 0;
-                    //selection[playerIndex].y = 0;
+                    if (selection[playerIndex].x > booksOnLastRow - 1 && selection[playerIndex].y >= fullRows - 1)
+                        selection[playerIndex].x--;
+                    else if (selection[playerIndex].x > columns - 1)
+                    {
+                        selection[playerIndex].x = 0;
+                        selection[playerIndex].y++;
+                    }
                 }
-                else if (selection[playerIndex].x > columns - 1)
+                else
                 {
-                    selection[playerIndex].x = 0;
-                    selection[playerIndex].y++;
+                    if (booksOnLastRow == 0)
+                    {
+                        if (selection[playerIndex].x > columns - 1)
+                            selection[playerIndex].x--;
+                    }
+                    else if (selection[playerIndex].y > fullRows - 1 && selection[playerIndex].x > booksOnLastRow - 1)
+                    {
+                        selection[playerIndex].x--;
+                    }
+                    else if (selection[playerIndex].x > columns - 1)
+                    {
+                        selection[playerIndex].x = 0;
+                        selection[playerIndex].y++;
+                    }
                 }
+                //if ((selection[playerIndex].x > booksOnLastRow - 1 && fullRows == rows && selection[playerIndex].y >= fullRows - 1) ||
+                //    (selection[playerIndex].x > booksOnLastRow - 1))//(selection[playerIndex].x > booksOnLastRow - 1 && selection[playerIndex].x > columns - 1))
+                //{
+                //    selection[playerIndex].x--;// = 0;
+                //    //selection[playerIndex].y = 0;
+                //}
+                //else if (selection[playerIndex].x > columns - 1)
+                //{
+                //    selection[playerIndex].x = 0;
+                //    selection[playerIndex].y++;
+                //}
                 #endregion
             }
             else if (x < 0)

@@ -129,7 +129,7 @@ namespace Planspelet
 
         public void AgeBooks()
         {
-            budget += archive.GetStorageCost();
+            budget -= archive.GetStorageCost();
         }
 
         public List<Book> GetBooksForSale(bool eBook)
