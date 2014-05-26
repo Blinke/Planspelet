@@ -65,7 +65,8 @@ namespace Planspelet
                     switch (phase)
                     {
                         case TurnPhase.BookPicking:
-                            if (!players[i].phaseDone)
+                            if (players[i].activeTab is PublishMenu) players[i].RecieveInput(inputManager.GetPlayerInput(i));
+                            else if (!players[i].phaseDone)
                                 bookManager.ReceiveInput(inputManager.GetPlayerInput(i), players[i]);
                             break;
 

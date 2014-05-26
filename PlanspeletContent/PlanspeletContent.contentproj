@@ -65,6 +65,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ready_mark.png">
+      <Name>ready_mark</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="selection.png">
       <Name>selection</Name>
       <Importer>TextureImporter</Importer>
@@ -173,11 +178,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ready_mark.png">
-      <Name>ready_mark</Name>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="button.png">
       <Name>button</Name>
       <Importer>TextureImporter</Importer>
@@ -206,6 +206,18 @@
   <ItemGroup>
     <Compile Include="Books\bookBlue.png">
       <Name>bookBlue</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="example1.png">
+      <Name>example1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="example2.png">
+      <Name>example2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

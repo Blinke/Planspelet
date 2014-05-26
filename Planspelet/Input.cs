@@ -83,6 +83,24 @@ namespace Planspelet
                 if (currentKeyboardState.IsKeyDown(Keys.F) && previousKeyboardState.IsKeyUp(Keys.F))
                     ButtonY = true; 
             }
+            if (playerIndex == 1)
+            {
+                if (currentKeyboardState.IsKeyDown(Keys.U) && previousKeyboardState.IsKeyUp(Keys.U))
+                    Up = true;
+                else if (currentKeyboardState.IsKeyDown(Keys.J) && previousKeyboardState.IsKeyUp(Keys.J))
+                    Down = true;
+                if (currentKeyboardState.IsKeyDown(Keys.H) && previousKeyboardState.IsKeyUp(Keys.H))
+                    Left = true;
+                else if (currentKeyboardState.IsKeyDown(Keys.K) && previousKeyboardState.IsKeyUp(Keys.K))
+                    Right = true;
+
+                if (currentKeyboardState.IsKeyDown(Keys.O) && previousKeyboardState.IsKeyUp(Keys.O))
+                    ButtonA = true;
+                if (currentKeyboardState.IsKeyDown(Keys.I) && previousKeyboardState.IsKeyUp(Keys.I))
+                    ButtonB = true;
+                if (currentKeyboardState.IsKeyDown(Keys.L) && previousKeyboardState.IsKeyUp(Keys.L))
+                    ButtonY = true;
+            }
 
             if (gPadState.Buttons.A == ButtonState.Pressed && previousgPadState.Buttons.A == ButtonState.Released)
                 ButtonA = true;

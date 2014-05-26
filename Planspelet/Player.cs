@@ -17,7 +17,7 @@ namespace Planspelet
 
         Vector2 position;
         Vector2 offset = new Vector2(0, 30);
-        Tab activeTab;
+        public Tab activeTab { get; private set; }
 
         Texture2D background;
         Texture2D doneTexture;
@@ -163,7 +163,7 @@ namespace Planspelet
         {
             //spriteBatch.Draw(background, position, Color.White);
             activeTab.Draw(spriteBatch, fontSmall);
-            spriteBatch.DrawString(fontLarge, "Budget: " + budget.ToString(), position, Color.Black);
+            spriteBatch.DrawString(fontLarge, "Balance Sheet: " + budget.ToString(), position, Color.Black);
 
             if (phaseDone && GameManager.phase == GameManager.TurnPhase.Browsing)
             {

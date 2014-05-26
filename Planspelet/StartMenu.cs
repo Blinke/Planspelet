@@ -134,9 +134,11 @@ namespace Planspelet
 
         #region ButtonTips
         string playerButtonTip =
-            "Press A and B to change the number of players.";
+            "Press A and B to change the number of players";
         string instructionButtonTip =
-            "Press A and B cycle through instructions.";
+            "Press A and B cycle through instructions";
+        string startButtonTip =
+            "Press A to start the game";
         #endregion
 
         public StartMenu(Vector2 position, TextureManager textureManager, SpriteFont font)
@@ -155,29 +157,30 @@ namespace Planspelet
             #region Instructions
             string[] instructionTexts = new string[]
             {
-                "Shall we publish it?" +
+                "Shall we publish?" +
                 "\n\nThis is a game about managing a publishing company. Up to four " +
                 "companies will compete against eachother over new book offers and sales.\n\n " +
                 "As a player you need to judge the demand of the market and adjust your choices accordingly. " +
                 "What books do you reprint? Will you take up a new book? Will that genre be profitable enough, considering the competition? " +
-                "\n\nThe right calls will keep your budget healty.",
+                "\n\nThe right calls will keep your business healty.",
 
                 "Genres:" +
                 "\n\nBooks come in "+ Book.numberOfGenres.ToString() + " different genres, and every genre has a specific color." + 
-                "\n\nEvery turn players can take up a new book from an arrange of book offers, a red bar will indicate the cost to accept the book. " + 
-                "\n\n Books of the same genre sell equally well, despite any differences in cost. Pick up books of a genre you do not have, or additional " +
-                "books of a genre that is in high demand.",
-
-                "E-books:" + 
+                "\n\nEvery turn players can accept one new book from an arrange of offers (displayed in the middle of the screen). " +
+                "Books compete for sales within their genre, so try to pick up a variety of books if possible. " + 
+                "\n\nYou are also competing against the other players, so take into account what genre of books they are trying to sell.",
+                
+                "Accepting new books:" +
+                "\n\nThe red bar indicates the initial one-time cost to accept the book. " + 
+                "\n\nExpensive books compete better and sell for a slightly better price, but do not cost more to print. " +
                 "\n\nIf you have accepted a book you will be asked whether to publish it as an E-book or not. " +
-                "Regular books have greater profitability, they sell more often and for a better price. However, they need to be printed (for a print cost) " +
-                "and printed books have a storage cost as well." + 
-                "\n\nYou need to judge when the demand for E-books is high enough to warrant publishing one over another regular book. ",
+                "\n\nRegular books have greater profitability; they sell more often and for a better price. However, they need to be printed (for a cost) " +
+                "and printed books have a storage cost as well. ",
 
                 "Printing & selling:" + 
                 "\n\nWhen all players have finished accepting book offers, they are now free to print books." +
                 "\n\nAt the lower left corner of every book is number representing the number of books in stock. " + 
-                "Selecting a book and clicking 'A' will increase it's stock for a price. When you are satisfied, press 'Y' to continu e" +
+                "Selecting a book and clicking 'A' will increase it's stock for a price. When you are satisfied, press 'Y' to continue " +
                 "\n\nWhen all players have finished printing books, the books will sell to the market. The market demand is represented as a border of books lining " +
                 "the game window. Books of a genre with high demand and low competition will sell in higher numbers. " +
                 "On each book is a bar representing the total profit and total cost of that particular book.",
@@ -187,18 +190,21 @@ namespace Planspelet
             {
                 new Instruction(instructionTexts[0], 60, textPosition),
 
-                new Instruction(instructionTexts[1], 45, textPosition,
+                new Instruction(instructionTexts[1], 60, textPosition,
                     textureManager.bookTexture.ToArray(),
                     new Vector2[]{
-                        new Vector2(800, 100), new Vector2(800 + Book.Width + 8, 100), new Vector2(800 + Book.Width * 2 + 16, 100),
-                        new Vector2(800 + Book.Width*0.5f, 108 + Book.Height), new Vector2(800 + Book.Width*1.5f + 8, 108 + Book.Height)}),
-
+                        new Vector2(900, 100), new Vector2(900 + Book.Width + 8, 100), new Vector2(900 + Book.Width * 2 + 16, 100),
+                        new Vector2(900 + Book.Width*0.5f, 108 + Book.Height), new Vector2(890 + Book.Width*1.5f + 8, 108 + Book.Height)}),
+                
                 new Instruction(instructionTexts[2], 50, textPosition,
                     new Texture2D[]{
+                        textureManager.examples[0],
                         textureManager.bookTexture[0],
                         textureManager.eBookTexture},
                     new Vector2[]{
-                        new Vector2(800, 100), new Vector2(800, 100)}),
+                        new Vector2(800, 100),
+                        new Vector2(800, 300),
+                        new Vector2(800, 300)}),
 
                 new Instruction(instructionTexts[3], 70, textPosition),
             };
@@ -249,7 +255,7 @@ namespace Planspelet
             }
             else if (selection == 1)
             {
-                spriteBatch.DrawString(font, instructionButtonTip, buttons[0].GetPosition + new Vector2(0, -40), Color.Black);
+                spriteBatch.DrawString(font, instructionButtonTip + " ("+(currentInstructions+1).ToString() + " of " + instructions.Length +")", buttons[0].GetPosition + new Vector2(0, -40), Color.Black);
                 instructions[currentInstructions].Draw(spriteBatch, font);
             }
         }

@@ -20,6 +20,7 @@ namespace Planspelet
         public Texture2D eBookTexture;
         public Texture2D lossTexture, profitTexture, outlineTexture;
         public Texture2D doneTexture;
+        public Texture2D[] examples;
 
         public void LoadTextures(ContentManager content, GraphicsDevice graphics)
         {
@@ -53,6 +54,11 @@ namespace Planspelet
             lossTexture = content.Load<Texture2D>("loss");
             profitTexture = content.Load<Texture2D>("profit");
             outlineTexture = content.Load<Texture2D>("outline");
+
+            examples = new Texture2D[]{
+                content.Load<Texture2D>("example1"),
+                content.Load<Texture2D>("example2"),
+            };
         }
 
         private void LoadBookTextures(string[] textureFiles, ref List<Texture2D> textureList, ContentManager content, string path)
