@@ -32,6 +32,8 @@ namespace Planspelet
         public int BookAge { get; set; }
         public int PrintSize { get; set; }
         public float Profitablity { get; private set; }
+        public float BaseProfitablity { get; private set; }
+        public int SellChance { get; private set; }
         public int StorageCost { get; private set; }
         float ageFactor;
         Genre genre;
@@ -58,6 +60,8 @@ namespace Planspelet
             this.baseTexture = baseTexture;
             this.detailTexture = detailTexture;
             this.genre = genre;
+
+            SetProfitability(publishingCost);
         }
 
         public Book(Book book)
@@ -89,7 +93,7 @@ namespace Planspelet
 
         public void CalcProfitablity()
         {
-            Profitablity = 1 - (ageFactor * BookAge);
+            Profitablity = BaseProfitablity * (1 - (ageFactor * BookAge));
 
             if (eBook)
             {
@@ -122,6 +126,39 @@ namespace Planspelet
             }
             totalCost += tempPrintCost;
             return tempPrintCost;
+        }
+
+        private void SetProfitability(int publishCost)
+        {
+            switch (publishCost)
+            { 
+                case 200:
+                    BaseProfitablity = 0.95f;
+                    SellChance = 50;
+                    break;
+                case 300:
+                    BaseProfitablity = 1f;
+                    SellChance = 60;
+                    break;
+                case 400:
+                    BaseProfitablity = 1f;
+                    SellChance = 70;
+                    break;
+                case 500:
+                    BaseProfitablity = 1.1f;
+                    SellChance = 80;
+                    break;
+                case 600:
+                    BaseProfitablity = 1.2f;
+                    SellChance = 90;
+                    break;
+                case 700:
+                    BaseProfitablity = 1.3f;
+                    SellChance = 100;
+                    break;
+            }
+
+
         }
 
         public void Draw(SpriteBatch spriteBatch, Texture2D eBookTexture, Vector2 position, Color tint, float scale)
