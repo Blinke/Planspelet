@@ -323,7 +323,7 @@ namespace Planspelet
             if (booksOnShelf > rows * columns) booksOnShelf = rows * columns;
             int startIndex = activeShelf * rows * columns;
 
-            Color tint;
+            Color tint = Color.White;
 
             for (int y = 0; y < rows; y++)
             {
@@ -331,8 +331,8 @@ namespace Planspelet
                 {
                     if (counter < booksOnShelf)
                     {
-                        if (books[startIndex + counter].Stock > 0 || books[startIndex + counter].Owner == -1 || books[startIndex + counter].eBook) tint = Color.White;
-                        else tint = Color.Gray;
+                        //if (books[startIndex + counter].Stock > 0 || books[startIndex + counter].Owner == -1 || books[startIndex + counter].eBook) tint = Color.White;
+                        //else tint = Color.Gray;
                         books[startIndex + counter].Draw(spriteBatch, eBookTexture, position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, tint, scale);
                         DrawStats(spriteBatch, books[startIndex + counter], position + new Vector2(columnSpacing * x, rowSpacing * y) * scale, font);
                     }
@@ -403,7 +403,12 @@ namespace Planspelet
                 source = new Rectangle(0, 0, 6, lossLength);
                 spriteBatch.Draw(lossTexture, position + new Vector2(Book.Width * scale + 1, 1) + offset, source, Color.White);
 
-                if(!book.eBook) spriteBatch.DrawString(font, book.Stock.ToString(), position + new Vector2(8, Book.Height - 36) * scale, Color.White);
+                if (!book.eBook)
+                {
+                    Color color = Color.White;
+                    if (book.Stock <= 0) color = Color.Black;
+                    spriteBatch.DrawString(font, book.Stock.ToString(), position + new Vector2(8, Book.Height - 36) * scale, color);
+                }
             }
             //spriteBatch.DrawString(font, book.GetGenre().ToString(), position + new Vector2(Book.Width / 2, Book.Height / 2) * scale, Color.White);
         }
