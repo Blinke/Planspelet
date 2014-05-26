@@ -85,13 +85,19 @@ namespace Planspelet
 
         private void SellBook(Genre genre, int index, bool eBook, List<Book> books, Player[] players, Market market, ref int demand)
         {
-            if (!players[books[index].Owner].BookSold(books[index])) return;
+            int sellChance = rand.Next(0, 101);
 
-            market.RemoveDemand(genre, eBook, 1, books[index].Owner);
-            demand -= 1;
+            if (books[index].SellChance >= sellChance)
+            {
+                if (!players[books[index].Owner].BookSold(books[index]))
+                    return;
 
-            if (books[index].Stock <= 0 && !eBook)
-                books.RemoveAt(index);
+                market.RemoveDemand(genre, eBook, 1, books[index].Owner);
+                demand -= 1;
+
+                if (books[index].Stock <= 0 && !eBook)
+                    books.RemoveAt(index); 
+            }
         }
 
         private void AddBooksToSell(List<Book>[] printedBooks, List<Book>[] eBooks, Player player)
