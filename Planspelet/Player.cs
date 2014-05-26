@@ -144,8 +144,9 @@ namespace Planspelet
             return tempList;
         }
 
-        public void BookSold(Book book)
+        public bool BookSold(Book book)
         {
+            if (book.Stock <= 0) return false;
             if (!book.eBook)
             {
                 book.Stock -= 1;
@@ -155,6 +156,7 @@ namespace Planspelet
             int profit = (int)(book.SalePrice * book.Profitablity);
             book.totalProfit += profit;
             budget += profit;
+            return true;
         }
 
         public void Draw(SpriteBatch spriteBatch, SpriteFont fontSmall, SpriteFont fontLarge)

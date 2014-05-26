@@ -85,7 +85,7 @@ namespace Planspelet
 
         private void SellBook(Genre genre, int index, bool eBook, List<Book> books, Player[] players, Market market, ref int demand)
         {
-            players[books[index].Owner].BookSold(books[index]);
+            if (!players[books[index].Owner].BookSold(books[index])) return;
 
             market.RemoveDemand(genre, eBook, 1, books[index].Owner);
             demand -= 1;

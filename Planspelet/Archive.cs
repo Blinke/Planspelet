@@ -57,13 +57,7 @@ namespace Planspelet
             rows = archive.rows;
             columns = archive.columns;
             numOfShelves = archive.numOfShelves;
-            //rowSpacing = archive.rowSpacing;
-            //columnSpacing = archive.columnSpacing;
             activeShelf = 0;
-            //selection = false;
-            //selectionX = 0;
-            //selectionY = 0;
-
         }
         public override Tab Clone()
         {
@@ -171,17 +165,6 @@ namespace Planspelet
                         selection[playerIndex].y++;
                     }
                 }
-                //if ((selection[playerIndex].x > booksOnLastRow - 1 && fullRows == rows && selection[playerIndex].y >= fullRows - 1) ||
-                //    (selection[playerIndex].x > booksOnLastRow - 1))//(selection[playerIndex].x > booksOnLastRow - 1 && selection[playerIndex].x > columns - 1))
-                //{
-                //    selection[playerIndex].x--;// = 0;
-                //    //selection[playerIndex].y = 0;
-                //}
-                //else if (selection[playerIndex].x > columns - 1)
-                //{
-                //    selection[playerIndex].x = 0;
-                //    selection[playerIndex].y++;
-                //}
                 #endregion
             }
             else if (x < 0)
