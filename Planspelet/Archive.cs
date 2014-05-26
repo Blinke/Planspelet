@@ -407,7 +407,7 @@ namespace Planspelet
                 {
                     Color color = Color.White;
                     if (book.Stock <= 0) color = Color.Black;
-                    spriteBatch.DrawString(font, book.Stock.ToString(), position + new Vector2(8, Book.Height - 36) * scale, color);
+                    spriteBatch.DrawString(font, book.Stock.ToString(), position + new Vector2(10, Book.Height - 40) * scale, color);
                 }
             }
             //spriteBatch.DrawString(font, book.GetGenre().ToString(), position + new Vector2(Book.Width / 2, Book.Height / 2) * scale, Color.White);
