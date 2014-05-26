@@ -146,13 +146,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="background.png">
-      <Name>background</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="loss.png">
       <Name>loss</Name>
       <Importer>TextureImporter</Importer>
@@ -187,13 +180,6 @@
   <ItemGroup>
     <Compile Include="paper_background.png">
       <Name>paper_background</Name>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="buttonActive.png">
-      <Name>buttonActive</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>

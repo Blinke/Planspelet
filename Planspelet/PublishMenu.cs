@@ -103,7 +103,7 @@ namespace Planspelet
                 eButton.Draw(spriteBatch, Color.Black, 0.5f);
                 spriteBatch.Draw(eBookTexture, position, new Rectangle(0, 0, eBookTexture.Width, eBookTexture.Height), Color.White, 0, Vector2.Zero, bookScale, SpriteEffects.None, 0);
             }
-            spriteBatch.DrawString(font, tip, position + tipOffset, Color.Black);
+            spriteBatch.DrawString(font, tip, position + tipOffset, Main.FontColor);
         }
     }
 }

@@ -163,7 +163,7 @@ namespace Planspelet
         {
             //spriteBatch.Draw(background, position, Color.White);
             activeTab.Draw(spriteBatch, fontSmall);
-            spriteBatch.DrawString(fontLarge, "Balance Sheet: " + budget.ToString(), position, Color.Black);
+            spriteBatch.DrawString(fontLarge, "Balance Sheet: " + budget.ToString(), position, Main.FontColor);
 
             if (phaseDone && GameManager.phase == GameManager.TurnPhase.Browsing)
             {

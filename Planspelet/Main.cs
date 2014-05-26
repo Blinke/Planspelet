@@ -16,6 +16,8 @@ namespace Planspelet
     /// </summary>
     public class Main : Microsoft.Xna.Framework.Game
     {
+        public static Color FontColor = new Color(40, 110, 150);
+
         GraphicsDeviceManager graphics;
         StartMenu startMenu;
         GameManager gameManager;
@@ -66,7 +68,7 @@ namespace Planspelet
 
             textureManager = new TextureManager();
             textureManager.LoadTextures(Content, graphics.GraphicsDevice);
-            startMenu = new StartMenu(new Vector2(200, 500), textureManager, fontLarge);
+            startMenu = new StartMenu(new Vector2(200, 600), textureManager, fontLarge);
             //gameManager = new GameManager(Window, textureManager, 1);
             spriteBatch = new SpriteBatch(GraphicsDevice);
 

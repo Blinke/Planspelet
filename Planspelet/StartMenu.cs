@@ -12,8 +12,7 @@ namespace Planspelet
     {
         private class Button
         {
-            Texture2D defaultTexture;
-            Texture2D textureActive;
+            Texture2D texture;
             Vector2 position;
             public Vector2 GetPosition { get { return position; } }
             Vector2 textOffset;
@@ -21,10 +20,9 @@ namespace Planspelet
             SpriteFont font;
             public bool active;
 
-            public Button(Texture2D texture, Texture2D textureActive, Vector2 position, Vector2 textOffset, string label, SpriteFont font)
+            public Button(Texture2D texture, Vector2 position, Vector2 textOffset, string label, SpriteFont font)
             {
-                defaultTexture = texture;
-                this.textureActive = textureActive;
+                this.texture = texture;
                 this.position = position;
                 this.textOffset = textOffset;
                 this.label = label;
@@ -33,12 +31,12 @@ namespace Planspelet
 
             public void Draw(SpriteBatch spriteBatch, float scale)
             {
-                Texture2D texture;
-                if (active) texture = textureActive;
-                else texture = defaultTexture;
-                Rectangle source = new Rectangle(0, 0, defaultTexture.Width, defaultTexture.Height);
-                spriteBatch.Draw(texture, position, source, Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
-                spriteBatch.DrawString(font, label, position + textOffset, Color.Black);
+                Color color = Color.White;
+                if (active) color = Color.Black;
+                Rectangle source = new Rectangle(0, 0, texture.Width, texture.Height);
+                spriteBatch.Draw(texture, position, source, color, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+                if (!active) color = Main.FontColor;
+                if (active) spriteBatch.DrawString(font, label, position + textOffset, color);
             }
         }
         private class Instruction
@@ -111,7 +109,7 @@ namespace Planspelet
 
             public void Draw(SpriteBatch spriteBatch, SpriteFont font)
             {
-                spriteBatch.DrawString(font, text, textPosition, Color.Black);
+                spriteBatch.DrawString(font, text, textPosition, Main.FontColor);
                 if (textures != null)
                 for (int i = 0; i < texturePositions.Length; i++)
                 {
@@ -152,9 +150,9 @@ namespace Planspelet
             this.font = font;
             buttons = new Button[]
             {
-                new Button(textureManager.buttonTexture, textureManager.buttonActiveTexture, position + new Vector2(0, 0), new Vector2(20, 20), "Players: ", font),
-                new Button(textureManager.buttonTexture, textureManager.buttonActiveTexture, position + new Vector2(300, 0), new Vector2(20, 20), "Instructions", font),
-                new Button(textureManager.buttonTexture, textureManager.buttonActiveTexture, position + new Vector2(600, 0), new Vector2(20, 20), "Start Game", font),
+                new Button(textureManager.buttonTexture, position + new Vector2(0, 0), new Vector2(45, 25), "Players: ", font),
+                new Button(textureManager.buttonTexture, position + new Vector2(300, 0), new Vector2(45, 25), "Instructions", font),
+                new Button(textureManager.buttonTexture, position + new Vector2(600, 0), new Vector2(45, 25), "Start Game", font),
             };
 
             #region Instructions
@@ -196,8 +194,8 @@ namespace Planspelet
                 new Instruction(instructionTexts[1], 60, textPosition,
                     textureManager.bookTexture.ToArray(),
                     new Vector2[]{
-                        new Vector2(900, 100), new Vector2(900 + Book.Width + 8, 100), new Vector2(900 + Book.Width * 2 + 16, 100),
-                        new Vector2(900 + Book.Width*0.5f, 108 + Book.Height), new Vector2(890 + Book.Width*1.5f + 8, 108 + Book.Height)}),
+                        new Vector2(900, 175), new Vector2(900 + Book.Width + 8, 175), new Vector2(900 + Book.Width * 2 + 16, 175),
+                        new Vector2(900 + Book.Width*0.5f, 183 + Book.Height), new Vector2(890 + Book.Width*1.5f + 8, 183 + Book.Height)}),
                 
                 new Instruction(instructionTexts[2], 50, textPosition,
                     new Texture2D[]{
@@ -205,9 +203,9 @@ namespace Planspelet
                         textureManager.bookTexture[0],
                         textureManager.eBookTexture},
                     new Vector2[]{
-                        new Vector2(800, 100),
-                        new Vector2(800, 300),
-                        new Vector2(800, 300)}),
+                        new Vector2(800, 200),
+                        new Vector2(800, 400),
+                        new Vector2(800, 400)}),
 
                 new Instruction(instructionTexts[3], 70, textPosition),
             };
@@ -246,11 +244,12 @@ namespace Planspelet
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.DrawString(font, startButtonTip, buttons[0].GetPosition + new Vector2(0, -40), Color.Black);
             spriteBatch.Draw(background, Vector2.Zero, Color.White);
             buttons[0].label = "Players: " + players.ToString();
             foreach (Button b in buttons)
             {
-                b.Draw(spriteBatch, 3f);
+                b.Draw(spriteBatch, 1f);
             }
 
             if (selection == 0)
@@ -259,7 +258,7 @@ namespace Planspelet
             }
             else if (selection == 1)
             {
-                spriteBatch.DrawString(font, instructionButtonTip + " ("+(currentInstructions+1).ToString() + " of " + instructions.Length +")", buttons[0].GetPosition + new Vector2(0, -40), Color.Black);
+                spriteBatch.DrawString(font, instructionButtonTip + " (" + (currentInstructions + 1).ToString() + " of " + instructions.Length + ")", buttons[0].GetPosition + new Vector2(0, -40), Color.Black);
                 instructions[currentInstructions].Draw(spriteBatch, font);
             }
             else if (selection == 2)
