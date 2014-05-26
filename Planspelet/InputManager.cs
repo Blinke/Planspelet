@@ -24,7 +24,7 @@ namespace Planspelet
         {
             for (int i = 0; i < inputs.Length; i++)
             {
-                inputs[i].ProcessInput(GamePad.GetState((PlayerIndex)i));
+                inputs[i].ProcessInput(GamePad.GetState((PlayerIndex)i), i);
                 inputs[i].Update(gameTime);
             }
         }

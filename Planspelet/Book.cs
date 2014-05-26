@@ -19,13 +19,12 @@ namespace Planspelet
     class Book
     {
         public static int numberOfGenres = Enum.GetNames(typeof(Genre)).Length;
-        public static int maxStock = 10;
+        public static int maxStock = 20;
 
         Texture2D baseTexture, detailTexture;
         public const int Width = 70;
         public const int Height = 100;
-        //public int Width { get { return baseTexture.Width; } }
-        //public int Height { get { return baseTexture.Height; } }
+
         public int Stock { get; set; }
         public int Owner { get; set; }
         public int SalePrice { get; private set; }
@@ -44,7 +43,7 @@ namespace Planspelet
         public int totalCost = 0;
         public int totalProfit = 0;
 
-        public Book(Texture2D baseTexture, Texture2D detailTexture, Random rnd, Genre genre)//(Texture2D baseTexture, Texture2D detailTexture, Texture2D selectionTexture[], string title)
+        public Book(Texture2D baseTexture, Texture2D detailTexture, Random rnd, Genre genre)
         {
             Owner = -1;
             PrintSize = 5;

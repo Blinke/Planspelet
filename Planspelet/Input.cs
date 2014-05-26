@@ -31,7 +31,7 @@ namespace Planspelet
             selectionDelay = 150;
         }
 
-        public void ProcessInput(GamePadState gPadState)
+        public void ProcessInput(GamePadState gPadState, int playerIndex)
         {
             currentKeyboardState = Keyboard.GetState();
             if (firstUpdate)
@@ -65,21 +65,24 @@ namespace Planspelet
                     Left = true;
             }
 
-            if (currentKeyboardState.IsKeyDown(Keys.W) && previousKeyboardState.IsKeyUp(Keys.W))
-                Up = true;
-            else if (currentKeyboardState.IsKeyDown(Keys.S) && previousKeyboardState.IsKeyUp(Keys.S))
-                Down = true;
-            if (currentKeyboardState.IsKeyDown(Keys.A) && previousKeyboardState.IsKeyUp(Keys.A))
-                Left = true;
-            else if (currentKeyboardState.IsKeyDown(Keys.D) && previousKeyboardState.IsKeyUp(Keys.D))
-                Right = true;
+            if (playerIndex == 1)
+            {
+                if (currentKeyboardState.IsKeyDown(Keys.W) && previousKeyboardState.IsKeyUp(Keys.W))
+                    Up = true;
+                else if (currentKeyboardState.IsKeyDown(Keys.S) && previousKeyboardState.IsKeyUp(Keys.S))
+                    Down = true;
+                if (currentKeyboardState.IsKeyDown(Keys.A) && previousKeyboardState.IsKeyUp(Keys.A))
+                    Left = true;
+                else if (currentKeyboardState.IsKeyDown(Keys.D) && previousKeyboardState.IsKeyUp(Keys.D))
+                    Right = true;
 
-            if (currentKeyboardState.IsKeyDown(Keys.R) && previousKeyboardState.IsKeyUp(Keys.R))
-                ButtonA = true;
-            if (currentKeyboardState.IsKeyDown(Keys.E) && previousKeyboardState.IsKeyUp(Keys.E))
-                ButtonB = true;
-            if (currentKeyboardState.IsKeyDown(Keys.F) && previousKeyboardState.IsKeyUp(Keys.F))
-                ButtonY = true;
+                if (currentKeyboardState.IsKeyDown(Keys.R) && previousKeyboardState.IsKeyUp(Keys.R))
+                    ButtonA = true;
+                if (currentKeyboardState.IsKeyDown(Keys.E) && previousKeyboardState.IsKeyUp(Keys.E))
+                    ButtonB = true;
+                if (currentKeyboardState.IsKeyDown(Keys.F) && previousKeyboardState.IsKeyUp(Keys.F))
+                    ButtonY = true; 
+            }
 
             if (gPadState.Buttons.A == ButtonState.Pressed && previousgPadState.Buttons.A == ButtonState.Released)
                 ButtonA = true;
