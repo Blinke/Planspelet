@@ -66,7 +66,7 @@ namespace Planspelet
                 if (printedOfGenre.Count == 0)
                     break;
 
-                int index = rand.Next(0, digitalOfGenre.Count);
+                int index = rand.Next(0, printedOfGenre.Count);
 
                 SellBook(genre, index, true, printedOfGenre, players, market, ref digitalGenreDemand);
             }
